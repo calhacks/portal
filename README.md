@@ -1,2 +1,2 @@
 # portal
-Run "npm dev" to run the development app.
+Run "npm start" to run the app.
