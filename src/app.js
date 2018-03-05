@@ -1,10 +1,16 @@
 
 import express from 'express';
+import React from 'react';
+import { renderToString } from 'react-dom/server';
+
+import App from './client/App';
+import Html from './client/Html';
 
 const app = express();
 
 app.get('/', (req, res) => {
-	res.send('<h1>Cal Hacks 5.0</h1>');
+	const body = renderToString(<App />);
+	res.send(Html({body, title: 'Cal Hax Tech'}));
 });
 
 app.listen(8000, () => {
