@@ -9,7 +9,9 @@ import Html from './client/Html';
 const app = express();
 
 app.get('/', (req, res) => {
-	const body = renderToString(<App />);
+	const body = renderToString(
+		React.createElement(App)
+	);
 	res.send(Html({body, title: 'Cal Hax Tech'}));
 });
 

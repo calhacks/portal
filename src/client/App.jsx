@@ -1,4 +1,6 @@
 
 import React from 'react';
 
-export default () => <div>Cal Hacks 5.0</div>;
+import Header from './components/Header';
+
+export default () => <Header text='Hello Cal Hacks!' />;
