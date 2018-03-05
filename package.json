@@ -1,0 +1,27 @@
+{
+  "name": "portal",
+  "version": "1.0.0",
+  "description": "Cal Hacks 5.0 portal",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "./node_modules/.bin/babel-node ./src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/calhacks/portal.git"
+  },
+  "author": "Cal Hacks Tech",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/calhacks/portal/issues"
+  },
+  "homepage": "https://github.com/calhacks/portal#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1"
+  }
+}
