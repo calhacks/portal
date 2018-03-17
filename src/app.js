@@ -6,6 +6,8 @@ import { renderToString } from 'react-dom/server';
 import Home from './client/pages/Home';
 import template from './client/template';
 
+import routes from './routes';
+
 const app = express();
 
 app.get('/', (req, res) => {
@@ -14,6 +16,8 @@ app.get('/', (req, res) => {
 	);
 	res.send(template({body, title: 'Cal Hax Tech'}));
 });
+
+// attach routes
 
 app.listen(8000, () => {
 	console.log('App listening on 8000');
