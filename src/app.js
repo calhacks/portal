@@ -3,7 +3,7 @@ import express from 'express';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 
-import Home from './client/pages/Home';
+import App from './client/App';
 import template from './client/template';
 
 import routes from './routes';
