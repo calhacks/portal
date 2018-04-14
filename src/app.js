@@ -10,6 +10,7 @@ import routes from './routes';
 
 const app = express();
 
+
 app.get('/', (req, res) => {
 	const body = renderToString(
 		React.createElement(App)
