@@ -5,7 +5,7 @@
 	"main": "src/app.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "./node_modules/.bin/webpack && node ./dist/app.js"
+		"start": "./node_modules/.bin/babel-node ./src/app.js"
 	},
 	"repository": {
 		"type": "git",
@@ -18,9 +18,16 @@
 	},
 	"homepage": "https://github.com/calhacks/portal#readme",
 	"dependencies": {
+		"bcrypt-nodejs": "0.0.3",
 		"express": "^4.16.2",
+		"express-session": "^1.15.6",
+		"html-webpack-plugin": "^3.2.0",
+		"mysql2": "^1.5.3",
+		"passport": "^0.4.0",
+		"passport-local": "^1.0.0",
 		"react": "^16.2.0",
-		"react-dom": "^16.2.0"
+		"react-dom": "^16.2.0",
+		"sequelize": "^4.37.6"
 	},
 	"devDependencies": {
 		"babel-cli": "^6.26.0",

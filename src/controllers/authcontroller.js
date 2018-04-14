@@ -1,28 +1,44 @@
-var exports = module.exports = {}
 
+import SignUp from '../client/pages/SignUp';
+import SignIn from '../client/pages/SignIn';
+import Dashboard from '../client/pages/Dashboard';
+import template from '../client/template';
 
-exports.signup = function(req,res){
+import renderToString from 'react-dom/server';
+import React from 'react';
 
-	res.render('signup'); 
-
+export const signup = (req, res) => {
+    const body = renderToString(
+        React.createElement(SignUp)
+    );
+    res.send(template({
+        body,
+        title: 'Sign Up to cal hacks'
+    }));
 }
 
-exports.signin = function(req,res){
-
-	res.render('signin'); 
-
+export const signin = (req, res) => {
+    const body = renderToString(
+        React.createElement(SignIn)
+    );
+    res.send(template({
+        body,
+        title: 'sign in'
+    }));
 }
 
-exports.dashboard = function(req,res){
+export const dashboard = (req, res) => {
+    const body = renderToString(
+        React.createElement(Dashboard)
+    );
+    res.send(template({
+        body,
+        title: 'sign in'
+    }));
+};
 
-	res.render('dashboard'); 
-
-}
-
-exports.logout = function(req,res){
-
-  req.session.destroy(function(err) {
-  res.redirect('/');
-  });
-
+export const logout = (req, res) => {
+    req.session.destroy(function(err) {
+        res.redirect('/');
+    });
 }

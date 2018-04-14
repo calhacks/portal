@@ -32,7 +32,7 @@
     {
       usernameField : 'email',
       passwordField : 'password',
-      passReqToCallback : true // allows us to pass back the entire request to the callback
+      passReqToCallback : true
     },
 
     function(req, email, password, done){
@@ -71,6 +71,8 @@
           }
 
 
+        }).catch(function(err) {
+          console.log(err);
         });
       }
 
