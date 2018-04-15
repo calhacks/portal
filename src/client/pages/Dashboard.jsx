@@ -1,6 +1,8 @@
+
 import React from 'react';
 
-export default () => <div>
-    <h2>Dashboard</h2>
-    <h5>Hurray! you are logged in.</h5>
-</div>;
+export default class extends React.Component {
+    render() {
+        return(<p>Hello from dashbaord</p>);
+    }
+};
