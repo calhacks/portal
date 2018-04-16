@@ -12,17 +12,16 @@ import passportConfig from './config/passport';
 
 const app = express();
 
+app.use(session({
+    secret: 'keyboard cat'
+}));
 app.use(passport.initialize());
 app.use(passport.session());
+
 passportConfig(passport, models.User);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', router);
-app.use(session({
-    secret: 'keyboard cat',
-    resave: true,
-    saveUninitialized: true
-}));
 
 app.listen(8000, () => {
     console.log('listening on 8000');

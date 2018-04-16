@@ -8,7 +8,9 @@ export default (passport, User) => {
     });
 
     passport.deserializeUser((id, done) => {
-        User.findById(id).then(user => {
+        User.findOne({
+            where: { id }
+        }).then(user => {
             if (user) {
                 done(null, user.get());
             } else {
@@ -16,6 +18,19 @@ export default (passport, User) => {
             }
         });
     });
+
+    const genUUID = () => {
+        const chars = 'QWERTYUIOPASDFGHJKLZXCVBNM1234567890';
+        let result = '';
+        for (let i = 0; i < 10; i++) {
+            result = result + chars[Math.floor(Math.random() * 26)];
+        }
+        return result;
+    }
+
+    const generateHash = pass => {
+        return bcrypt.hashSync(pass, bcrypt.genSaltSync(8), null);
+    };
 
     passport.use(
         'local-signup',
@@ -26,10 +41,6 @@ export default (passport, User) => {
                 passReqToCallback: true
             },
             (req, email, password, done) => {
-                const generateHash = pass => {
-                    return bcrypt.hashSync(pass, bcrypt.genSaltSync(8), null);
-                };
-
                 User.findOne({
                     where: { email }
                 }).then(user => {
@@ -44,8 +55,13 @@ export default (passport, User) => {
                         email,
                         password: pass,
                         firstname: req.body.firstname,
-                        lastname: req.body.lastname
+                        lastname: req.body.lastname,
+                        emailCode: genUUID(),
+                        emailValidated: false
                     };
+
+                    // TODO: Use sendgrid to send email
+                    // http://portal.calhacks.io/validate?code=XXXXXXXXXX
 
                     User.create(data).then((newUser, created) => {
                         if (!newUser) {

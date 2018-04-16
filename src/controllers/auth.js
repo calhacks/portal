@@ -5,6 +5,8 @@ import SignUp from '../client/pages/SignUp';
 
 import passport from 'passport';
 
+import { User } from '../models/index';
+
 export default {
 
     signIn: (req, res, next) => {
@@ -26,14 +28,30 @@ export default {
     submitLogin: passport.authenticate(
         'local-signin', {
             successRedirect: '/dashboard',
-            failureRedirect: '/login'
+            failureRedirect: '/login',
+            session: true
         }
     ),
 
     submitSignup: passport.authenticate(
         'local-signup', {
             successRedirect: '/dashboard',
-            failureRedirect: '/signup'
+            failureRedirect: '/signup',
+            session: true
         }
-    )
+    ),
+
+    validate: (req, res, next) => {
+        User.update({
+            emailValidated: true
+        }, {
+            where: { emailCode: req.params.code }
+        }).then(result => {
+            if (result[0] == 0) {
+                res.send('There was an error validating your email.');
+            } else {
+                res.redirect('/login');
+            }
+        });
+    }
 };

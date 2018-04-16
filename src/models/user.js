@@ -9,8 +9,6 @@ export default (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             notEmpty: true
         },
-        username: DataTypes.TEXT,
-        about: DataTypes.TEXT,
         email: {
             type: DataTypes.STRING,
             notEmpty: true,
@@ -22,10 +20,13 @@ export default (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        last_login: DataTypes.DATE,
-        status: {
-            type: DataTypes.ENUM('active', 'inactive'),
-            defaultValue: 'active'
+        emailCode: {
+            type: DataTypes.STRING,
+            notEmpty: true,
+            unique: true
+        },
+        emailValidated: {
+            type: DataTypes.BOOLEAN
         }
     }, {});
 
