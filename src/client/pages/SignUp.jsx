@@ -7,10 +7,10 @@ export default class extends React.Component {
             <form id="signup" name="signup" method="post" action="/signup">
                 <label htmlFor="email">Email Address</label>
                 <input className="text" name="email" type="email" />
-                <label htmlFor="firstname" name="firstname">Firstname</label>
-                <input className="firstname" type="text" />
-                <label htmlFor="lastname" name="lastname">Lastname</label>
-                <input className="lastname" type="text" />
+                <label htmlFor="firstname">Firstname</label>
+                <input className="firstname" name="firstname" type="text" />
+                <label htmlFor="lastname">Lastname</label>
+                <input className="lastname" name="lastname" type="text" />
                 <label htmlFor="password">Password</label>
                 <input className="password" name="password" type="password" />
                 <br/>

@@ -9,7 +9,7 @@ export default class extends React.Component {
         if (this.props.data.user.emailValidated) {
             return(<p>Hello from dashbaord</p>);
         } else {
-            return(<p>You have not validated your email yet.</p>);
+            return(<p>You have not verified your email yet.</p>);
         }
     }
 };

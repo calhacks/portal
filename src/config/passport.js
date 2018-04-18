@@ -1,8 +1,14 @@
 
 import bcrypt from 'bcrypt-nodejs';
 import { Strategy as LocalStrategy } from 'passport-local';
+import sendgrid from '@sendgrid/mail';
+
+import verify from '../client/emails/verify';
 
 export default (passport, User) => {
+
+    sendgrid.setApiKey(process.env.SENDGRID_APIKEY);
+
     passport.serializeUser((user, done) => {
         done(null, user.id);
     });
@@ -51,17 +57,25 @@ export default (passport, User) => {
                     }
 
                     const pass = generateHash(password);
+                    const verifyCode = genUUID();
                     const data = {
                         email,
                         password: pass,
                         firstname: req.body.firstname,
                         lastname: req.body.lastname,
-                        emailCode: genUUID(),
+                        emailCode: verifyCode,
                         emailValidated: false
                     };
 
-                    // TODO: Use sendgrid to send email
-                    // http://portal.calhacks.io/validate?code=XXXXXXXXXX
+                    sendgrid.send({
+                        to: email,
+                        from: 'team@calhacks.io',
+                        subject: 'Verify your email with Cal Hacks',
+                        html: verify(
+                            req.body.firstname + ' ' + req.body.lastname,
+                            verifyCode
+                        )
+                    });
 
                     User.create(data).then((newUser, created) => {
                         if (!newUser) {
