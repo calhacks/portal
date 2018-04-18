@@ -1,25 +1,30 @@
 
 import express from 'express';
-import React from 'react';
-import { renderToString } from 'react-dom/server';
+import path from 'path';
+import session from 'express-session';
+import passport from 'passport';
+import bodyParser from 'body-parser';
 
-import App from './client/App';
-import template from './client/template';
+import router from './router/index';
+import models from './models/index';
 
-import routes from './routes';
+import passportConfig from './config/passport';
 
 const app = express();
 
+app.use(session({
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.get('/', (req, res) => {
-	const body = renderToString(
-		React.createElement(App)
-	);
-	res.send(template({body, title: 'Cal Hax Tech'}));
-});
+passportConfig(passport, models.User);
 
-// attach routes
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/', router);
 
 app.listen(8000, () => {
-	console.log('App listening on 8000');
+    console.log('listening on 8000');
 });

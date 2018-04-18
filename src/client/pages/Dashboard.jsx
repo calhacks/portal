@@ -1,4 +1,15 @@
+
 import React from 'react';
 
-export default () => <h2>Dashboard</h2>
-<h5>Hurray! you are logged in.</h5>;
+export default class extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        if (this.props.data.user.emailValidated) {
+            return(<p>Hello from dashbaord</p>);
+        } else {
+            return(<p>You have not validated your email yet.</p>);
+        }
+    }
+};

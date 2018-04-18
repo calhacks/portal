@@ -1,15 +1,30 @@
 
 import React from 'react';
+import {
+    BrowserRouter,
+    Redirect,
+    Route,
+    Switch
+} from 'react-router-dom';
 
+import Home from './pages/Home';
 import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
-import Dashboard from './pages/Dashboard';
 
-class App extends React.Component {
+export default class App extends React.Component {
     render() {
-        // or somethign else
-        return <Home />;
-    }
-}
+        return (
+            <div>
+                <p>App!</p>
+                <Switch>
+                    // Home route
+                    <Route path="/" exact component={Home} />
 
-export default App;
+                    // Auth routes
+                    <Route path="/login" render={
+                        () => <SignIn></SignIn>
+                    } />
+                </Switch>
+            </div>
+        );
+    }
+};

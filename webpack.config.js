@@ -1,36 +1,36 @@
-const webpack = require('webpack');
-const nodeExternals = require('webpack-node-externals');
-const path = require('path');
 
+var path = require('path');
+var webpack = require('webpack');
+var nodeExternals = require('webpack-node-externals');
+
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-	entry: './src/app.js',
-	mode: 'development',
-	output: {
-		path: path.resolve(__dirname, 'dist'),
-		filename: 'app.js',
-		publicPath: '/'
-	},
-	target: 'node',
-	externals: nodeExternals(),
-	plugins: [
-		new webpack.DefinePlugin({
-			'process.env': {
-				NODE_ENV: `'production'`
-			}
-		})
-	],
-	module: {
-		rules: [
-			{
-				test: /\.jsx?$/,
-				loader: 'babel-loader',
-				exclude: '/node_modules/',
-				query: { presets: ['es2015', 'react'] }
-			}
-		]
-	},
-	resolve: {
-		extensions: ['.js', '.jsx']
-	}
+    mode: 'development',
+    entry: [path.resolve(__dirname, 'src/app.js')],
+    output: {
+        path: path.join(__dirname, 'dist'),
+        filename: 'bundle.js'
+    },
+    module: {
+        rules: [
+            {
+                test: /\.jsx?$/,
+                loader: 'babel-loader',
+                include: path.join(__dirname, 'src'),
+                exclude: /node_modules/,
+                query: {
+                    presets: ['env', 'react']
+                },
+                resolve: {
+                    extensions: ['.js', '.jsx']
+                }
+            }
+        ]
+    },
+    target: 'node',
+    node: {
+        fs: 'empty'
+    },
+    externals: [nodeExternals()]
 };

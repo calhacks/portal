@@ -1,9 +1,16 @@
+
 import React from 'react';
 
-export default () => <form id="signin" name="signin" method="post" action="signin">
-  <label for="email">Email Address</label>
-  <input class="text" name="email" type="text" />
-  <label for="password">Password</label>
-  <input name="password" type="password" />
-  <input class="btn" type="submit" value="Sign In" />
-</form>;
+export default class SignIn extends React.Component {
+    render() {
+        return (
+            <form id="signin" name="signin" method="post" action="login">
+                <label htmlFor="email">Email Address</label>
+                <input className="text" name="email" type="text" /><br/>
+                <label htmlFor="password">Password</label>
+                <input name="password" type="password" /><br/>
+                <input className="btn" type="submit" value="Sign In" />
+            </form>
+        );
+    }
+};

@@ -1,13 +1,12 @@
 
-/*  This is just a test to make sure
-	everything fits */
+// This is just here for testing reasons
 
 import React from 'react';
 
-class Header extends React.Component {
-	render() {
-		return <h1>{this.props.text}</h1>
-	}
-}
-
-export default Header;
+export default class Header extends React.Component {
+    render() {
+        return(
+            <p>Hello!</p>
+        );
+    }
+};
