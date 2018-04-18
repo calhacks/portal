@@ -2,6 +2,7 @@
 import Home from '../client/pages/Home';
 import SignIn from '../client/pages/SignIn';
 import SignUp from '../client/pages/SignUp';
+import ValidateEmail from '../client/pages/ValidateEmail';
 
 import passport from 'passport';
 
@@ -45,12 +46,13 @@ export default {
         User.update({
             emailValidated: true
         }, {
-            where: { emailCode: req.params.code }
+            where: { emailCode: req.query.code }
         }).then(result => {
             if (result[0] == 0) {
                 res.send('There was an error validating your email.');
             } else {
-                res.redirect('/login');
+                req.page = ValidateEmail;
+                next()
             }
         });
     }

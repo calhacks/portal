@@ -21,6 +21,9 @@ export default {
     '/logout': {
         get: authController.logout
     },
+    '/validate': {
+        get: authController.validate
+    },
 
     // Dashboard
     '/dashboard': {

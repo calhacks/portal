@@ -13,7 +13,9 @@ import passportConfig from './config/passport';
 const app = express();
 
 app.use(session({
-    secret: 'keyboard cat'
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true
 }));
 app.use(passport.initialize());
 app.use(passport.session());
