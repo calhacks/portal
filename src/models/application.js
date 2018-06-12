@@ -1,5 +1,5 @@
 
-export defaultValue(sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
     const Application = sequelize.define('Application', {
         school: {
             type: DataTypes.STRING,
@@ -75,7 +75,6 @@ export defaultValue(sequelize, DataTypes) => {
                 notEmpty: true
             }
         },
-
     }, {});
 
     Application.associate = models => {
