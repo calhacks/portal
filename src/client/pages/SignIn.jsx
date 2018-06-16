@@ -4,7 +4,7 @@ import React from 'react';
 export default class SignIn extends React.Component {
     render() {
         return (
-            <form id="signin" name="signin" method="post" action="login">
+            <form id="signin" name="signin" method="post" action="/login">
                 <label htmlFor="email">Email Address</label>
                 <input className="text" name="email" type="text" /><br/>
                 <label htmlFor="password">Password</label>
