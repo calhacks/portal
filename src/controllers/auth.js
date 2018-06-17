@@ -3,6 +3,7 @@ import Home from '../client/pages/Home';
 import SignIn from '../client/pages/SignIn';
 import SignUp from '../client/pages/SignUp';
 import ValidateEmail from '../client/pages/ValidateEmail';
+import InformVerifyEmail from '../client/pages/InformVerifyEmail';
 
 import passport from 'passport';
 
@@ -48,12 +49,18 @@ export default {
         }, {
             where: { emailCode: req.query.code }
         }).then(result => {
+            console.log(result);
             if (result[0] == 0) {
                 res.send('There was an error validating your email.');
             } else {
                 req.page = ValidateEmail;
-                next()
+                next();
             }
         });
+    },
+
+    informVerify: (req, res, next) => {
+        req.page = InformVerifyEmail;
+        next();
     }
 };

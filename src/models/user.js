@@ -27,6 +27,10 @@ export default (sequelize, DataTypes) => {
         },
         emailValidated: {
             type: DataTypes.BOOLEAN
+        },
+        role: {
+            type: DataTypes.ENUM('hacker', 'admin'),
+            notEmpty: true
         }
     }, {});
 

@@ -7,7 +7,12 @@ import verify from '../client/emails/verify';
 
 export default (passport, User) => {
 
-    sendgrid.setApiKey(process.env.SENDGRID_APIKEY);
+    if (process.env.SENDGRID_APIKEY) {
+        sendgrid.setApiKey(process.env.SENDGRID_APIKEY);
+    } else {
+        console.error('ERROR: Must define SENDGRID_APIKEY');
+        return
+    }
 
     passport.serializeUser((user, done) => {
         done(null, user.id);
@@ -64,7 +69,8 @@ export default (passport, User) => {
                         firstname: req.body.firstname,
                         lastname: req.body.lastname,
                         emailCode: verifyCode,
-                        emailValidated: false
+                        emailValidated: false,
+                        role: 'hacker'
                     };
 
                     sendgrid.send({

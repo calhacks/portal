@@ -24,6 +24,9 @@ export default {
     '/verify': {
         get: authController.validate
     },
+    '/inform_verify': {
+        get: authController.informVerify
+    },
 
     // Dashboard
     '/dashboard': {

@@ -2,9 +2,11 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { matchPath, StaticRouter } from 'react-router-dom';
+import chain from 'chain-middleware';
 
 import routes from './routes';
 import template from '../template';
+import policies from '../policies'
 
 import App from '../client/App';
 
@@ -28,9 +30,20 @@ export default [
         const method = req.method.toLowerCase();
 
         if (!match) {
-            res.status(404).send('page not found');
+            return res.status(404).send('page not found');
         } else if (!routes[match.path][method]) {
-            res.status(404).send('cannot ' + method + ' ' + req.path);
+            return res.status(404).send('cannot ' + method + ' ' + req.path);
+        } else if (policies[match.path] && policies[match.path][method]) {
+            let funcs;
+            if (typeof policies[match.path][method] === 'object') {
+                funcs = policies[match.path][method].concat([routes[match.path][method]]);
+            } else {
+                funcs = [
+                    policies[match.path][method],
+                    routes[match.path][method]
+                ];
+            }
+            chain(...funcs)(req, res, next);
         } else {
             routes[match.path][method](req, res, next);
         }
@@ -48,7 +61,7 @@ export default [
 
         const body = renderToString(
             <StaticRouter context={context} location={req.url}>
-                <Component data={{...req.pageData}} />
+                <Component pageData={{...req.pageData}} />
             </StaticRouter>
         );
 

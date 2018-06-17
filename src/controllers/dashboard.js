@@ -1,4 +1,5 @@
 
+import ValidateEmail from '../client/pages/ValidateEmail'
 import Dashboard from '../client/pages/Dashboard';
 
 import { Application } from '../models/index';
