@@ -10,4 +10,4 @@
 ./node_modules/parallelshell/index.js \
 "./node_modules/.bin/babel ./src -d dist --watch" \
 "./node_modules/.bin/webpack --watch" \
-"./node_modules/nodemon/bin/nodemon.js ./dist/app.js"
+"./node_modules/nodemon/bin/nodemon.js --delay 1 ./dist/app.js"
