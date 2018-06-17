@@ -35,7 +35,9 @@ export default (sequelize, DataTypes) => {
     }, {});
 
     User.associate = models => {
-        // associations can be defined here
+        models.User.hasOne(models.Application, {
+            foreignKey: 'id'
+        });
     };
     return User;
 };

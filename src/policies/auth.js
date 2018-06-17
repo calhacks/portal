@@ -8,7 +8,6 @@ import { User } from '../models/index'
 // specify particular roles later on, so make this
 // extensible...
 export const authenticateUser = roles => (req, res, next) => {
-    console.log(req.user);
     if (req.user === undefined || !roles.includes(req.user.role)) {
         res.redirect('/login');
     } else {

@@ -2,6 +2,7 @@
 import homeController from '../controllers/home';
 import authController from '../controllers/auth';
 import dashboardController from '../controllers/dashboard';
+import applicationController from '../controllers/app';
 
 export default {
     // Home route
@@ -30,7 +31,11 @@ export default {
 
     // Dashboard
     '/dashboard': {
-        get: dashboardController.dashboard,
-        post: dashboardController.submitApp
-    }
+        get: dashboardController.dashboard
+    },
+
+    // Submitting an app
+    '/app': {
+        post: applicationController.submitApp
+    },
 };

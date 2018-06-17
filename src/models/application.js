@@ -78,7 +78,7 @@ export default (sequelize, DataTypes) => {
     }, {});
 
     Application.associate = models => {
-
+        models.Application.belongsTo(models.User);
     };
     return Application;
 };

@@ -1,17 +1,16 @@
 
 import React from 'react';
 
+import ApplicationForm from '../components/ApplicationForm';
+
 export default class extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         return (
-            <form action="/dashboard" method="post">
-              First name: <input type="text" name="fname" /><br/>
-              Last name: <input type="text" name="lname" /><br/>
-              <button type="submit">Submit</button>
-            </form>
+            <div>
+                <h1>Welcome to the dashboard, {this.props.pageData.user.firstname}!</h1>
+                <h2>Application Form:</h2>
+                <ApplicationForm appData={this.props.pageData.user.Application} />
+            </div>
         );
     }
-};
+}
