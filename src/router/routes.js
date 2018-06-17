@@ -27,6 +27,7 @@ export default {
 
     // Dashboard
     '/dashboard': {
-        get: dashboardController.dashboard
+        get: dashboardController.dashboard,
+        post: dashboardController.submitApp
     }
 };
