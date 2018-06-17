@@ -31,7 +31,7 @@ export default (sequelize, DataTypes) => {
     }, {});
 
     User.associate = models => {
-      // associations can be defined here
+        // associations can be defined here
     };
     return User;
 };
