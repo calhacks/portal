@@ -7,7 +7,9 @@
 # so we're just shoving it into a dist folder and watching
 # for changes
 
-./node_modules/parallelshell/index.js \
-"./node_modules/.bin/babel ./src -d dist --watch" \
-"./node_modules/.bin/webpack --watch" \
-"./node_modules/nodemon/bin/nodemon.js --delay 1 ./dist/app.js"
+# ./node_modules/parallelshell/index.js \
+# "./node_modules/.bin/babel ./src -d dist --watch" \
+# "./node_modules/.bin/webpack --watch" \
+# "./node_modules/nodemon/bin/nodemon.js --delay 1 ./dist/app.js"
+
+webpack --watch & nodemon --exec ./node_modules/babel-cli/bin/babel-node.js ./src/app.js

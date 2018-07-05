@@ -2,7 +2,7 @@
 import homeController from '../controllers/home';
 import authController from '../controllers/auth';
 import dashboardController from '../controllers/dashboard';
-import applicationController from '../controllers/app';
+import applicationController from '../controllers/application';
 
 export default {
     // Home route

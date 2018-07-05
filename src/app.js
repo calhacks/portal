@@ -12,6 +12,8 @@ import passportConfig from './config/passport';
 
 const app = express();
 
+require('babel-register')({ presets: ['env'] })
+
 app.use(session({
     secret: 'keyboard cat',
     resave: true,
@@ -19,10 +21,11 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(express.static(path.resolve(__dirname, '../dist')));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 passportConfig(passport, models.User);
 
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', router);
 
 app.listen(8000, () => {

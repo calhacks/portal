@@ -27,21 +27,43 @@ export default {
         });
     },
 
-    submitLogin: passport.authenticate(
-        'local-signin', {
-            successRedirect: '/dashboard',
-            failureRedirect: '/login',
-            session: true
-        }
-    ),
+    submitLogin: (req, res, next) => {
+        passport.authenticate('local-signin', (err, user, info) => {
+            if (err !== null) {
+                // Something went wrong.
+                return next(err);
+            } else if (!user) {
+                return res.redirect('/login');
+            } else {
+                req.logIn(user, err => {
+                    if (err) {
+                        return next(err);
+                    } else {
+                        return res.redirect('/dashboard');
+                    }
+                });
+            }
+        })(req, res, next);
+    },
 
-    submitSignup: passport.authenticate(
-        'local-signup', {
-            successRedirect: '/dashboard',
-            failureRedirect: '/signup',
-            session: true
-        }
-    ),
+    submitSignup: (req, res, next) => {
+        passport.authenticate('local-signup', (err, user, info) => {
+            if (err !== null) {
+                // Something went wrong.
+                return next(err);
+            } else if (!user) {
+                return res.redirect('/login');
+            } else {
+                req.logIn(user, err => {
+                    if (err) {
+                        return next(err);
+                    } else {
+                        return res.redirect('/dashboard');
+                    }
+                });
+            }
+        })(req, res, next);
+    },
 
     validate: (req, res, next) => {
         User.update({

@@ -12,7 +12,7 @@ export default ({ title, body, state }) => {
             <script>
             window.__PRELOADED_STATE__ = ${JSON.stringify(state).replace(/</g, '\\u003c')}
             </script>
-            <script src="/bundle.js"></script>
+            <script src="bundle.js"></script>
         </body>
         </html>
     `
