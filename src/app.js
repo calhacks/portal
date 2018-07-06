@@ -3,7 +3,7 @@ import express from 'express';
 import path from 'path';
 import session from 'express-session';
 import passport from 'passport';
-import bodyParser from 'body-parser';
+import formidable from 'express-formidable';
 
 import router from './router/index';
 import models from './models/index';
@@ -22,7 +22,10 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.resolve(__dirname, '../dist')));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(formidable());
+
+// formidable -> body parser
+app.use((req, res, next) => { req.body = req.fields; next(); });
 
 passportConfig(passport, models.User);
 

@@ -5,6 +5,7 @@ export default {
         password: 'hello',
         database: 'database_dev',
         host: 'localhost',
-        dialect: 'mysql'
+        dialect: 'mysql',
+        logging: false,
     }
 };
