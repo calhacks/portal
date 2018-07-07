@@ -18,7 +18,8 @@ let models = {};
 
     let modules = [
         require('./user'),
-        require('./application')
+        require('./application'),
+        require('./team')
     ];
 
     modules.forEach(module => {
@@ -34,6 +35,8 @@ let models = {};
 
     models.sequelize = sequelize;
     models.Sequelize = Sequelize;
+
+    sequelize.sync();
 
     return models;
 })(config);

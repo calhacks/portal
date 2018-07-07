@@ -38,6 +38,7 @@ export default (sequelize, DataTypes) => {
         models.User.hasOne(models.Application, {
             foreignKey: 'id'
         });
+        models.User.belongsTo(models.Team);
     };
     return User;
 };

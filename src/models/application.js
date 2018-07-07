@@ -32,10 +32,6 @@ export default (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: true,
         },
-        resume: {                   // 1. Optional? 2.String object id of file ??
-            type: DataTypes.STRING,
-            allowNull: true,
-        },
         linkedin: {
             type: DataTypes.STRING,
             allowNull: true,

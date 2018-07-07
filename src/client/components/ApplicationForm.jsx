@@ -24,6 +24,7 @@ export default class extends React.Component {
                 <p>q2:</p> <input type="text" defaultValue={this.props.appData.question2} name="question2" />
                 <p>q3:</p> <input type="text" defaultValue={this.props.appData.question3} name="question3" />
                 <p>Resume:</p> <input type='file' onChange={this.validateResume.bind(this)} name='resume' id='resume' />
+                <p>Join team:</p> <input type='text' defaultValue={this.props.appData.Team ? this.props.appData.Team.code : ''} name='teamCode' />
                 <button type="submit">Save App</button>
             </form>
         );
