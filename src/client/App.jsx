@@ -15,7 +15,7 @@ import Dashboard from './pages/Dashboard';
 import ValidateEmail from './pages/ValidateEmail';
 import InformVerifyEmail from './pages/InformVerifyEmail';
 
-import './styles/main.css';
+import './styles/main.sass';
 
 class App extends React.Component {
     render() {
@@ -42,7 +42,7 @@ class App extends React.Component {
         });
 
         return (
-            <div className='red'>
+            <div>
                 <Switch>
                     { drilled }
                 </Switch>

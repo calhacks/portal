@@ -9,7 +9,7 @@ var baseRules = [
         loader: 'babel-loader',
         exclude: /node_modules/,
         resolve: {
-            extensions: ['.js', '.jsx', '.css']
+            extensions: ['.js', '.jsx', '.sass']
         }
     }
 ];
@@ -27,10 +27,11 @@ var clientConfig = {
     module: {
         rules: baseRules.concat([
             {
-                test: /\.css$/,
+                test: /\.sass$/,
                 use: [
                     'style-loader',
-                    'css-loader'
+                    'css-loader',
+                    'sass-loader',
                 ]
             }
         ])
@@ -54,8 +55,11 @@ var serverConfig = {
     module: {
         rules: baseRules.concat([
             {
-                test: /\.css$/,
-                loader: 'css-loader/locals'
+                test: /\.sass$/,
+                use: [
+                    'css-loader',
+                    'sass-loader',
+                ]
             }
         ])
     },
