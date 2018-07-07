@@ -4,7 +4,7 @@ export default {
         username: 'root',
         password: 'hello',
         database: 'database_dev',
-        host: 'localhost',
+        host: '127.0.0.1',
         dialect: 'mysql',
         logging: false,
     }

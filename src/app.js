@@ -21,7 +21,8 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static(path.resolve(__dirname, '../dist')));
+
+app.use(express.static('./dist'));
 app.use(formidable({ maxFileSize: 10 * 1024 * 1024 }));
 
 // formidable -> body parser
