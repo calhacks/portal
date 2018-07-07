@@ -11,7 +11,6 @@ export default {
                 where: { id: req.user.id },
                 include: { model: Application }
             }).then(user => {
-                req.page = Dashboard;
                 req.pageData = { user };
                 next();
             });

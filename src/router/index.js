@@ -51,18 +51,10 @@ export default [
 
     // Render intended route
     (req, res) => {
-        const Component = req.page;
-
-        const css = new Set();
         const context = { };
 
-        if (!Component) {
-            // Dont need to render anything
-            return res.end();
-        }
-
         const body = renderToString(
-            <StaticRouter context={context}>
+            <StaticRouter context={context} location={req.url}>
                 <App pageData={{...req.pageData}} />
             </StaticRouter>
         );
@@ -72,7 +64,6 @@ export default [
                 title: req.pageTitle,
                 body,
                 state: req.pageData,
-                css,
             })
         );
     }

@@ -12,12 +12,10 @@ import { User } from '../models/index';
 export default {
 
     signIn: (req, res, next) => {
-        req.page = SignIn;
         next();
     },
 
     signUp: (req, res, next) => {
-        req.page = SignUp;
         next();
     },
 
@@ -75,14 +73,12 @@ export default {
             if (result[0] == 0) {
                 res.send('There was an error validating your email.');
             } else {
-                req.page = ValidateEmail;
                 next();
             }
         });
     },
 
     informVerify: (req, res, next) => {
-        req.page = InformVerifyEmail;
         next();
     }
 };
