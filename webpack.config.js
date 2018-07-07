@@ -3,15 +3,13 @@ var path = require('path');
 var webpack = require('webpack');
 var nodeExternals = require('webpack-node-externals');
 
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-
 var baseRules = [
     {
         test: /\.jsx?$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
         resolve: {
-            extensions: ['.js', '.jsx']
+            extensions: ['.js', '.jsx', '.css']
         }
     }
 ];
@@ -27,7 +25,15 @@ var clientConfig = {
         ]
     },
     module: {
-        rules: baseRules.concat([])
+        rules: baseRules.concat([
+            {
+                test: /\.css$/,
+                use: [
+                    'style-loader',
+                    'css-loader'
+                ]
+            }
+        ])
     },
     output: {
         path: path.join(__dirname, 'dist'),
@@ -46,7 +52,12 @@ var serverConfig = {
         ]
     },
     module: {
-        rules: baseRules.concat([])
+        rules: baseRules.concat([
+            {
+                test: /\.css$/,
+                loader: 'css-loader/locals'
+            }
+        ])
     },
     output: {
         path: path.join(__dirname, 'dist'),

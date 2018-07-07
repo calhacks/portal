@@ -6,6 +6,7 @@ import {
     Route,
     Switch
 } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
@@ -14,7 +15,9 @@ import Dashboard from './pages/Dashboard';
 import ValidateEmail from './pages/ValidateEmail';
 import InformVerifyEmail from './pages/InformVerifyEmail';
 
-export default class App extends React.Component {
+import './styles/main.css';
+
+class App extends React.Component {
     render() {
         const routes = [
             <Route path='/' exact component={Home} />,
@@ -39,7 +42,7 @@ export default class App extends React.Component {
         });
 
         return (
-            <div>
+            <div className='red'>
                 <Switch>
                     { drilled }
                 </Switch>
@@ -47,3 +50,5 @@ export default class App extends React.Component {
         );
     }
 };
+
+export default App;

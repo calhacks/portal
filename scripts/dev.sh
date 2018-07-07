@@ -7,6 +7,4 @@
 # so we're just shoving it into a dist folder and watching
 # for changes
 
-./node_modules/parallelshell/index.js \
-"./node_modules/.bin/webpack --watch" \
-"./node_modules/nodemon/bin/nodemon.js --delay 1 ./dist/server.js"
+parallelshell "webpack --watch --display verbose" "nodemon --delay 1 ./dist/server.js"

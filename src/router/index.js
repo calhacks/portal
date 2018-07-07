@@ -52,7 +52,9 @@ export default [
     // Render intended route
     (req, res) => {
         const Component = req.page;
-        const context = {};
+
+        const css = new Set();
+        const context = { };
 
         if (!Component) {
             // Dont need to render anything
@@ -60,8 +62,8 @@ export default [
         }
 
         const body = renderToString(
-            <StaticRouter context={context} location={req.url}>
-                <Component pageData={{...req.pageData}} />
+            <StaticRouter context={context}>
+                <App pageData={{...req.pageData}} />
             </StaticRouter>
         );
 
@@ -69,7 +71,8 @@ export default [
             template({
                 title: req.pageTitle,
                 body,
-                state: req.pageData
+                state: req.pageData,
+                css,
             })
         );
     }

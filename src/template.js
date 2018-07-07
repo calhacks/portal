@@ -1,5 +1,5 @@
 
-export default ({ title, body, state }) => {
+export default ({ title, body, state, css = [] }) => {
     state = state || {};
     return `
         <!doctype html>
