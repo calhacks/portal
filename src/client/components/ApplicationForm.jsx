@@ -10,21 +10,45 @@ export default class extends React.Component {
         }
     }
 
+    getFormFields() {
+        const fieldNameMapping = {
+            school: 'School',
+            dob: 'DOB',
+            reimbursement: 'Reimbursement',
+            diet: 'Diet',
+            linkedin: 'Linkedin',
+            github: 'Github',
+            devpost: 'Devpost',
+            question1: 'Q1',
+            question2: 'Q2',
+            question3: 'Q3'
+        };
+
+        const fields = [];
+        for (let key in fieldNameMapping) {
+            fields.push(
+                <div className='app-field'>
+                    <p>{fieldNameMapping[key]}</p>
+                    <input
+                        type='text'
+                        defaultValue={
+                            this.props.appData
+                            ? this.props.appData[key]
+                            : ''
+                        }
+                        name={key} />
+                </div>
+            )
+        }
+
+        return fields;
+    }
+
     render() {
         return (
             <form action="/app" method="post" encType='multipart/form-data'>
-                <p>School:</p> <input type="text" defaultValue={this.props.appData.school} name="school" />
-                <p>DOB:</p> <input type="text" defaultValue={this.props.appData.dob} name="dob" />
-                <p>Reimbursement:</p> <input type="text" defaultValue={this.props.appData.reimbursement} name="reimbursement" />
-                <p>Diet:</p> <input type="text" defaultValue={this.props.appData.diet} name="diet" />
-                <p>Linkedin:</p> <input type="text" defaultValue={this.props.appData.linkedin} name="linkedin" />
-                <p>Github:</p> <input type="text" defaultValue={this.props.appData.github} name="github" />
-                <p>Devpost:</p> <input type="text" defaultValue={this.props.appData.devpost} name="devpost" />
-                <p>q1:</p> <input type="text" defaultValue={this.props.appData.question1} name="question1" />
-                <p>q2:</p> <input type="text" defaultValue={this.props.appData.question2} name="question2" />
-                <p>q3:</p> <input type="text" defaultValue={this.props.appData.question3} name="question3" />
+                {this.getFormFields.bind(this)()}
                 <p>Resume:</p> <input type='file' onChange={this.validateResume.bind(this)} name='resume' id='resume' />
-                <p>Join team:</p> <input type='text' defaultValue={this.props.appData.Team ? this.props.appData.Team.code : ''} name='teamCode' />
                 <button type="submit">Save App</button>
             </form>
         );

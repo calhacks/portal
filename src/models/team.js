@@ -11,9 +11,7 @@ export default (sequelize, DataTypes) => {
     });
 
     Team.associate = models => {
-        models.Team.hasMany(models.User, {
-            foreignKey: 'id'
-        });
+        models.Team.hasMany(models.User);
     };
 
     return Team;

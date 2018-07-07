@@ -35,9 +35,7 @@ export default (sequelize, DataTypes) => {
     }, {});
 
     User.associate = models => {
-        models.User.hasOne(models.Application, {
-            foreignKey: 'id'
-        });
+        models.User.hasOne(models.Application);
         models.User.belongsTo(models.Team);
     };
     return User;
