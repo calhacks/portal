@@ -17,8 +17,8 @@ let models = {};
     );
 
     let modules = [
-        require('./application'),
-        require('./user')
+        require('./user'),
+        require('./application')
     ];
 
     modules.forEach(module => {
