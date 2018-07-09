@@ -6,6 +6,10 @@ export default ({ title, body, state, css = [] }) => {
         <html>
         <head>
             <title>${title}</title>
+            <style type='text/css'>
+                /* Jank way to prevent fouc */
+                #root { display: none; }
+            </style>
         </head>
         <body>
             <div id="root">${body}</div>

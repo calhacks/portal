@@ -1,15 +1,15 @@
 
-import ValidateEmail from '../client/pages/ValidateEmail'
-import Dashboard from '../client/pages/Dashboard';
-
-import { User, Application } from '../models';
+import { User, Application, Team } from '../models';
 
 export default {
     dashboard: (req, res, next) => {
         if (req.user) {
             User.findOne({
                 where: { id: req.user.id },
-                include: { model: Application }
+                include: [
+                    { model: Application },
+                    { model: Team }
+                ]
             }).then(user => {
                 req.pageData = { user };
                 next();

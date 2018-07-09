@@ -1,10 +1,4 @@
 
-import Home from '../client/pages/Home';
-import SignIn from '../client/pages/SignIn';
-import SignUp from '../client/pages/SignUp';
-import ValidateEmail from '../client/pages/ValidateEmail';
-import InformVerifyEmail from '../client/pages/InformVerifyEmail';
-
 import passport from 'passport';
 
 import { User } from '../models/index';

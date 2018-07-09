@@ -1,7 +1,7 @@
 
 export default (sequelize, DataTypes) => {
     const Team = sequelize.define('Team', {
-        code: {
+        name: {
             type: DataTypes.STRING,
             validate: {
                 notEmpty: true,

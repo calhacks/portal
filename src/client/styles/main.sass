@@ -8,6 +8,10 @@ html, body, #root, [data-reactroot], [data-reactroot] > div
     max-height: 100%
     overflow: scroll
 
+#root
+    /* Jank way to prevent fouc */
+    display: block
+
 *
     margin: 0
     padding: 0

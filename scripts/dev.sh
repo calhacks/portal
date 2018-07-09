@@ -7,4 +7,4 @@
 # so we're just shoving it into a dist folder and watching
 # for changes
 
-parallelshell "webpack --watch --display verbose" "nodemon --delay 1 ./dist/server.js"
+npx npm-run-all watch:client watch:server

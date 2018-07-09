@@ -3,6 +3,7 @@ import homeController from '../controllers/home';
 import authController from '../controllers/auth';
 import dashboardController from '../controllers/dashboard';
 import applicationController from '../controllers/application';
+import teamController from '../controllers/team';
 
 export default {
     // Home route
@@ -38,4 +39,9 @@ export default {
     '/app': {
         post: applicationController.submitApp
     },
+
+    // Submitting a team
+    '/team': {
+        post: teamController.submitTeam
+    }
 };
