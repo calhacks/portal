@@ -9,12 +9,14 @@ export default {
     },
 
     // Can't submit app without credentials
-    '/app': {
+    '/application': {
+        get: [authenticateUser(['hacker', 'admin'])],
         post: [authenticateUser(['hacker', 'admin'])],
     },
 
     // Can't create/join team without credentials
     '/team': {
-        post: [authenticateUser(['hacker', 'admin'])]
+        get: [authenticateUser(['hacker', 'admin'])],
+        post: [authenticateUser(['hacker', 'admin'])],
     }
 };

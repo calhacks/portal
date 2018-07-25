@@ -1,6 +1,6 @@
 
 export default {
     home: (req, res, next) => {
-        next();
+        res.render('home');
     }
 };

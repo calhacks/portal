@@ -1,70 +1,46 @@
 
-import React from 'react';
-import { renderToString } from 'react-dom/server';
-import { matchPath, StaticRouter } from 'react-router-dom';
 import chain from 'chain-middleware';
 
 import routes from './routes';
-import template from '../template';
 import policies from '../policies'
 
-import App from '../client/App';
+// import App from '../client/App';
 
 export default [
     // Router
     (req, res, next) => {
-
-        let match = undefined;
-
-        for (let route in routes) {
-            const m = matchPath(req.path, {
-                path: route,
-                exact: true
-            });
-            if (m != undefined && m != null) {
-                match = m;
-                break;
-            }
-        }
-
+        // Get URL of request
+        const path = req.path;
         const method = req.method.toLowerCase();
 
-        if (!match) {
+        // Does a route match? If not 404
+        const target = routes[path];
+        if (!target) {
             return res.status(404).send('page not found');
-        } else if (!routes[match.path][method]) {
+        }
+
+        // Does method match? If not 404
+        const action = target[method];
+        if (!action) {
             return res.status(404).send('cannot ' + method + ' ' + req.path);
-        } else if (policies[match.path] && policies[match.path][method]) {
+        }
+
+        // Go through policies if they are defined on this route + method
+        if (policies[path] && policies[path][method]) {
             let funcs;
-            if (typeof policies[match.path][method] === 'object') {
-                funcs = policies[match.path][method].concat([routes[match.path][method]]);
+            if (typeof policies[path][method] === 'object') {
+                // Iterate through list of middleware
+                funcs = policies[path][method].concat([routes[path][method]]);
             } else {
                 funcs = [
-                    policies[match.path][method],
-                    routes[match.path][method]
+                    policies[path][method],
+                    routes[path][method]
                 ];
             }
+
             chain(...funcs)(req, res, next);
         } else {
-            routes[match.path][method](req, res, next);
+            routes[path][method](req, res, next);
         }
-    },
-
-    // Render intended route
-    (req, res) => {
-        const context = { };
-
-        const body = renderToString(
-            <StaticRouter context={context} location={req.url}>
-                <App pageData={{...req.pageData}} />
-            </StaticRouter>
-        );
-
-        res.status(200).send(
-            template({
-                title: req.pageTitle,
-                body,
-                state: req.pageData,
-            })
-        );
     }
 ];

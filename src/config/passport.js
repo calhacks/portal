@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt-nodejs';
 import { Strategy as LocalStrategy } from 'passport-local';
 import sendgrid from '@sendgrid/mail';
 
-import verify from '../client/emails/verify';
+import verify from '../emails/verify';
 
 export default (passport, User) => {
 

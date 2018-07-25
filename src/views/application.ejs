@@ -1,0 +1,32 @@
+<% layout('layout') -%>
+<div>
+  <h1>Application :)</h1>
+  <form action="/application" method="post" encType='multipart/form-data'>
+    <%
+    var fieldNameMapping = {
+      school: 'School',
+      dob: 'DOB',
+      reimbursement: 'Reimbursement',
+      diet: 'Diet',
+      linkedin: 'Linkedin',
+      github: 'Github',
+      devpost: 'Devpost',
+      question1: 'Q1',
+      question2: 'Q2',
+      question3: 'Q3'
+    };
+
+    for (var key in fieldNameMapping) { %>
+      <div className='app-field'>
+          <p><%= fieldNameMapping[key] %></p>
+          <input
+              type="text"
+              value="<%= user.Application ? user.Application[key] : '' %>"
+              name="<%= key %>" />
+      </div>
+    <% }
+    %>
+    <p>Resume:</p> <input type='file' onChange={this.validateResume.bind(this)} name='resume' id='resume' />
+    <button type="submit">Save App</button>
+  </form>
+</div>

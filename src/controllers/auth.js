@@ -6,15 +6,15 @@ import { User } from '../models/index';
 export default {
 
     signIn: (req, res, next) => {
-        next();
+        return res.render('login');
     },
 
     signUp: (req, res, next) => {
-        next();
+        return res.render('signup');
     },
 
     logout: (req, res, next) => {
-        req.session.destroy(err => {
+        return req.session.destroy(err => {
             res.redirect('/');
         });
     },
@@ -65,14 +65,14 @@ export default {
         }).then(result => {
             console.log(result);
             if (result[0] == 0) {
-                res.send('There was an error validating your email.');
+                res.render('verify', { success: false });
             } else {
-                next();
+                res.render('verify', { success: true });
             }
         });
     },
 
     informVerify: (req, res, next) => {
-        next();
+        return res.render('informVerify');
     }
 };

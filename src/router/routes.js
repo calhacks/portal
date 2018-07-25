@@ -36,12 +36,14 @@ export default {
     },
 
     // Submitting an app
-    '/app': {
+    '/application': {
+        get: applicationController.appPage,
         post: applicationController.submitApp
     },
 
     // Submitting a team
     '/team': {
+        get: teamController.teamPage,
         post: teamController.submitTeam
     }
 };

@@ -1,0 +1,22 @@
+<% layout('layout') -%>
+<div>
+  <h1>Dashboard... Hello <%= user.firstname %>!</h1>
+  <div>
+    <a href="/application">Application</a>
+    <%
+    if (user.Application) { %>
+      <span>You've completed an application! :)</span>
+    <% } else { %>
+      <span>You still have to complete your application!</span>
+    <% } %>
+  </div>
+  <div>
+    <a href="/team">Team</a>
+    <% if (user.Team) { %>
+      <span>You've joined a team! :)</span>
+    <% } else { %>
+      <span>You currently aren't on a team.</span>
+    <% }
+    %>
+  </div>
+</div>

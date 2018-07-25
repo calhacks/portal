@@ -4,9 +4,10 @@ import path from 'path';
 import session from 'express-session';
 import passport from 'passport';
 import formidable from 'express-formidable';
+import ejsLocals from 'ejs-mate';
 
-import router from './router/index';
-import models from './models/index';
+import router from './router';
+import models from './models';
 
 import passportConfig from './config/passport';
 
@@ -21,9 +22,12 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-
 app.use(express.static('./dist'));
 app.use(formidable({ maxFileSize: 10 * 1024 * 1024 }));
+
+app.engine('ejs', ejsLocals);
+app.set('view engine', 'ejs');
+app.set('views', 'src/views');
 
 // formidable -> body parser
 app.use((req, res, next) => { req.body = req.fields; next(); });

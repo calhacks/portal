@@ -18,14 +18,40 @@ export default {
             if (team === null) {
                 // No team found
                 Team.create({
-                    name: req.body.name,
-                    UserId: req.user.id
+                    name: req.body.name
                 }).then(newTeam => {
-                    console.log(newTeam);
-                    res.send('/dashboard');
+                    newTeam.addUser(req.user.id).then(result => {
+                        res.redirect('/dashboard');
+                    });
                 });
             } else {
-                res.send('/dashboard');
+                // We gotta add to the team
+
+            }
+        });
+    },
+
+    teamPage: (req, res) => {
+        User.findOne({
+            where: { id: req.user.id },
+            include: [
+                { model: Team }
+            ]
+        }).then(user => {
+            // res.render('team', { user: user.toJSON() })
+            if (user.Team) {
+                // user has a team
+                Team.findOne({
+                    where: { id: user.Team.id },
+                    include: { model: User }
+                }).then(team => {
+                    res.render('team', {
+                        user: {
+                            ...user.toJSON(),
+                            Team: team
+                        }
+                    });
+                });
             }
         });
     }

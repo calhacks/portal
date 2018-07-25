@@ -1,0 +1,18 @@
+<% layout('layout') -%>
+<div>
+  <h1>Team page!</h1>
+  <form name="team" method="post" action="/team">
+    <input type="text" name="name"
+      value="<%= user.Team ? user.Team.name : '' %>"/>
+    <input type="submit" value="Submit" />
+  </form>
+
+  <div>
+    <p>Team members: </p>
+    <ul>
+      <% for (var u of user.Team.Users) { %>
+        <li><%= u.firstname + ' ' + u.lastname + ' (' + u.email + ')' %></li>
+      <% } %>
+    </ul>
+  </div>
+</div>

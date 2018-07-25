@@ -38,7 +38,6 @@ export default {
                         console.log('File moved successfully!');
                         res.redirect('/dashboard');
                     }).catch(err => {
-                        console.log('Shit.');
                         console.log(err);
                         res.redirect('/dashboard');
                     });
@@ -50,12 +49,22 @@ export default {
                         console.log('File moved successfully!');
                         res.redirect('/dashboard');
                     }).catch(err => {
-                        console.log('Shit.');
                         console.log(err);
                         res.redirect('/dashboard');
                     });
                 })
             }
+        });
+    },
+
+    appPage: (req, res) => {
+        User.findOne({
+            where: { id: req.user.id },
+            include: [
+                { model: Application }
+            ]
+        }).then(user => {
+            res.render('application', { user: user.toJSON() })
         });
     }
 }

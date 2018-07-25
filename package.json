@@ -20,6 +20,8 @@
     "chain-middleware": "^1.0.1",
     "css-loader": "^1.0.0",
     "cssnano": "^4.0.0",
+    "ejs-locals": "^1.0.2",
+    "ejs-mate": "^2.3.0",
     "express": "^4.16.3",
     "express-formidable": "^1.0.0",
     "express-session": "^1.15.6",
