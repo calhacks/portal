@@ -7,4 +7,4 @@
 # so we're just shoving it into a dist folder and watching
 # for changes
 
-npm run watch:server
+npx npm-run-all --parallel watch:client watch:server

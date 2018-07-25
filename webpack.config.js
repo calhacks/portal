@@ -7,7 +7,8 @@ var baseRules = [
     {
         test: /\.jsx?$/,
         loader: 'babel-loader',
-        exclude: /node_modules/,
+        include: /src/,
+        exclude: /node_modules|dist/,
         resolve: {
             extensions: ['.js', '.jsx', '.sass']
         }
@@ -25,15 +26,7 @@ var serverConfig = {
         ]
     },
     module: {
-        rules: baseRules.concat([
-            {
-                test: /\.sass$/,
-                use: [
-                    'css-loader',
-                    'sass-loader',
-                ]
-            }
-        ])
+        rules: baseRules
     },
     output: {
         path: path.join(__dirname, 'dist'),
@@ -43,7 +36,4 @@ var serverConfig = {
     externals: [nodeExternals()]
 }
 
-module.exports = [
-    clientConfig,
-    serverConfig
-];
+module.exports = serverConfig;
