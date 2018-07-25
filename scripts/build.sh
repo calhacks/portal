@@ -12,8 +12,4 @@ fi
 echo "== TRANSPILING NODE =="
 ./node_modules/.bin/babel ./src -d dist
 
-# build react
-echo "== COMPILING JSX =="
-./node_modules/.bin/webpack
-
 echo "== BUILT TO ./dist =="
