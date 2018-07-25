@@ -14,34 +14,6 @@ var baseRules = [
     }
 ];
 
-var clientConfig = {
-    name: 'client',
-    mode: 'development',
-    entry: [path.resolve(__dirname, 'src/client/index.jsx')],
-    resolve: {
-        modules: [
-            path.resolve('./src'),
-            'node_modules'
-        ]
-    },
-    module: {
-        rules: baseRules.concat([
-            {
-                test: /\.sass$/,
-                use: [
-                    'style-loader',
-                    'css-loader',
-                    'sass-loader',
-                ]
-            }
-        ])
-    },
-    output: {
-        path: path.join(__dirname, 'dist'),
-        filename: 'bundle.js'
-    }
-};
-
 var serverConfig = {
     name: 'server',
     mode: 'development',
