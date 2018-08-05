@@ -10,13 +10,13 @@ export default {
 
     // Can't submit app without credentials
     '/application': {
-        get: [authenticateUser(['hacker', 'admin'])],
-        post: [authenticateUser(['hacker', 'admin'])],
+        get: [authenticateUser(['hacker', 'admin']), emailVerify],
+        post: [authenticateUser(['hacker', 'admin']), emailVerify],
     },
 
     // Can't create/join team without credentials
     '/team': {
-        get: [authenticateUser(['hacker', 'admin'])],
-        post: [authenticateUser(['hacker', 'admin'])],
+        get: [authenticateUser(['hacker', 'admin']), emailVerify],
+        post: [authenticateUser(['hacker', 'admin']), emailVerify],
     }
 };
