@@ -16,7 +16,7 @@ The app requires the following environment variables:
 * `DB_HOST`: the hostname of the database
 * `SENDGRID_APIKEY`: a valid SendGrid API key
 
-Run `yarn start` to start running the application; it will start running on `localhost:8080`.
+Run `yarn start` to start running the application; it will start running on `localhost:8000`.
 
 ## Application
 
