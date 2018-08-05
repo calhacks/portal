@@ -5,6 +5,7 @@ import session from 'express-session';
 import passport from 'passport';
 import formidable from 'express-formidable';
 import ejsLocals from 'ejs-mate';
+import sass from 'node-sass-middleware';
 
 import router from './router';
 import models from './models';
@@ -27,13 +28,22 @@ app.use(formidable({ maxFileSize: 10 * 1024 * 1024 }));
 
 app.engine('ejs', ejsLocals);
 app.set('view engine', 'ejs');
-app.set('views', 'src/views');
+app.set('views', 'src/client/views');
 
 // formidable -> body parser
 app.use((req, res, next) => { req.body = req.fields; next(); });
 
 passportConfig(passport, models.User);
 
+app.use(
+    sass({
+        src: 'src/client/assets',
+        dest: 'dist/assets',
+        indentedSyntax: true,
+        debug: true
+    })
+);
+app.use(express.static('dist/assets'));
 app.use('/', router);
 
 app.listen(8000, () => {
