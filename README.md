@@ -38,8 +38,10 @@ FOr a user to sign up, they need to verify their email. When they sign up they'l
 
 ## Todos
 
-There's still a lot to be done. In order of importance:
+There's still a lot to be done:
 
 * Styling pages
-* Deploying to `werewolves` and setting up automatic deployment from `master`
+* Sponsor portal/admin portal
+* Deploying to `werewolves` properly
+* Setting up automatic deployment from `master`
 * Testing app
