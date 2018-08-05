@@ -36,11 +36,21 @@ The routes and their handlers are described in `src/router/routes.js`.
 
 FOr a user to sign up, they need to verify their email. When they sign up they'll get an email that takes them to `https://portal.calhacks.io/verify?code=XXXXXX`. Replacing the hostname with `localhost:8000` will run the email verification locally so your test user can login.
 
+### Policies
+
+In order to standardize authentication and email verification checks throughout the app, some routes have associated policies that run as middleware, to make sure unauthenticated/unverified users can't access any dashboard, application, or team pages. The routes and policies are described in `src/policies/index.js`.
+
+The current ones are:
+
+* `authenticateUser(roles)`: make sure a user is signed in as one of the roles in `roles` before allowing them to visit the route.
+* `emailVerify`: make sure a user has verified their email before allowing them to visit the route.
+
 ## Todos
 
 There's still a lot to be done:
 
 * Styling pages
+* Post-acceptance stuff (RSVP, travel reimbursement, and logistics)
 * Sponsor portal/admin portal
 * Deploying to `werewolves` properly
 * Setting up automatic deployment from `master`
