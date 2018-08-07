@@ -3,7 +3,7 @@ import express from 'express';
 import path from 'path';
 import session from 'express-session';
 import passport from 'passport';
-import formidable from 'express-formidable';
+import formidable from 'formidable';
 import ejsLocals from 'ejs-mate';
 import sass from 'node-sass-middleware';
 
@@ -24,14 +24,25 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static('./dist'));
-app.use(formidable({ maxFileSize: 10 * 1024 * 1024 }));
+
+// express-formidable is really trash so this is the fix
+app.use((req, res, next) => {
+    const form = new formidable.IncomingForm({
+        maxFileSize: 10 * 1024 * 1024
+    });
+    form.once('error', console.log); // TODO: do better
+    form.parse(req, (err, fields, files) => {
+        Object.assign(req, { fields, files });
+
+        // formidable -> body parser
+        req.body = req.fields;
+        next();
+    });
+});
 
 app.engine('ejs', ejsLocals);
 app.set('view engine', 'ejs');
 app.set('views', 'src/client/views');
-
-// formidable -> body parser
-app.use((req, res, next) => { req.body = req.fields; next(); });
 
 passportConfig(passport, models.User);
 

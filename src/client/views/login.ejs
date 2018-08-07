@@ -1,8 +1,23 @@
 <% layout('layout') -%>
-<form id="signin" name="signin" method="post" action="/login">
-    <label htmlFor="email">Email Address</label>
-    <input className="text" name="email" type="text" /><br/>
-    <label htmlFor="password">Password</label>
-    <input name="password" type="password" /><br/>
-    <input className="btn" type="submit" value="Sign In" />
-</form>
+<div class="center-small-box">
+    <form id="signin" name="signin" method="post" action="/login">
+        <h1>Sign In</h1>
+
+        <input
+            class="small"
+            name="email"
+            type="text"
+            placeholder="Email" />
+
+        <input
+            class="small"
+            name="password"
+            type="password"
+            placeholder="Password" />
+
+        <input
+            class="small"
+            type="submit"
+            value="Sign In" />
+    </form>
+</div>
