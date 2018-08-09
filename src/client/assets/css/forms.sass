@@ -1,4 +1,3 @@
-
 @import 'constants'
 
 =format-placeholder($color)
@@ -25,10 +24,13 @@ input[type=text], input[type=password], input[type=email]
     &.medium
         width: $medium-width
 
+    &.half
+        width: 30%
+
     font-size: 1.2em
     padding: 14px
     background-color: $light-blue
-    border-radius: 6px
+    border-radius: 4px
     outline: none
     border: none
     color: $strong-blue
@@ -42,6 +44,53 @@ input[type=submit]
     border-radius: 4px
     width: 80px
     height: 40px
-    color: $light-blue
+    color: $medium-blue
     font-size: 0.8em
     cursor: pointer
+
+.center-small-box 
+    height: 70vh
+    position: relative
+    display: flex
+    flex-direction: column
+    justify-content: flex-end
+
+    form
+        flex-grow: 1
+
+.logo-container
+    width: 84px
+    margin-bottom: 32px
+    position: relative
+
+    img
+        width: 100%
+        position: relative
+
+.horizontal-container
+    display: flex
+    align-items: baseline
+
+    .half
+        flex-grow: 1
+
+        &:first-child
+            margin-right: 14px
+
+.button-container
+    position: absolute
+    width: 100%
+    bottom: 0
+    display: flex
+    justify-content: space-around
+    align-items: center
+    margin-top: 28px; 
+
+    a
+        font-size: 0.8em
+
+
+
+
+
+
