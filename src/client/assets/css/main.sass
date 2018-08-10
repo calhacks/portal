@@ -12,9 +12,14 @@ html, body
     width: 100%
     height: 100%
     overflow: hidden
+    position: relative
+    background-color: $medium-blue
+
+a
+    color: $strong-blue
+    text-decoration: none
 
 #app-container
-    background-color: $medium-blue
     width: 100%
     height: 100%
     overflow: hidden
@@ -23,6 +28,18 @@ html, body
     position: relative
     width: $small-width
     margin: auto
+    z-index: 1
 
     top: 50%
     transform: translateY(-50%)
+
+#nodes-container
+    position: absolute
+    width: 100%
+    bottom: 0
+
+    img
+        position: absolute
+        width: 100%
+        bottom: 0
+

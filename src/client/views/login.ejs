@@ -1,22 +1,31 @@
 <% layout('layout') -%>
 <div class="center-small-box">
-    <h1>Sign In</h1>
+    <div class="logo-container">
+        <img src="./img/text-logo.png" />
+    </div>
     <form id="signin" name="signin" method="post" action="/login">
+        <h1>Log in</h1>
+
         <input
             class="small"
             name="email"
             type="text"
-            placeholder="Email" />
+            placeholder="email" />
 
         <input
             class="small"
             name="password"
             type="password"
-            placeholder="Password" />
+            placeholder="password" />
 
-        <input
-            class="small"
-            type="submit"
-            value="Sign In" />
+        <div
+            class="button-container">
+
+            <a href="./signup">Don't have an account?</a>
+            <input
+                class="small"
+                type="submit"
+                value="Log in" />
+        </div>
     </form>
 </div>
