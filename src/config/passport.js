@@ -57,7 +57,7 @@ export default (passport, User) => {
                 }).then(user => {
                     if (user) {
                         return done(null, false, {
-                            message: 'That email is already taken'
+                            message: 'That email is already taken.'
                         });
                     }
 
@@ -85,9 +85,11 @@ export default (passport, User) => {
 
                     User.create(data).then((newUser, created) => {
                         if (!newUser) {
-                            return done(null, false);
+                            return done(null, false, {
+                                message: 'There was an unexpected error creating an account.'
+                            });
                         } else {
-                            return done(null, newUser);
+                            return done(null, newUser, {});
                         }
                     }).catch(err => console.log(err));
                 });

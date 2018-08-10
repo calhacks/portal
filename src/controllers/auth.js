@@ -23,12 +23,15 @@ export default {
         passport.authenticate('local-signin', (err, user, info) => {
             if (err !== null) {
                 // Something went wrong.
+                req.flash('error', 'There was an unexpected error signing in.');
                 return next(err);
             } else if (!user) {
+                req.flash('error', 'Invalid email/password combination.');
                 return res.redirect('/login');
             } else {
                 req.logIn(user, err => {
                     if (err) {
+                        req.flash('error', 'There was an unexpected error signing in.');
                         return next(err);
                     } else {
                         return res.redirect('/dashboard');
@@ -42,12 +45,15 @@ export default {
         passport.authenticate('local-signup', (err, user, info) => {
             if (err !== null) {
                 // Something went wrong.
+                req.flash('error', JSON.stringify(err));
                 return next(err);
             } else if (!user) {
-                return res.redirect('/login');
+                req.flash('error', info.message);
+                return res.redirect('/signup');
             } else {
                 req.logIn(user, err => {
                     if (err) {
+                        req.flash('error', 'There was an unexpected error creating an account.');
                         return next(err);
                     } else {
                         return res.redirect('/dashboard');

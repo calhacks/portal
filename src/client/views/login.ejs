@@ -26,6 +26,14 @@
                 class="small"
                 type="submit"
                 value="Log in" />
+
         </div>
+
+        <% if (flash.error) { %>
+            <div
+                class="flash-container">
+                <%= flash.error %>
+            </div>
+        <% } %>
     </form>
 </div>

@@ -6,6 +6,7 @@ import passport from 'passport';
 import formidable from 'formidable';
 import ejsLocals from 'ejs-mate';
 import sass from 'node-sass-middleware';
+import flash from 'req-flash';
 
 import router from './router';
 import models from './models';
@@ -21,6 +22,8 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+app.use(flash({ locals: 'flash' }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static('./dist'));
