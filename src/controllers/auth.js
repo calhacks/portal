@@ -79,6 +79,6 @@ export default {
     },
 
     informVerify: (req, res, next) => {
-        return res.render('informVerify');
+        return res.render('informVerify', { user: req.user });
     }
 };

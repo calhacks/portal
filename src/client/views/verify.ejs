@@ -1,10 +1,9 @@
-<% layout -%>
-<div>
-  <%
-  if (success) { %>
-    <div>Success! Your email was verified. You can login now...</div>
-  <% } else { %>
-    <div>There was an error verifying your email.</div>
-  <% }
-  %>
+<% layout('layout') -%>
+<div class="center-small-box">
+    <div class="logo-container">
+        <img src="./img/text-logo.png" />
+    </div>
+
+    <p>Congrats, you've verified your email! You can
+    <a href="/login">login</a> now.</p>
 </div>
