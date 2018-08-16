@@ -49,9 +49,9 @@ The current ones are:
 
 There's still a lot to be done:
 
-* Styling pages
-* Post-acceptance stuff (RSVP, travel reimbursement, and logistics)
+* Styling pages ❗
+* Post-acceptance stuff (RSVP, travel reimbursement, and logistics) ❗
 * Sponsor portal/admin portal
-* Deploying to `werewolves` properly
-* Setting up automatic deployment from `master`
+* Deploying to `werewolves` properly ✅
+* Setting up automatic deployment from `master` ❗
 * Testing app
