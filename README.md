@@ -16,6 +16,8 @@ The app requires the following environment variables:
 * `DB_HOST`: the hostname of the database
 * `SENDGRID_APIKEY`: a valid SendGrid API key
 
+**NOTE:** It looks like Sequelize isn't playing well with MySQL 8's secure authentication protocol. The fix is to switch to legacy authentication (easy to configure with the MySQL prefPane on Mac); branches `dev` and `feature/error-handling` are up-to-date with this change.
+
 Run `yarn start` to start running the application; it will start running on `localhost:8000`.
 
 ## Application
