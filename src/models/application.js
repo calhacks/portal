@@ -1,6 +1,18 @@
 
 export default (sequelize, DataTypes) => {
     const Application = sequelize.define('Application', {
+        phone: {
+            type: DataTypes.STRING,
+            validate: {
+                notEmpty: true
+            }
+        },
+        gender: {
+            type: DataTypes.STRING,
+            validate: {
+                notEmpty: true
+            }
+        },
         school: {
             type: DataTypes.STRING,
             validate: {
@@ -13,64 +25,88 @@ export default (sequelize, DataTypes) => {
                 notEmpty: true
             }
         },
-        dob: {
-            type: DataTypes.DATE,
-            defaultValue: sequelize.NOW,
-            validate: {
-                isDate: true,
-                notEmpty: true
-            }
-        },
-        reimbursement: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
+        major: {
+            type: DataTypes.STRING,
             validate: {
                 notEmpty: true
             }
         },
-        diet: {
+        transportation: {
             type: DataTypes.STRING,
-            allowNull: true,
-        },
-        linkedin: {
-            type: DataTypes.STRING,
-            allowNull: true,
             validate: {
-                isUrl: true
+                notEmpty: true
             }
         },
-        github: {
+        allergies: {
             type: DataTypes.STRING,
-            allowNull: true,
+        },
+        shirt: {
+            type: DataTypes.STRING,
             validate: {
-                isUrl: true
+                notEmpty: true
             }
         },
-        devpost: { // ??
+        links: {
             type: DataTypes.STRING,
-            notEmpty: true,
+        },
+        hackathons: {
+            type: DataTypes.STRING,
             validate: {
-                isUrl: true
+                notEmpty: true
             }
         },
+        hearAbout: {
+            type: DataTypes.STRING,
+            validate: {
+                notEmpty: true
+            }
+        },
+
+        cubstart: {
+            type: DataTypes.STRING,
+            validate: {
+                notEmpty: true
+            }
+        },
+        cubstart1: {
+            type: DataTypes.STRING
+        },
+        cubstart2: {
+            type: DataTypes.STRING
+        },
+        cubstart3: {
+            type: DataTypes.STRING
+        },
+        cubstart4: {
+            type: DataTypes.STRING
+        },
+
         question1: {
-            type: DataTypes.STRING,
-            validate: {
-                notEmpty: true
-            }
+            type: DataTypes.STRING
         },
         question2: {
-            type: DataTypes.STRING,
-            validate: {
-                notEmpty: true
-            }
+            type: DataTypes.STRING
         },
         question3: {
-            type: DataTypes.STRING,
-            validate: {
-                notEmpty: true
-            }
+            type: DataTypes.STRING
         },
+
+        beginner: {
+            type: DataTypes.STRING
+        },
+        question4: {
+            type: DataTypes.STRING
+        },
+
+        status: {
+            type: DataTypes.ENUM(
+                'inreview',
+                'accepted',
+                'rejected',
+                'waitlisted'
+            ),
+            defaultValue: 'inreview'
+        }
     }, {});
 
     Application.associate = models => {

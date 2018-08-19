@@ -43,7 +43,11 @@ export default {
 
     // Submitting a team
     '/team': {
-        get: teamController.teamPage,
-        post: teamController.submitTeam
+        post: teamController.submitTeam,
+    },
+
+    // Leaving a team
+    '/leaveTeam': {
+        post: teamController.leaveTeam,
     }
 };

@@ -7,7 +7,7 @@ export default {
             where: { id: req.user.id },
             include: [
                 { model: Application },
-                { model: Team }
+                { model: Team, include: [User] }
             ]
         }).then(user => {
             res.render('dashboard', { user: user.toJSON() })

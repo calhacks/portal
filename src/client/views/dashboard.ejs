@@ -1,22 +1,79 @@
 <% layout('layout') -%>
 <div class="center-large-box">
-  <h1>Dashboard... Hello <%= user.firstname %>!</h1>
-  <div>
-    <a href="/application">Application</a>
-    <%
-    if (user.Application) { %>
-      <span>You've completed an application! :)</span>
-    <% } else { %>
-      <span>You still have to complete your application!</span>
-    <% } %>
+  <h1>Dashboard</h1>
+  <div id="center-large-box-left">
+    <div id="application-tab-item" class="left-tab selected">
+      Application
+    </div>
+    <div id="team-tab-item" class="left-tab">
+      Team
+    </div>
   </div>
-  <div>
-    <a href="/team">Team</a>
-    <% if (user.Team) { %>
-      <span>You've joined a team! :)</span>
-    <% } else { %>
-      <span>You currently aren't on a team.</span>
-    <% }
-    %>
+  <div id="center-large-box-right">
+
+    <div id="application-tab" class="tab tab-visible">
+      <%
+      if (user.Application) { %>
+        <p>Your application is all set! If you want to make changes, you can still edit your application before the deadline.</p>
+        <div class="button-justified">
+          <button onclick="location.href='/application';">App</button>
+        </div>
+      <% } else { %>
+        <p>You haven't started your application yet! You have until {DEADLINE} to finish.</p>
+        <div class="button-justified">
+          <button onclick="location.href='/application';">Start Application</button>
+        </div>
+      <% } %>
+    </div>
+
+    <div id="team-tab" class="tab">
+      <%
+      if (user.Team) { %>
+        <div>
+          <p>Team name: <b><%= user.Team.name %></b></p>
+          <% for (var u of user.Team.Users) { %>
+            <p class="team-member"><b><%= u.firstname + ' ' + u.lastname + ' (' + u.email + ')' %></b></p>
+          <% } %>
+        </div>
+        <div class="button-justified">
+          <form method="post" action="/leaveTeam">
+            <input type="submit" value="Leave Team" />
+          </form>
+        </div>
+      <% } else { %>
+        <p>To join a team (or create a team if it doesn't exist), type your team name below.</p>
+        <form name="team" method="post" action="/team">
+          <input type="text" name="name"
+            value="<%= user.Team ? user.Team.name : '' %>"
+            placeholder="Team name"/>
+          <input type="submit" value="Submit" />
+        </form>
+      <% } %>
+    </div>
+
   </div>
 </div>
+
+<script>
+var tabNames = ['application', 'team'];
+
+function setTab(tabName) {
+  $(".left-tab").attr("class", "left-tab");
+  $("#" + tabName + "-tab-item").addClass("selected")
+  $(".tab").attr("class", "tab");
+  $("#" + tabName + "-tab").addClass("tab-visible");
+  window.location.hash = tabName;
+}
+
+$(".left-tab").on("click", function() {
+  var tabName = $(this).attr("id").split("-")[0];
+  setTab(tabName);
+});
+
+var hash = window.location.hash.substr(1);
+if (tabNames.indexOf(hash) !== -1) {
+  setTab(hash);
+} else {
+  setTab(tabNames[0]);
+}
+</script>

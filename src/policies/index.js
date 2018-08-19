@@ -22,7 +22,11 @@ export default {
 
     // Can't create/join team without credentials
     '/team': {
-        get: [authenticateUser(['hacker', 'admin']), emailVerify],
         post: [authenticateUser(['hacker', 'admin']), emailVerify],
     },
+
+    // Can't leave team without credentials
+    '/leaveTeam': {
+        post: [authenticateUser(['hacker', 'admin']), emailVerify],
+    }
 };

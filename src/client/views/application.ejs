@@ -1,32 +1,452 @@
 <% layout('layout') -%>
-<div>
-  <h1>Application :)</h1>
-  <form action="/application" method="post" encType='multipart/form-data'>
-    <%
-    var fieldNameMapping = {
-      school: 'School',
-      dob: 'DOB',
-      reimbursement: 'Reimbursement',
-      diet: 'Diet',
-      linkedin: 'Linkedin',
-      github: 'Github',
-      devpost: 'Devpost',
-      question1: 'Q1',
-      question2: 'Q2',
-      question3: 'Q3'
+<div class="app-box-scroll-wrapper">
+  <div class="app-box">
+    <div class="app-box-content">
+      <div class="app-box-overlay">
+        <div class="app-box-overlay-bottom">
+        </div>
+      </div>
+      <h1>Cal Hacks 5.0 Application</h1>
+      <p>We want to get to know you better! Fill in the form to the best of your ability. </p>
+      <form action="/application" id="application" method="post" encType='multipart/form-data'>
+
+        <%
+          var data = {};
+          if (user.Application) {
+            data = user.Application;
+          }
+        %>
+
+        <h2>Part 1: Demographic Questions</h2>
+
+        <h3>What's your phone number? <span class="required">*</span></h3>
+        <input
+          type="text"
+          name="phone"
+          id="phone"
+          value="<%= data.phone || '' %>"
+          />
+        <p class="form-error" id="phone-error"></p>
+
+        <h3>What is your gender? <span class="required">*</span></h3>
+        <select id="gender" name="gender">
+          <%
+            var val = data.gender || ''
+            genderOpts = {
+              '': 'Select one',
+              'male': 'Male',
+              'female': 'Female',
+              'other': 'Other',
+              'none': 'Prefer not to disclose'
+            }
+
+            for (var key of Object.keys(genderOpts)) {
+              if (val == key) { %>
+
+                <option value="<%= key %>" selected><%= genderOpts[key] %></option>
+
+              <% } else { %>
+
+                <option value="<%= key %>"><%= genderOpts[key] %></option>
+
+              <% }
+            }
+          %>
+        </select>
+        <p class="form-error" id="gender-error"></p>
+
+        <h3>What school do you currently attend? <span class="required">*</span></h3>
+        <input id="school" type="text" value="<%= data.school || '' %>" />
+        <p class="form-error" id="school-error"></p>
+
+        <h3>What year in school? <span class="required">*</span></h3>
+        <select id="year" name="year">
+          <%
+            var val = data.year || '';
+            yearOpts = {
+              '': 'Select one',
+              'freshman': 'Freshman',
+              'sophomore': 'Sophomore',
+              'junior': 'Junior',
+              'senior': 'Senior',
+              'other': 'Other'
+            };
+
+            for (var key of Object.keys(yearOpts)) {
+              if (val == key) { %>
+
+                <option value="<%= key %>" selected><%= yearOpts[key] %></option>
+
+              <% } else { %>
+
+                <option value="<%= key %>"><%= yearOpts[key] %></option>
+
+              <% }
+            }
+          %>
+        </select>
+        <p class="form-error" id="year-error"></p>
+
+        <h3>What are you studying? Include minors if necessary. <span class="required">*</span></h3>
+        <input id="major" type="text" value="<%= data.major || '' %>" />
+        <p class="form-error" id="major-error"></p>
+
+        <h3>Will you require transportation to get to Cal Hacks? <span class="required">*</span></h3>
+        <select id="transportation" name="transportation">
+          <%
+            var val = data.transportation || '';
+            transportationOpts = {
+              '': 'Select one',
+              'yes': 'Yes',
+              'no': 'No'
+            };
+
+            for (var key of Object.keys(transportationOpts)) {
+              if (val == key) { %>
+
+                <option value="<%= key %>" selected><%= transportationOpts[key] %></option>
+
+              <% } else { %>
+
+                <option value="<%= key %>"><%= transportationOpts[key] %></option>
+
+              <% }
+            }
+          %>
+        </select>
+        <p class="form-error" id="transportation-error"></p>
+
+        <h3>List food allergies, if you have any.</h3>
+        <input id="allergies" type="text" value="<%= data.allergies || '' %>" />
+
+        <h3>What's your T-shirt size? <span class="required">*</span></h3>
+        <select id="shirt" name="shirt">
+          <%
+            var val = data.shirt || '';
+            shirtOpts = {
+              '': 'Select one',
+              'xs': 'XS',
+              's': 'S',
+              'm': 'M',
+              'l': 'L',
+              'xl': 'XL'
+            };
+
+            for (var key of Object.keys(shirtOpts)) {
+              if (val == key) { %>
+
+                <option value="<%= key %>" selected><%= shirtOpts[key] %></option>
+
+              <% } else { %>
+
+                <option value="<%= key %>"><%= shirtOpts[key] %></option>
+
+              <% }
+            }
+          %>
+        </select>
+        <p class="form-error" id="shirt-error"></p>
+
+        <h2>Part 2: More About You</h2>
+
+        <h3>Upload your resume: <span class="required">*</span></h3>
+        <input type='file' onChange="" name='resume' id='resume' />
+        <label for="resume">
+          Upload
+        </label>
+        <p class="form-error" id="resume-error"></p>
+
+        <h3>Any links for us? (Linkedin, GitHub, personal website, Devpost, etc.)</h3>
+        <textarea id="links" value="<%= data.links || '' %>"></textarea>
+
+        <h3>How many hackathons have you been to before? If this would be your first, that's okay! <span class="required">*</span></h3>
+        <input id="hackathons" type="text" value="<%= data.hackathons || '' %>" />
+        <p class="form-error" id="hackathons-error"></p>
+
+        <h3>How did you hear about Cal Hacks? <span class="required">*</span></h3>
+        <input id="hearAbout" type="text" value="<%= data.hearAbout || '' %>" />
+        <p class="form-error" id="hearAbout-error"></p>
+
+        <h2>Part 3: Essays</h2>
+
+        <h3>Would you like to be considered for CubStart? CubStart is for hackers attending their first hackathon, and acceptance to CubStart guarantees your acceptance to Cal Hacks. <span class="required">*</span></h3>
+        <select id="cubstart" name="cubstart">
+          <%
+            var val = data.cubstart || '';
+            cubstartOpts = {
+              '': 'Select one',
+              'yes': 'Yes',
+              'no': 'No'
+            };
+
+            for (var key of Object.keys(cubstartOpts)) {
+              if (val == key) { %>
+
+                <option value="<%= key %>" selected><%= cubstartOpts[key] %></option>
+
+              <% } else { %>
+
+                <option value="<%= key %>"><%= cubstartOpts[key] %></option>
+
+              <% }
+            }
+          %>
+        </select>
+        <p class="form-error" id="cubstart-error"></p>
+
+        <!-- For cubstart only -->
+
+        <span id="cubstart-questions">
+          <h3>Tell us the story of how you discovered computer science, design, or your special area of interest.  How do your individual perspectives and identity contribute to what "hacking" means to you? <span class="required">*</span></h3>
+          <textarea id="cubstart1" rows="5" value="<%= data.cubstart1 || '' %>"></textarea>
+          <p class="form-error" id="cubstart1-error"></p>
+
+          <h3>Describe something that you created (technical or non-technical, it doesn’t matter!), and elaborate on how you made it.  What did you learn?  Why did you love building it? <span class="required">*</span></h3>
+          <textarea id="cubstart2" rows="5" value="<%= data.cubstart2 || '' %>"></textarea>
+          <p class="form-error" id="cubstart2-error"></p>
+
+          <h3>What’s the dream innovation you hope to create within your lifetime?  If you had to bring it into effect somehow, what are some of the roadblocks you would expect and how would you account for them? <span class="required">*</span></h3>
+          <textarea id="cubstart3" rows="5" value="<%= data.cubstart3 || '' %>"></textarea>
+          <p class="form-error" id="cubstart3-error"></p>
+
+          <h3>What programming experience do you have (if any)? <span class="required">*</span></h3>
+          <textarea id="cubstart4" rows="5" value="<%= data.cubstart4 || '' %>"></textarea>
+          <p class="form-error" id="cubstart4-error"></p>
+        </span>
+
+        <!-- For all non-cubstart people -->
+
+        <span id="regular-questions">
+          <h3>Hacking is building, breaking and throwing stuff together to solve the world’s challenges. What makes you want to hack? <span class="required">*</span></h3>
+          <textarea id="q1" rows="5" value="<%= data.q1 || '' %>"></textarea>
+          <p class="form-error" id="q1-error"></p>
+
+          <h3>Describe something that you created (technical or non-technical, it doesn’t matter!), and elaborate on how you made it.  What did you learn?  Why did you love building it? <span class="required">*</span></h3>
+          <textarea id="q2" rows="5" value="<%= data.q2 || '' %>"></textarea>
+          <p class="form-error" id="q2-error"></p>
+
+          <h3>What sorts of questions do you find most intriguing? Tell us about an interesting problem you’d like to solve and why! <span class="required">*</span></h3>
+          <textarea id="q3" rows="5" value="<%= data.q3 || '' %>"></textarea>
+          <p class="form-error" id="q3-error"></p>
+
+          <h3>Do you consider yourself a beginner hacker? <span class="required">*</span></h3>
+          <select id="beginner" name="beginner">
+            <%
+              var val = data.beginner || '';
+              beginnerOpts = {
+                '': 'Select one',
+                'yes': 'Yes',
+                'no': 'No'
+              };
+
+              for (var key of Object.keys(beginnerOpts)) {
+                if (val == key) { %>
+
+                  <option value="<%= key %>" selected><%= beginnerOpts[key] %></option>
+
+                <% } else { %>
+
+                  <option value="<%= key %>"><%= beginnerOpts[key] %></option>
+
+                <% }
+              }
+            %>
+          </select>
+          <p class="form-error" id="beginner-error"></p>
+
+          <!-- Non-cubstart beginner only -->
+          <span id="regular-beginner-questions">
+            <h3>What programming experience do you have (if any)? <span class="required">*</span></h3>
+            <textarea id="q4" rows="5" value="<%= data.q4 || '' %>"></textarea>
+            <p class="form-error" id="q4-error"></p>
+          </span>
+        </span>
+
+        <input type="submit" value="Save app" />
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+// Change which questions are displayed based on user input
+validationErrors = [];
+
+function redisplay() {
+  if ($("#cubstart").val() == "yes") {
+    $("#cubstart-questions").css("display", "block");
+    $("#regular-questions").css("display", "none");
+  } else if ($("#cubstart").val() == "no") {
+    $("#cubstart-questions").css("display", "none");
+    $("#regular-questions").css("display", "block");
+  } else {
+    $("#cubstart-questions").css("display", "none");
+    $("#regular-questions").css("display", "none");
+  }
+
+  if ($("#beginner").val() == "yes") {
+    $("#regular-beginner-questions").css("display", "block");
+  } else {
+    $("#regular-beginner-questions").css("display", "none");
+  }
+
+  $(".form-error").css("display", "none");
+  for (var error of validationErrors) {
+    $(error.field + "-error").css("display", "block");
+    $(error.field + "-error").text(error.reason);
+  }
+}
+
+var data = JSON.parse("<%= JSON.stringify(data) %>");
+
+// Return a list of invalid fields
+function validate() {
+  // Basic requried fields.
+  // If field is empty (or whitespace) it's considered invalid
+  result = [];
+  var requiredFields = [
+    'phone',
+    'gender',
+    'school',
+    'year',
+    'major',
+    'transportation',
+    'shirt',
+    'cubstart',
+    'hackathons',
+    'hearAbout'
+  ]
+
+  for (var field of requiredFields) {
+    if (!$("#" + field).val() || $("#" + field).val().trim() == '') {
+      result.push({
+        field: "#" + field,
+        reason: "Field must not be left blank."
+      });
+    }
+  }
+
+  // Resume validation. We have to make sure
+  // 1. it's under the file size limit (10mb?)
+  // 2. it's been uploaded now (or before)
+  if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+    alert('The File APIs are not fully supported in this browser.');
+    return;
+  }
+
+  var input = $("#resume")[0];
+  var file = input.files[0];
+  if (!file) {
+    // It's okay if the user didn't upload a resume,
+    // as long as they did before (in which case it would've been required.)
+    // So we just check if they've submitted an app before.
+    if (Object.keys(data).length === 0) {
+      // App doesn't exist
+      result.push({
+        field: "#resume",
+        reason: "You must upload a resume."
+      });
+    }
+  } else {
+    // If user uploads a resume, still have to make sure its under 10mb
+    if (file.size > 10 * 1024 * 1024) {
+      result.push({
+        field: '#resume',
+        reason: 'Your resume must be under 10MB.'
+      });
+    }
+  }
+
+  // Other conditional validations.
+  // If cubstart is selected, all cubstart questions must be filled.
+  // Additionally they need to meet the word count requirements.
+  if ($("#cubstart").val() == 'yes') {
+    requiredCubstartFields = {
+      'cubstart1': 200,
+      'cubstart2': 200,
+      'cubstart3': 200,
+      'cubstart4': 50
     };
 
-    for (var key in fieldNameMapping) { %>
-      <div 'app-field'>
-          <p><%= fieldNameMapping[key] %></p>
-          <input
-              type="text"
-              value="<%= user.Application ? user.Application[key] : '' %>"
-              name="<%= key %>" />
-      </div>
-    <% }
-    %>
-    <p>Resume:</p> <input type='file' onChange={this.validateResume.bind(this)} name='resume' id='resume' />
-    <button type="submit">Save App</button>
-  </form>
-</div>
+
+    for (var cubstartField in requiredCubstartFields) {
+      var val = $("#" + cubstartField).val();
+      var wc = val.trim().split(' ').length;
+      var maxWc = requiredCubstartFields[cubstartField];
+      if (val == '') {
+        result.push({
+          field: "#" + cubstartField,
+          reason: "Field must not be blank."
+        });
+      } else if (wc > maxWc) {
+        result.push({
+          field: "#" + cubstartField,
+          reason: "Response must not exceed " + maxWc + " words."
+        });
+      }
+    }
+  } else {
+    // If cubstart isn't selected, the other questions
+    // need to be filled in.
+    requiredRegularFields = {
+      'q1': 150,
+      'q2': 150,
+      'q3': 150,
+      'beginner': 10
+    };
+
+    for (var regularField in requiredRegularFields) {
+      var val = $("#" + regularField).val();
+      var wc = val.trim().split(' ').length;
+      var maxWc = requiredRegularFields[regularField];
+      if (val == '') {
+        result.push({
+          field: "#" + regularField,
+          reason: "Field must not be blank."
+        });
+      } else if (wc > maxWc) {
+        result.push({
+          field: "#" + regularField,
+          reason: "Response must not exceed " + maxWc + " words."
+        });
+      }
+    }
+
+    // Lastly, if the beginner box is 'yes', the
+    // regular beginner question needs to be filled in properly
+    if ($("#beginner").val() == 'yes') {
+      if ($("#q4").val().trim() == '') {
+        result.push({
+          field: "#q4",
+          reason: "Field must not be left blank."
+        });
+      } else if ($("#q4").val().trim().split(" ").length > 50){
+        result.push({
+          field: "#q4",
+          reason: "Response must not exceed 50 words."
+        });
+      }
+    }
+  }
+
+  return result;
+}
+
+redisplay();
+
+$("#cubstart").on("change", redisplay);
+$("#beginner").on("change", redisplay);
+$("#application").on("submit", function(e) {
+  validationErrors = validate();
+  console.log(validationErrors);
+  if (validationErrors.length !== 0){
+    // Validations have passed; submit the form
+    redisplay();
+    e.preventDefault();
+    return false;
+  } else {
+    console.log('fajdhf')
+    return true;
+  }
+});
+</script>
