@@ -45,6 +45,7 @@ export default {
             } else {
                 user.Application.updateAttributes(req.body).then(newApp => {
                     // App has been saved.
+                    console.log(req.body)
                     saveFile().then(() => {
                         console.log('File moved successfully!');
                         res.redirect('/dashboard');
