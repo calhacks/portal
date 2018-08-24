@@ -170,7 +170,7 @@
         <h2>Part 3: Essays</h2>
 
         <h3>Would you like to be considered for CubStart? CubStart is for hackers attending their first hackathon, and acceptance to CubStart guarantees your acceptance to Cal Hacks. <span class="required">*</span></h3>
-        <select id="cubstart" name="cubstart">
+        <select id="cubstart" name="cubstart" onchange="redisplay()">
           <%
             var val = data.cubstart || '';
             cubstartOpts = {
@@ -230,7 +230,7 @@
           <p class="form-error" id="q3-error"></p>
 
           <h3>Do you consider yourself a beginner hacker? <span class="required">*</span></h3>
-          <select id="beginner" name="beginner">
+          <select id="beginner" name="beginner" onchange="redisplay()">
             <%
               var val = data.beginner || '';
               beginnerOpts = {
@@ -296,7 +296,7 @@ function redisplay() {
     $(error.field + "-error").text(error.reason);
   }
 }
-
+redisplay();
 var data = JSON.parse("<%= JSON.stringify(data) %>");
 
 // Return a list of invalid fields
