@@ -67,7 +67,7 @@ fs.unlink('/srv/apps/hackthebay/hackthebay.sock', () => {
 });
 
 app.listen('/srv/apps/hackthebay/hackthebay.sock', () => {
-    console.log('listening on socket');
+    console.log('listening on unix socket');
     
     fs.chmodSync('/srv/apps/hackthebay/hackthebay.sock', '777');
     console.log('set permissions of socket to 777');
