@@ -51,7 +51,8 @@
     "sequelize": "^4.38.0",
     "sqlite3": "^4.0.0",
     "style-loader": "^0.21.0",
-    "sugarss": "^1.0.1"
+    "sugarss": "^1.0.1",
+    "yarn": "^1.9.4"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

@@ -2,9 +2,6 @@
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
-/******/ 	// object to store loaded and loading wasm modules
-/******/ 	var installedWasmModules = {};
-/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/
@@ -39,17 +36,32 @@
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
 /******/ 	};
 /******/
 /******/ 	// define __esModule on exports
 /******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
 /******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -67,9 +79,6 @@
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
 /******/
-/******/ 	// object with all compiled WebAssembly.Modules
-/******/ 	__webpack_require__.w = {};
-/******/
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 0);
@@ -85,7 +94,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nvar _express = __webpack_require__(/*! express */ \"express\");\n\nvar _express2 = _interopRequireDefault(_express);\n\nvar _path = __webpack_require__(/*! path */ \"path\");\n\nvar _path2 = _interopRequireDefault(_path);\n\nvar _expressSession = __webpack_require__(/*! express-session */ \"express-session\");\n\nvar _expressSession2 = _interopRequireDefault(_expressSession);\n\nvar _passport = __webpack_require__(/*! passport */ \"passport\");\n\nvar _passport2 = _interopRequireDefault(_passport);\n\nvar _formidable = __webpack_require__(/*! formidable */ \"formidable\");\n\nvar _formidable2 = _interopRequireDefault(_formidable);\n\nvar _ejsMate = __webpack_require__(/*! ejs-mate */ \"ejs-mate\");\n\nvar _ejsMate2 = _interopRequireDefault(_ejsMate);\n\nvar _nodeSassMiddleware = __webpack_require__(/*! node-sass-middleware */ \"node-sass-middleware\");\n\nvar _nodeSassMiddleware2 = _interopRequireDefault(_nodeSassMiddleware);\n\nvar _reqFlash = __webpack_require__(/*! req-flash */ \"req-flash\");\n\nvar _reqFlash2 = _interopRequireDefault(_reqFlash);\n\nvar _router = __webpack_require__(/*! ./router */ \"./src/router/index.js\");\n\nvar _router2 = _interopRequireDefault(_router);\n\nvar _models = __webpack_require__(/*! ./models */ \"./src/models/index.js\");\n\nvar _models2 = _interopRequireDefault(_models);\n\nvar _passport3 = __webpack_require__(/*! ./config/passport */ \"./src/config/passport.js\");\n\nvar _passport4 = _interopRequireDefault(_passport3);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar app = (0, _express2.default)();\n\n__webpack_require__(/*! babel-register */ \"babel-register\")({ presets: ['env'] });\n\napp.use((0, _expressSession2.default)({\n    secret: 'keyboard cat',\n    resave: true,\n    saveUninitialized: true\n}));\napp.use((0, _reqFlash2.default)({ locals: 'flash' }));\n\napp.use(_passport2.default.initialize());\napp.use(_passport2.default.session());\napp.use(_express2.default.static('./dist'));\n\n// express-formidable is really trash so this is the fix\napp.use(function (req, res, next) {\n    var form = new _formidable2.default.IncomingForm({\n        maxFileSize: 10 * 1024 * 1024\n    });\n    form.once('error', console.log); // TODO: do better\n    form.parse(req, function (err, fields, files) {\n        Object.assign(req, { fields: fields, files: files });\n\n        // formidable -> body parser\n        req.body = req.fields;\n        next();\n    });\n});\n\napp.engine('ejs', _ejsMate2.default);\napp.set('view engine', 'ejs');\napp.set('views', 'src/client/views');\n\n(0, _passport4.default)(_passport2.default, _models2.default.User);\n\napp.use((0, _nodeSassMiddleware2.default)({\n    src: 'src/client/assets',\n    dest: 'dist/assets',\n    indentedSyntax: true,\n    debug: true\n}));\napp.use(_express2.default.static('dist/assets'));\napp.use('/', _router2.default);\n\napp.listen(8000, function () {\n    console.log('listening on 8000');\n});\n\n//# sourceURL=webpack:///./src/app.js?");
+eval("\n\nvar _express = __webpack_require__(/*! express */ \"express\");\n\nvar _express2 = _interopRequireDefault(_express);\n\nvar _path = __webpack_require__(/*! path */ \"path\");\n\nvar _path2 = _interopRequireDefault(_path);\n\nvar _expressSession = __webpack_require__(/*! express-session */ \"express-session\");\n\nvar _expressSession2 = _interopRequireDefault(_expressSession);\n\nvar _passport = __webpack_require__(/*! passport */ \"passport\");\n\nvar _passport2 = _interopRequireDefault(_passport);\n\nvar _formidable = __webpack_require__(/*! formidable */ \"formidable\");\n\nvar _formidable2 = _interopRequireDefault(_formidable);\n\nvar _ejsMate = __webpack_require__(/*! ejs-mate */ \"ejs-mate\");\n\nvar _ejsMate2 = _interopRequireDefault(_ejsMate);\n\nvar _nodeSassMiddleware = __webpack_require__(/*! node-sass-middleware */ \"node-sass-middleware\");\n\nvar _nodeSassMiddleware2 = _interopRequireDefault(_nodeSassMiddleware);\n\nvar _reqFlash = __webpack_require__(/*! req-flash */ \"req-flash\");\n\nvar _reqFlash2 = _interopRequireDefault(_reqFlash);\n\nvar _router = __webpack_require__(/*! ./router */ \"./src/router/index.js\");\n\nvar _router2 = _interopRequireDefault(_router);\n\nvar _models = __webpack_require__(/*! ./models */ \"./src/models/index.js\");\n\nvar _models2 = _interopRequireDefault(_models);\n\nvar _passport3 = __webpack_require__(/*! ./config/passport */ \"./src/config/passport.js\");\n\nvar _passport4 = _interopRequireDefault(_passport3);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar fs = __webpack_require__(/*! fs */ \"fs\");\n\nvar app = (0, _express2.default)();\n\n__webpack_require__(/*! babel-register */ \"babel-register\")({ presets: ['env'] });\n\napp.use((0, _expressSession2.default)({\n    secret: 'keyboard cat',\n    resave: true,\n    saveUninitialized: true\n}));\napp.use((0, _reqFlash2.default)({ locals: 'flash' }));\n\napp.use(_passport2.default.initialize());\napp.use(_passport2.default.session());\napp.use(_express2.default.static('./dist'));\n\n// express-formidable is really trash so this is the fix\napp.use(function (req, res, next) {\n    var form = new _formidable2.default.IncomingForm({\n        maxFileSize: 10 * 1024 * 1024\n    });\n    form.once('error', console.log); // TODO: do better\n    form.parse(req, function (err, fields, files) {\n        Object.assign(req, { fields: fields, files: files });\n\n        // formidable -> body parser\n        req.body = req.fields;\n        next();\n    });\n});\n\napp.engine('ejs', _ejsMate2.default);\napp.set('view engine', 'ejs');\napp.set('views', 'src/client/views');\n\n(0, _passport4.default)(_passport2.default, _models2.default.User);\n\napp.use((0, _nodeSassMiddleware2.default)({\n    src: 'src/client/assets',\n    dest: 'dist/assets',\n    indentedSyntax: true,\n    debug: true\n}));\napp.use(_express2.default.static('dist/assets'));\napp.use('/', _router2.default);\n\nfs.unlink('/srv/apps/hackthebay/hackthebay.sock', function () {\n    console.log('cleared old socket');\n});\n\napp.listen('/srv/apps/hackthebay/hackthebay.sock', function () {\n    console.log('listening on socket');\n\n    fs.chmodSync('/srv/apps/hackthebay/hackthebay.sock', '777');\n    console.log('set permissions of socket to 777');\n});\n\n//# sourceURL=webpack:///./src/app.js?");
 
 /***/ }),
 
@@ -288,7 +297,7 @@ eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = __webpack_require__(/*! /Users/eric/Github/portal/src/app.js */\"./src/app.js\");\n\n\n//# sourceURL=webpack:///multi_./src/app.js?");
+eval("module.exports = __webpack_require__(/*! /home/h/ha/hackthebay/portal/src/app.js */\"./src/app.js\");\n\n\n//# sourceURL=webpack:///multi_./src/app.js?");
 
 /***/ }),
 
@@ -377,6 +386,17 @@ eval("module.exports = require(\"express-session\");\n\n//# sourceURL=webpack://
 /***/ (function(module, exports) {
 
 eval("module.exports = require(\"formidable\");\n\n//# sourceURL=webpack:///external_%22formidable%22?");
+
+/***/ }),
+
+/***/ "fs":
+/*!*********************!*\
+  !*** external "fs" ***!
+  \*********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"fs\");\n\n//# sourceURL=webpack:///external_%22fs%22?");
 
 /***/ }),
 

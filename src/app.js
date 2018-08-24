@@ -13,6 +13,8 @@ import models from './models';
 
 import passportConfig from './config/passport';
 
+var fs = require('fs');
+
 const app = express();
 
 require('babel-register')({ presets: ['env'] })
@@ -60,6 +62,13 @@ app.use(
 app.use(express.static('dist/assets'));
 app.use('/', router);
 
-app.listen(8000, () => {
-    console.log('listening on 8000');
+fs.unlink('/srv/apps/hackthebay/hackthebay.sock', () => {
+	console.log('cleared old socket');
+});
+
+app.listen('/srv/apps/hackthebay/hackthebay.sock', () => {
+    console.log('listening on socket');
+    
+    fs.chmodSync('/srv/apps/hackthebay/hackthebay.sock', '777');
+    console.log('set permissions of socket to 777');
 });
