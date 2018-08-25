@@ -2,100 +2,100 @@
 export default (sequelize, DataTypes) => {
     const Application = sequelize.define('Application', {
         phone: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             validate: {
                 notEmpty: true
             }
         },
         gender: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             validate: {
                 notEmpty: true
             }
         },
         school: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             validate: {
                 notEmpty: true
             }
         },
         year: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             validate: {
                 notEmpty: true
             }
         },
         major: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             validate: {
                 notEmpty: true
             }
         },
         transportation: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             validate: {
                 notEmpty: true
             }
         },
         allergies: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
         },
         shirt: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             validate: {
                 notEmpty: true
             }
         },
         links: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
         },
         hackathons: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             validate: {
                 notEmpty: true
             }
         },
         hearAbout: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             validate: {
                 notEmpty: true
             }
         },
 
         cubstart: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             validate: {
                 notEmpty: true
             }
         },
         cubstart1: {
-            type: DataTypes.STRING
+            type: DataTypes.TEXT
         },
         cubstart2: {
-            type: DataTypes.STRING
+            type: DataTypes.TEXT
         },
         cubstart3: {
-            type: DataTypes.STRING
+            type: DataTypes.TEXT
         },
         cubstart4: {
-            type: DataTypes.STRING
+            type: DataTypes.TEXT
         },
 
         question1: {
-            type: DataTypes.STRING
+            type: DataTypes.TEXT
         },
         question2: {
-            type: DataTypes.STRING
+            type: DataTypes.TEXT
         },
         question3: {
-            type: DataTypes.STRING
+            type: DataTypes.TEXT
         },
 
         beginner: {
-            type: DataTypes.STRING
+            type: DataTypes.TEXT
         },
         question4: {
-            type: DataTypes.STRING
+            type: DataTypes.TEXT
         },
 
         status: {
