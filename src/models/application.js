@@ -94,10 +94,6 @@ export default (sequelize, DataTypes) => {
         beginner: {
             type: DataTypes.TEXT
         },
-        question4: {
-            type: DataTypes.TEXT
-        },
-
         status: {
             type: DataTypes.ENUM(
                 'inreview',
