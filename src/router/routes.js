@@ -29,7 +29,14 @@ export default {
     '/inform_verify': {
         get: authController.informVerify
     },
-
+    '/reset_password': {
+      get: authController.resetPassword,
+      post: authController.submitReset
+    },
+    '/reset': {
+      get: authController.changePassword,
+      post: authController.submitPassword
+    },
     // Dashboard
     '/dashboard': {
         get: dashboardController.dashboard

@@ -31,6 +31,12 @@ export default (sequelize, DataTypes) => {
         role: {
             type: DataTypes.ENUM('hacker', 'admin'),
             notEmpty: true
+        },
+        resetPasswordCode: {
+            type: DataTypes.STRING
+        },
+        resetPasswordExpiration: {
+          type: DataTypes.DATE
         }
     }, {});
 

@@ -1,4 +1,4 @@
-
+require('dotenv').config();
 var Sequelize = require('sequelize');
 var config = require('../config/sequelize').default[process.env.NODE_ENV || 'development'];
 
