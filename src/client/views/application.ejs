@@ -168,54 +168,8 @@
         <p class="form-error" id="hearAbout-error"></p>
 
         <h2>Part 3: Essays</h2>
-
-        <h3>Would you like to be considered for CubStart? CubStart is for hackers attending their first hackathon, and acceptance to CubStart guarantees your acceptance to Cal Hacks. <span class="required">*</span></h3>
-        <select id="cubstart" name="cubstart" onchange="redisplay()">
-          <%
-            var val = data.cubstart || '';
-            cubstartOpts = {
-              '': 'Select one',
-              'yes': 'Yes',
-              'no': 'No'
-            };
-
-            for (var key of Object.keys(cubstartOpts)) {
-              if (val == key) { %>
-
-                <option value="<%= key %>" selected><%= cubstartOpts[key] %></option>
-
-              <% } else { %>
-
-                <option value="<%= key %>"><%= cubstartOpts[key] %></option>
-
-              <% }
-            }
-          %>
-        </select>
-        <p class="form-error" id="cubstart-error"></p>
-
-        <!-- For cubstart only -->
-
-        <span id="cubstart-questions">
-          <h3>Tell us the story of how you discovered computer science, design, or your special area of interest.  How do your individual perspectives and identity contribute to what "hacking" means to you? <span class="required">*</span></h3>
-          <textarea id="cubstart1" name="cubstart1" rows="5"><%= data.cubstart1 || '' %></textarea>
-          <p class="form-error" id="cubstart1-error"></p>
-
-          <h3>Describe something that you created (technical or non-technical, it doesn’t matter!), and elaborate on how you made it.  What did you learn?  Why did you love building it? <span class="required">*</span></h3>
-          <textarea id="cubstart2" name="cubstart2" rows="5"><%= data.cubstart2 || '' %></textarea>
-          <p class="form-error" id="cubstart2-error"></p>
-
-          <h3>What’s the dream innovation you hope to create within your lifetime?  If you had to bring it into effect somehow, what are some of the roadblocks you would expect and how would you account for them? <span class="required">*</span></h3>
-          <textarea id="cubstart3" name="cubstart3" rows="5"><%= data.cubstart3 || '' %></textarea>
-          <p class="form-error" id="cubstart3-error"></p>
-
-          <h3>What programming experience do you have (if any)? <span class="required">*</span></h3>
-          <textarea id="cubstart4" name="cubstart4" rows="5"><%= data.cubstart4 || '' %></textarea>
-          <p class="form-error" id="cubstart4-error"></p>
-        </span>
-
+        
         <!-- For all non-cubstart people -->
-
         <span id="regular-questions">
           <h3>Describe something that you created (technical or non-technical, it doesn’t matter!), and elaborate on how you made it.  What did you learn?  Why did you love building it? <span class="required">*</span></h3>
           <textarea id="question1" name="question1" rows="5"><%= data.question1 || '' %></textarea>
@@ -277,7 +231,7 @@ function redisplay() {
     $("#regular-questions").css("display", "block");
   } else {
     $("#cubstart-questions").css("display", "none");
-    $("#regular-questions").css("display", "none");
+    $("#regular-questions").css("display", "block");
   }
 
   if ($("#beginner").val() == "yes") {
@@ -296,7 +250,7 @@ redisplay();
 // var data = JSON.parse("<%= JSON.stringify(data) %>");
 var data = JSON.stringify("<%= data %>")
 data = JSON.parse(data)
-console.log(Object.keys(data).length)
+// console.log(Object.keys(data).length)
 
 // Return a list of invalid fields
 function validate() {
@@ -311,7 +265,7 @@ function validate() {
     'major',
     'transportation',
     'shirt',
-    'cubstart',
+    // 'cubstart',
     'hackathons',
     'hearAbout'
   ]
@@ -443,7 +397,7 @@ $("#application").on("submit", function(e) {
     e.preventDefault();
     return false;
   } else {
-    console.log('fajdhf')
+    console.log('All Good')
     return true;
   }
 });

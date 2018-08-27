@@ -4,6 +4,7 @@ import authController from '../controllers/auth';
 import dashboardController from '../controllers/dashboard';
 import applicationController from '../controllers/application';
 import teamController from '../controllers/team';
+import cubstartController from '../controllers/cubstart';
 
 export default {
     // Home route
@@ -39,6 +40,12 @@ export default {
     '/application': {
         get: applicationController.appPage,
         post: applicationController.submitApp
+    },
+
+    // cubstart application
+    '/cubstart': {
+        get: cubstartController.cubstart,
+        post: cubstartController.submitApp
     },
 
     // Submitting a team
