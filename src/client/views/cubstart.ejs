@@ -10,12 +10,11 @@
       <form action="/cubstart" id="cubstart" method="post" encType='multipart/form-data'>
         <%
           var data = {};
-          data['cubstart'] = 'yes';
           if (user.Application) {
             data = user.Application;
           }
         %>
-        
+
         <!-- For cubstart only -->
         <span id="cubstart-questions">
           <h3>Tell us the story of how you discovered computer science, design, or your special area of interest.  How do your individual perspectives and identity contribute to what "hacking" means to you? <span class="required">*</span></h3>
