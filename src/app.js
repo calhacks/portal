@@ -13,12 +13,12 @@ import models from './models';
 
 import passportConfig from './config/passport';
 
+
 var fs = require('fs');
 
 const app = express();
 
 require('babel-register')({ presets: ['env'] })
-
 app.use(session({
     secret: 'keyboard cat',
     resave: true,
@@ -61,14 +61,16 @@ app.use(
 );
 app.use(express.static('dist/assets'));
 app.use('/', router);
-
+/*
 fs.unlink('/srv/apps/hackthebay/hackthebay.sock', () => {
 	console.log('cleared old socket');
 });
 
 app.listen('/srv/apps/hackthebay/hackthebay.sock', () => {
+*/
+app.listen(8000, () => {
     console.log('listening on unix socket');
-    
-    fs.chmodSync('/srv/apps/hackthebay/hackthebay.sock', '777');
+
+    /*fs.chmodSync('/srv/apps/hackthebay/hackthebay.sock', '777');*/
     console.log('set permissions of socket to 777');
 });
