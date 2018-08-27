@@ -158,10 +158,14 @@ export default {
             }
         }).then(result => {
             if (result[0] == 0) {
-                res.render('verify', { success: false });
+                res.render('newPassword', { success: false });
             } else {
-                res.render('verify', { success: true });
+                res.render('newPassword', { success: true });
             }
         });
+    },
+
+    newPassword: (req, res, next) => {
+      return res.render('newPassword');
     }
 };

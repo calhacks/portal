@@ -37,6 +37,9 @@ export default {
       get: authController.changePassword,
       post: authController.submitPassword
     },
+    '/newPassword': {
+      get: authController.newPassword
+    },
     // Dashboard
     '/dashboard': {
         get: dashboardController.dashboard
