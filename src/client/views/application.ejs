@@ -154,7 +154,7 @@
         <h3>Upload your resume: <span class="required">*</span></h3>
         <input type='file' onchange="resume_upload()" name='resume' id='resume' />
         <label for="resume" id="resume_button">
-          <%= data.resume || Upload %>
+          <%= data.resume || 'Upload' %>
         </label>
         <p class="form-error" id="resume-error"></p>
 

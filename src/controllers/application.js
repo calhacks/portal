@@ -29,8 +29,10 @@ export default {
             include: { model: Application }
         }).then(user => {
             if (user.Application === null) {
+                var data = req.body;
+                data['resume'] = req.files.resume.name;
                 Application.create({
-                    ...req.body,
+                    ...data,
                     UserId: req.user.id
                 }).then(newApp => {
                     // App has been created.
@@ -46,7 +48,7 @@ export default {
                 console.log(req.files.resume.name);
                 var data = req.body;
                 data['resume'] = req.files.resume.name;
-                user.Application.updateAttributes(req.body).then(newApp => {
+                user.Application.updateAttributes(data).then(newApp => {
                     // App has been saved.
                     console.log(req.body)
                     saveFile().then(() => {
