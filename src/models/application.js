@@ -62,6 +62,9 @@ export default (sequelize, DataTypes) => {
             }
         },
 
+        resume: {
+            type: DataTypes.TEXT,
+        },
         cubstart: {
             type: DataTypes.TEXT,
             validate: {

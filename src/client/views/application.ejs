@@ -15,6 +15,7 @@
           if (user.Application) {
             data = user.Application;
           }
+          console.log(data)
         %>
 
         <h2>Part 1: Demographic Questions</h2>
@@ -151,9 +152,9 @@
         <h2>Part 2: More About You</h2>
 
         <h3>Upload your resume: <span class="required">*</span></h3>
-        <input type='file' onChange="" name='resume' id='resume' />
-        <label for="resume">
-          Upload
+        <input type='file' onchange="resume_upload()" name='resume' id='resume' />
+        <label for="resume" id="resume_button">
+          <%= data.resume || Upload %>
         </label>
         <p class="form-error" id="resume-error"></p>
 
@@ -222,6 +223,10 @@
 <script>
 // Change which questions are displayed based on user input
 validationErrors = [];
+
+function resume_upload() {
+  $('#resume_button').text("File Uploaded!");
+}
 
 function redisplay() {
   if ($("#cubstart").val() == "yes") {

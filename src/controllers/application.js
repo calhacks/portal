@@ -43,6 +43,9 @@ export default {
                     });
                 })
             } else {
+                console.log(req.files.resume.name);
+                var data = req.body;
+                data['resume'] = req.files.resume.name;
                 user.Application.updateAttributes(req.body).then(newApp => {
                     // App has been saved.
                     console.log(req.body)
