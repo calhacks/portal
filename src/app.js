@@ -65,14 +65,14 @@ app.use('/', router);
 if (process.env.NODE_ENV == "production") {
 	fs.unlink('/srv/apps/hackthebay/hackthebay.sock', () => {
 		console.log('cleared old socket');
+
+        app.listen('/srv/apps/hackthebay/hackthebay.sock', () => {
+        	console.log('listening on unix socket');
+
+        	fs.chmodSync('/srv/apps/hackthebay/hackthebay.sock', '777');
+        	console.log('set permissions of socket to 777');
+        });
 	});
-
-	app.listen('/srv/apps/hackthebay/hackthebay.sock', () => {
-    	console.log('listening on unix socket');
-
-    	fs.chmodSync('/srv/apps/hackthebay/hackthebay.sock', '777');
-    	console.log('set permissions of socket to 777');
-    });
 } else {
 	app.listen(8000, () => {
 		console.log('listening on 8000');
