@@ -10,6 +10,6 @@ fi
 
 # build node
 echo "== TRANSPILING NODE =="
-./node_modules/.bin/babel ./src -d dist
+./node_modules/webpack/bin/webpack.js
 
 echo "== BUILT TO ./dist =="
