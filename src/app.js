@@ -7,14 +7,12 @@ import formidable from 'formidable';
 import ejsLocals from 'ejs-mate';
 import sass from 'node-sass-middleware';
 import flash from 'req-flash';
+import fs from 'fs';
 
 import router from './router';
 import models from './models';
 
 import passportConfig from './config/passport';
-
-
-var fs = require('fs');
 
 const app = express();
 
@@ -51,18 +49,23 @@ app.set('views', 'src/client/views');
 
 passportConfig(passport, models.User);
 
-app.use(
-    sass({
-        src: 'src/client/assets',
-        dest: 'dist/assets',
-        indentedSyntax: true,
-        debug: true
-    })
-);
-app.use(express.static('dist/assets'));
+if (process.env.NODE_ENV === 'production') {
+    require('./client/assets/css/main.sass');
+    app.use(express.static('dist/assets'));
+} else {
+    app.use(express.static('dist/assets'));
+    app.use(
+        sass({
+            src: 'src/client/assets',
+            dest: 'dist/assets',
+            indentedSyntax: true,
+            debug: true
+        })
+    );
+}
 app.use('/', router);
 
-if (process.env.NODE_ENV == "production") {
+if (process.env.NODE_ENV === 'production') {
 	fs.unlink('/srv/apps/hackthebay/hackthebay.sock', () => {
 		console.log('cleared old socket');
 

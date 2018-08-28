@@ -3,6 +3,9 @@ var path = require('path');
 var webpack = require('webpack');
 var nodeExternals = require('webpack-node-externals');
 
+var CopyWebpackPlugin = require('copy-webpack-plugin');
+var MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 var baseRules = [
     {
         test: /\.jsx?$/,
@@ -33,7 +36,17 @@ var devServerConfig = {
         filename: 'server.js'
     },
     target: 'node',
-    externals: [nodeExternals()]
+    externals: [nodeExternals()],
+    plugins: [
+        new CopyWebpackPlugin(
+            [
+                {
+                    from: 'src/client/assets',
+                    to: 'assets'
+                }
+            ]
+        ),
+    ]
 }
 
 var prodServerConfig = {
@@ -47,14 +60,37 @@ var prodServerConfig = {
         ]
     },
     module: {
-        rules: baseRules
+        rules: [
+            ...baseRules,
+            {
+                test: /\.sass$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'sass-loader'
+                ]
+            }
+        ]
     },
     output: {
         path: path.join(__dirname, 'dist'),
         filename: 'server.js'
     },
     target: 'node',
-    externals: [nodeExternals()]
+    externals: [nodeExternals()],
+    plugins: [
+        new CopyWebpackPlugin(
+            [
+                {
+                    from: 'src/client/assets',
+                    to: 'assets'
+                }
+            ]
+        ),
+        new MiniCssExtractPlugin({
+            filename: 'assets/css/[name].css'
+        })
+    ]
 }
 
 var serverConfig;
