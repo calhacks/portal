@@ -15,7 +15,7 @@ var baseRules = [
     }
 ];
 
-var serverConfig = {
+var devServerConfig = {
     name: 'server',
     mode: 'development',
     entry: [path.resolve(__dirname, 'src/app.js')],
@@ -34,6 +34,34 @@ var serverConfig = {
     },
     target: 'node',
     externals: [nodeExternals()]
+}
+
+var prodServerConfig = {
+    name: 'server',
+    mode: 'production',
+    entry: [path.resolve(__dirname, 'src/app.js')],
+    resolve: {
+        modules: [
+            path.resolve('./src'),
+            'node_modules'
+        ]
+    },
+    module: {
+        rules: baseRules
+    },
+    output: {
+        path: path.join(__dirname, 'dist'),
+        filename: 'server.js'
+    },
+    target: 'node',
+    externals: [nodeExternals()]
+}
+
+var serverConfig;
+if (process.env.NODE_ENV == 'production') {
+    serverConfig = prodServerConfig;
+} else {
+    serverConfig = devServerConfig;
 }
 
 module.exports = serverConfig;
