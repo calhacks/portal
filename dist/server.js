@@ -109,7 +109,7 @@ eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\nexports.default = {\n    development: {\n        username: process.env.DB_USER,\n        password: process.env.DB_PASSWD,\n        database: process.env.DB_NAME,\n        host: process.env.DB_HOST,\n        dialect: 'mysql'\n    }\n};\n\n//# sourceURL=webpack:///./src/config/sequelize.js?");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\nexports.default = {\n    development: {\n        username: process.env.DB_USER,\n        password: process.env.DB_PASSWD,\n        database: process.env.DB_NAME,\n        host: process.env.DB_HOST,\n        dialect: 'mysql'\n    },\n    production: {\n        username: process.env.DB_USER,\n        password: process.env.DB_PASSWD,\n        database: process.env.DB_NAME,\n        host: process.env.DB_HOST,\n        dialect: 'mysql'\n    }\n};\n\n//# sourceURL=webpack:///./src/config/sequelize.js?");
 
 /***/ }),
 
