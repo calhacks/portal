@@ -23,11 +23,7 @@ html, body
     height: 100%
     overflow: hidden
     position: relative
-    background-color: $medium-blue
-
-a
-    color: $strong-blue
-    text-decoration: none
+    background-color: $color-primary
 
 #app-container
     width: 100%
@@ -69,13 +65,13 @@ a
     h2
         font-size: 24px
         margin-top: 120px
-        color: $dark-blue
+        color: $color-dark
 
     h3
         font-size: 20px
         font-weight: 400
         margin-top: 100px
-        color: $darker-blue
+        color: $color-tertiary
 
     textarea
         width: 100%
@@ -114,14 +110,14 @@ a
             width: 100%
             position: fixed
             top: 0
-            +linearGradient($medium-blue, rgba(255,255,255,0))
+            +linearGradient($color-primary, rgba(255,255,255,0))
 
         .app-box-overlay-bottom
             height: 40%
             width: 100%
             position: fixed
             bottom: 0
-            +linearGradient(rgba(255,255,255,0), $medium-blue)
+            +linearGradient(rgba(255,255,255,0), $color-primary)
 
 #center-large-box-left
     width: 180px
@@ -133,14 +129,14 @@ a
     .left-tab
         width: 100%
         padding: 10px
-        color: $dark-blue
+        color: $color-dark
         cursor: pointer
         border-radius: 4px
         margin-bottom: 10px
 
         &.selected
-            background-color: $dark-blue
-            color: $medium-blue
+            background-color: $color-dark
+            color: $color-primary
 
 #center-large-box-right
     width: 620px
@@ -183,10 +179,10 @@ a
 
     button
         margin: 20px
-        background-color: $dark-blue
+        background-color: $color-dark
         border: none
         border-radius: 4px
         padding: 12px
-        color: $medium-blue
+        color: $color-primary
         font-size: 1em
         cursor: pointer

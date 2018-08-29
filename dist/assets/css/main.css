@@ -1,14 +1,90 @@
+/* vietnamese */
+@font-face {
+  font-family: 'Muli';
+  font-style: normal;
+  font-weight: 400;
+  src: local("Muli Regular"), local("Muli-Regular"), url(https://fonts.gstatic.com/s/muli/v11/7Auwp_0qiz-afT3GLQjUwkQ1OQ.woff2) format("woff2");
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB; }
+
+/* latin-ext */
+@font-face {
+  font-family: 'Muli';
+  font-style: normal;
+  font-weight: 400;
+  src: local("Muli Regular"), local("Muli-Regular"), url(https://fonts.gstatic.com/s/muli/v11/7Auwp_0qiz-afTzGLQjUwkQ1OQ.woff2) format("woff2");
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+
+/* latin */
+@font-face {
+  font-family: 'Muli';
+  font-style: normal;
+  font-weight: 400;
+  src: local("Muli Regular"), local("Muli-Regular"), url(https://fonts.gstatic.com/s/muli/v11/7Auwp_0qiz-afTLGLQjUwkQ.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+/* vietnamese */
+@font-face {
+  font-family: 'Muli';
+  font-style: normal;
+  font-weight: 600;
+  src: local("Muli SemiBold"), local("Muli-SemiBold"), url(https://fonts.gstatic.com/s/muli/v11/7Au_p_0qiz-ade3iOCr2z24PMFk-0g.woff2) format("woff2");
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB; }
+
+/* latin-ext */
+@font-face {
+  font-family: 'Muli';
+  font-style: normal;
+  font-weight: 600;
+  src: local("Muli SemiBold"), local("Muli-SemiBold"), url(https://fonts.gstatic.com/s/muli/v11/7Au_p_0qiz-ade3iOCv2z24PMFk-0g.woff2) format("woff2");
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+
+/* latin */
+@font-face {
+  font-family: 'Muli';
+  font-style: normal;
+  font-weight: 600;
+  src: local("Muli SemiBold"), local("Muli-SemiBold"), url(https://fonts.gstatic.com/s/muli/v11/7Au_p_0qiz-ade3iOCX2z24PMFk.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+/* vietnamese */
+@font-face {
+  font-family: 'Muli';
+  font-style: normal;
+  font-weight: 800;
+  src: local("Muli ExtraBold"), local("Muli-ExtraBold"), url(https://fonts.gstatic.com/s/muli/v11/7Au_p_0qiz-adZXgOCr2z24PMFk-0g.woff2) format("woff2");
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB; }
+
+/* latin-ext */
+@font-face {
+  font-family: 'Muli';
+  font-style: normal;
+  font-weight: 800;
+  src: local("Muli ExtraBold"), local("Muli-ExtraBold"), url(https://fonts.gstatic.com/s/muli/v11/7Au_p_0qiz-adZXgOCv2z24PMFk-0g.woff2) format("woff2");
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+
+/* latin */
+@font-face {
+  font-family: 'Muli';
+  font-style: normal;
+  font-weight: 800;
+  src: local("Muli ExtraBold"), local("Muli-ExtraBold"), url(https://fonts.gstatic.com/s/muli/v11/7Au_p_0qiz-adZXgOCX2z24PMFk.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
 * {
-  font-family: 'Roboto', sans-serif; }
+  font-family: 'Muli', sans-serif; }
 
 h1 {
   font-size: 2em;
-  color: #008ab9;
+  color: #3b9bc2;
   margin-top: 0;
   margin-bottom: 18px; }
 
 p {
-  color: #2a657f; }
+  color: #218bb6; }
+
+a {
+  color: #3b9bc2;
+  text-decoration: none; }
 
 input:not(:last-child) {
   margin-bottom: 14px; }
@@ -17,43 +93,43 @@ input[type=text], input[type=password], input[type=email], textarea {
   display: block;
   font-size: 1.2em;
   padding: 14px;
-  background-color: #aee4f2;
+  background-color: #c4e8f3;
   border-radius: 4px;
   outline: none;
   border: none;
-  color: #008bb9; }
+  color: #80c8df; }
   input[type=text].small, input[type=password].small, input[type=email].small, textarea.small {
-    width: 300px; }
+    width: 400px; }
   input[type=text].medium, input[type=password].medium, input[type=email].medium, textarea.medium {
-    width: 600px; }
+    width: 800px; }
   input[type=text].half, input[type=password].half, input[type=email].half, textarea.half {
     width: 30%; }
   input[type=text]::-webkit-input-placeholder, input[type=password]::-webkit-input-placeholder, input[type=email]::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
-    color: #59bfda; }
+    color: #92d1ea; }
   input[type=text]::placeholder, input[type=password]::placeholder, input[type=email]::placeholder, textarea::placeholder {
-    color: #59bfda; }
+    color: #92d1ea; }
   input[type=text]::-moz-input-placeholder, input[type=password]::-moz-input-placeholder, input[type=email]::-moz-input-placeholder, textarea::-moz-input-placeholder {
-    color: #59bfda; }
+    color: #92d1ea; }
   input[type=text]::-ms-input-placeholder, input[type=password]::-ms-input-placeholder, input[type=email]::-ms-input-placeholder, textarea::-ms-input-placeholder {
-    color: #59bfda; }
+    color: #92d1ea; }
 
 select {
   width: 100%;
   font-size: 1.2em;
   padding: 14px;
-  background-color: #aee4f2;
+  background-color: #c4e8f3;
   border-radius: 4px;
   outline: none;
   border: none;
-  color: #008bb9; }
+  color: #80c8df; }
 
 input[type=submit] {
-  background-color: #008ab9;
+  background-color: #3b9bc2;
   border: none;
   border-radius: 4px;
   width: 80px;
   height: 40px;
-  color: #77c6ed;
+  color: #97d0ed;
   font-size: 0.8em;
   cursor: pointer; }
 
@@ -61,12 +137,12 @@ input[type=file] {
   display: none; }
 
 input[type=file] + label {
-  background-color: #008ab9;
+  background-color: #3b9bc2;
   border: none;
   border-radius: 4px;
   padding: 12px;
   display: inline-block;
-  color: #77c6ed;
+  color: #97d0ed;
   font-size: 0.8em;
   cursor: pointer; }
 
@@ -128,11 +204,7 @@ html, body {
   height: 100%;
   overflow: hidden;
   position: relative;
-  background-color: #77c6ed; }
-
-a {
-  color: #008bb9;
-  text-decoration: none; }
+  background-color: #97d0ed; }
 
 #app-container {
   width: 100%;
@@ -141,7 +213,7 @@ a {
 
 .center-small-box {
   position: relative;
-  width: 300px;
+  width: 400px;
   margin: auto;
   z-index: 1;
   top: 50%;
@@ -171,12 +243,12 @@ a {
   .app-box-content h2 {
     font-size: 24px;
     margin-top: 120px;
-    color: #008ab9; }
+    color: #3b9bc2; }
   .app-box-content h3 {
     font-size: 20px;
     font-weight: 400;
     margin-top: 100px;
-    color: #2a657f; }
+    color: #218bb6; }
   .app-box-content textarea {
     width: 100%;
     margin-top: 10px;
@@ -208,13 +280,13 @@ a {
       width: 100%;
       position: fixed;
       top: 0;
-      background: #77c6ed;
-      background: -moz-linear-gradient(top, #77c6ed 30%, rgba(255, 255, 255, 0) 70%);
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(30%, #77c6ed), color-stop(70%, rgba(255, 255, 255, 0)));
-      background: -webkit-linear-gradient(top, #77c6ed 30%, rgba(255, 255, 255, 0) 70%);
-      background: -o-linear-gradient(top, #77c6ed 30%, rgba(255, 255, 255, 0) 70%);
-      background: -ms-linear-gradient(top, #77c6ed 30%, rgba(255, 255, 255, 0) 70%);
-      background: linear-gradient(to bottom, #77c6ed 30%, rgba(255, 255, 255, 0) 70%);
+      background: #97d0ed;
+      background: -moz-linear-gradient(top, #97d0ed 30%, rgba(255, 255, 255, 0) 70%);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(30%, #97d0ed), color-stop(70%, rgba(255, 255, 255, 0)));
+      background: -webkit-linear-gradient(top, #97d0ed 30%, rgba(255, 255, 255, 0) 70%);
+      background: -o-linear-gradient(top, #97d0ed 30%, rgba(255, 255, 255, 0) 70%);
+      background: -ms-linear-gradient(top, #97d0ed 30%, rgba(255, 255, 255, 0) 70%);
+      background: linear-gradient(to bottom, #97d0ed 30%, rgba(255, 255, 255, 0) 70%);
       filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 ); }
     .app-box-content .app-box-overlay .app-box-overlay-bottom {
       height: 40%;
@@ -222,12 +294,12 @@ a {
       position: fixed;
       bottom: 0;
       background: rgba(255, 255, 255, 0);
-      background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 30%, #77c6ed 70%);
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(30%, rgba(255, 255, 255, 0)), color-stop(70%, #77c6ed));
-      background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 30%, #77c6ed 70%);
-      background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 30%, #77c6ed 70%);
-      background: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 30%, #77c6ed 70%);
-      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 30%, #77c6ed 70%);
+      background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 30%, #97d0ed 70%);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(30%, rgba(255, 255, 255, 0)), color-stop(70%, #97d0ed));
+      background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 30%, #97d0ed 70%);
+      background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 30%, #97d0ed 70%);
+      background: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 30%, #97d0ed 70%);
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 30%, #97d0ed 70%);
       filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 ); }
 
 #center-large-box-left {
@@ -239,13 +311,13 @@ a {
   #center-large-box-left .left-tab {
     width: 100%;
     padding: 10px;
-    color: #008ab9;
+    color: #3b9bc2;
     cursor: pointer;
     border-radius: 4px;
     margin-bottom: 10px; }
     #center-large-box-left .left-tab.selected {
-      background-color: #008ab9;
-      color: #77c6ed; }
+      background-color: #3b9bc2;
+      color: #97d0ed; }
 
 #center-large-box-right {
   width: 620px;
@@ -281,11 +353,10 @@ a {
   width: 100%; }
   .button-justified button {
     margin: 20px;
-    background-color: #008ab9;
+    background-color: #3b9bc2;
     border: none;
     border-radius: 4px;
     padding: 12px;
-    color: #77c6ed;
+    color: #97d0ed;
     font-size: 1em;
     cursor: pointer; }
-
