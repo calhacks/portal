@@ -13,7 +13,7 @@ import Sequelize from 'sequelize';
 import sequelizeSession from 'connect-session-sequelize';
 
 import router from './router';
-import models, { sequelize } from './models';
+import models from './models';
 
 import passportConfig from './config/passport';
 
@@ -21,6 +21,13 @@ require('dotenv').config();
 var config = require('./config/sequelize').default[process.env.NODE_ENV || 'development'];
 
 var SequelizeStore = sequelizeSession(session.Store);
+
+const sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    config
+);
 
 const app = express();
 
