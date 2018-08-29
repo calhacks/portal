@@ -127,6 +127,7 @@ body {
       justify-content: flex-end;
 
       .nav-item {
+        display: inline-block;
         font-size: 16px;
         font-weight: 800;
         color: get(oasis);
@@ -159,6 +160,10 @@ body {
           border-radius: 4px;
           padding: 0 30px;
           margin: 0 0 0 15px;
+
+          @media (max-width: 800px) {
+            display: none;
+          }
 
           &:hover {
             background: get(lazuli);
@@ -236,6 +241,16 @@ body {
         display: none;
       }
 
+      .fellowship {
+        width: 80px;
+        position: absolute;
+        right: 120px;
+        bottom: 74px;
+        @media (max-width: 820px) {
+          display: none;
+        }
+      }
+
       .conduct {
         display: inline-block;
         font-size: 16px;
@@ -249,6 +264,11 @@ body {
         width: auto;
         cursor: pointer;
         transition: background 0.2s ease-in-out;
+
+        &.sponsor {
+          color: get(dark_dust);
+          display: inline-block;
+        }
 
         &:hover {
           background: get(lazuli);
@@ -265,7 +285,7 @@ body {
       }
 
       @media (max-width: 820px) {
-        padding: 10px;
+        padding: 66px 10px 0 10px;
         width: calc(100% - 40px);
 
         &#home {
@@ -286,6 +306,14 @@ body {
           height: 0;
         }
       }
+    }
+
+    .extra-small-buffer {
+      width: 100%;
+      height: 5px;
+      background: transparent;
+      position: relative;
+      @media (max-width: 820px) { display: none; }
     }
 
     .small-buffer {
@@ -315,12 +343,14 @@ body {
       .main { margin: 0; }
 
       .sub {
+        font-size: 24px;
         margin: 10px 0 0 40px;
         font-weight: 600;
         padding: 0;
       }
 
       .apply {
+        display: inline-block;
         font-family: Nunito Sans;
         font-weight: 600;
         width: 275px;
@@ -367,8 +397,18 @@ body {
     }
 
     h2 {
+      font-family: Nunito Sans;
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 34px;
+      max-width: 400px;
+      padding: 0 180px;
+      transition: padding 0.5s ease-in-out;
+    }
+
+    h3 {
       font-family: Muli;
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 800;
       line-height: 30px;
       max-width: 400px;
@@ -381,7 +421,7 @@ body {
       font-size: 16px;
       font-weight: 400;
       line-height: 26px;
-      max-width: 475px;
+      max-width: 600px;
       padding: 0 180px;
       transition: padding 0.5s ease-in-out;
     }
@@ -394,22 +434,30 @@ body {
       max-width: 475px;
       padding: 0 180px;
       transition: padding 0.5s ease-in-out;
+
+      &.sub {
+        font-size: 14px;
+        line-height: 20px;
+      }
     }
 
     @media (max-width: breakpoint(large)) {
       h2 { padding: 0 20px; }
+      h3 { padding: 0 20px; }
       ul { padding: 0 20px; }
       p { padding: 0 20px; }
     }
 
     @media (max-width: 820px) {
       h2 { max-width: 90%; }
+      h3 { max-width: 90%; }
       ul { max-width: 90%; }
       p { max-width: 90%; }
     }
 
     @media (max-width: breakpoint(small)) {
       h2 { padding: 0; font-size: 20px; }
+      h3 { padding: 0; font-size: 20px; }
       ul { padding: 0; font-size: 20px; }
       p { padding: 0; font-size: 16px; }
     }
@@ -503,7 +551,7 @@ body {
 
   .node-5 {
     width: 93px;
-    top: -50px;
+    top: -150px;
     left: 0;
 
     @media (max-width: 920px) {
@@ -513,7 +561,7 @@ body {
 
   .node-6 {
     width: 120px;
-    top: 0;
+    top: -90px;
     right: 80px;
 
     @media (max-width: 920px) {
@@ -582,11 +630,10 @@ body {
     background-size: 80% 100%;
     background-repeat: no-repeat;
     background-position: center;
-    margin-top: 66px;
+    margin-top: 30px;
 
     @media (max-width: 920px) {
       background-size: 100% 100%;
-      margin-top: 66px;
       background-color: get(dust);
       border-radius: 8px;
       background-image: none;
@@ -603,6 +650,12 @@ body {
 
       h2 { padding: 0 20px; }
       p { padding: 0 20px; }
+
+      .conduct {
+        &.sponsor {
+          margin: 0 20px;
+        }
+      }
     }
 
     .logo-grid {
@@ -610,7 +663,6 @@ body {
       position: relative;
       width: calc(100% - 60px);
       max-width: 600px;
-      height: 500px;
       transform: translate(-20px, 0);
 
       @media (max-width: breakpoint(small)) {
@@ -682,12 +734,17 @@ body {
       }
 
       .question {
-        font-weight: 600;
+        font-weight: 800;
+        display: inline-block;
+        border-bottom: 3px solid get(dust);
+        color: get(lazuli);
+        font-size: 18px;
       }
 
       .answer {
         font-weight: 400;
-        padding: 6px 0;
+        padding: 8px 0;
+        font-size: 16px;
       }
     }
 

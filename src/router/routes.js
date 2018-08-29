@@ -11,6 +11,10 @@ export default {
     '/': {
         get: homeController.home
     },
+    // Home -> CH Code of Conduct
+    '/code-of-conduct': {
+        get: homeController.codeOfConduct,
+    },
 
     // Auth routes
     '/login': {
@@ -66,5 +70,5 @@ export default {
     // Leaving a team
     '/leaveTeam': {
         post: teamController.leaveTeam,
-    }
+    },
 };

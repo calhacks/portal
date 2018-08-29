@@ -59,7 +59,8 @@ if (process.env.NODE_ENV === 'production') {
             src: 'src/client/assets',
             dest: 'dist/assets',
             indentedSyntax: true,
-            debug: true
+            debug: true,
+            force: true,
         })
     );
 }
