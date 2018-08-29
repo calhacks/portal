@@ -1,5 +1,5 @@
 
-import { User, Application, Team } from '../models';
+import { User, Application, Team, CubStart } from '../models';
 
 export default {
     cubstart: (req, res, next) => {
@@ -7,6 +7,7 @@ export default {
             where: { id: req.user.id },
             include: [
                 { model: Application },
+                { model: CubStart },
                 { model: Team, include: [User] }
             ]
         }).then(user => {
@@ -16,13 +17,18 @@ export default {
 
     submitApp: (req, res, next) => {
         var data = req.body;
-        data['cubstart'] = 'yes';
         User.findOne({
             where: { id: req.user.id },
-            include: { model: Application }
+            include: { model: CubStart }
         }).then(user => {
-            if (user.Application === null) {
-                Application.create({
+            if (data['toggle-cubstart'] == 'no') {
+                // If there's a CubStart app associated with this
+                // user, delete it
+                user.setCubStart(null).then(() => {
+                    res.redirect('/dashboard');
+                });
+            } else if (user.CubStart === null) {
+                CubStart.create({
                     ...data,
                     UserId: req.user.id
                 }).then(newApp => {
@@ -30,9 +36,8 @@ export default {
                     res.redirect('/dashboard');
                 })
             } else {
-                user.Application.updateAttributes(data).then(newApp => {
+                user.CubStart.updateAttributes(data).then(newApp => {
                     // App has been saved.
-                    console.log(req.body)
                     res.redirect('/dashboard');
                 })
             }

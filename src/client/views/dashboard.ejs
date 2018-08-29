@@ -41,7 +41,7 @@
         <div>
           <p>Team name: <b><%= user.Team.name %></b></p>
           <% for (var u of user.Team.Users) { %>
-            <p class="team-member"><b><%= u.firstname + ' ' + u.lastname + ' (' + u.email + ')' %></b></p>
+            <p class="team-member"><b><%= u.firstname + ' ' + u.lastname %></b><%=' (' + u.email + ')' %></p>
           <% } %>
         </div>
         <div class="button-justified">
@@ -62,7 +62,7 @@
 
     <div id="cubstart-tab" class="tab">
       <%
-       if (app && app.cubstart) { %>
+       if (user.CubStart) { %>
          <p>Your application is all set! If you want to make changes, you can still make edits to your application before the deadline, Octoeber 8th.</p>
          <div class="button-justified">
            <button onclick="location.href='/cubstart';">Edit Cubstart app</button>

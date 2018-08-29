@@ -65,24 +65,6 @@ export default (sequelize, DataTypes) => {
         resume: {
             type: DataTypes.TEXT,
         },
-        cubstart: {
-            type: DataTypes.TEXT,
-            validate: {
-                notEmpty: true
-            }
-        },
-        cubstart1: {
-            type: DataTypes.TEXT
-        },
-        cubstart2: {
-            type: DataTypes.TEXT
-        },
-        cubstart3: {
-            type: DataTypes.TEXT
-        },
-        cubstart4: {
-            type: DataTypes.TEXT
-        },
 
         question1: {
             type: DataTypes.TEXT
@@ -96,15 +78,6 @@ export default (sequelize, DataTypes) => {
 
         beginner: {
             type: DataTypes.TEXT
-        },
-        status: {
-            type: DataTypes.ENUM(
-                'inreview',
-                'accepted',
-                'rejected',
-                'waitlisted'
-            ),
-            defaultValue: 'inreview'
         }
     }, {});
 

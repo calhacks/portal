@@ -175,11 +175,11 @@
         <span id="regular-questions">
           <h3>Describe something that you created (technical or non-technical, it doesn’t matter!), and elaborate on how you made it.  What did you learn?  Why did you love building it? <span class="required">*</span></h3>
           <textarea id="question1" name="question1" rows="5"><%= data.question1 || '' %></textarea>
-          <p class="form-error" id="q1-error"></p>
+          <p class="form-error" id="question1-error"></p>
 
           <h3>What sorts of questions do you find most intriguing? Tell us about an interesting problem you’d like to solve and why! <span class="required">*</span></h3>
           <textarea id="question2" name="question2" rows="5"><%= data.question2 || '' %></textarea>
-          <p class="form-error" id="q2-error"></p>
+          <p class="form-error" id="question2-error"></p>
 
           <h3>Do you consider yourself a beginner hacker? <span class="required">*</span></h3>
           <select id="beginner" name="beginner" onchange="redisplay()">
@@ -210,7 +210,7 @@
           <span id="regular-beginner-questions">
             <h3>What programming experience do you have (if any)? <span class="required">*</span></h3>
             <textarea id="question3" name="question3" rows="5"><%= data.question3 || '' %></textarea>
-            <p class="form-error" id="q3-error"></p>
+            <p class="form-error" id="question3-error"></p>
           </span>
         </span>
 
@@ -390,9 +390,11 @@ function validate() {
   return result;
 }
 
-redisplay();
+function wordCount(str) {
+  return str.trim().split(/\s+/).length;
+}
 
-$("#cubstart").on("change", redisplay);
+redisplay();
 $("#beginner").on("change", redisplay);
 $("#application").on("submit", function(e) {
   validationErrors = validate();

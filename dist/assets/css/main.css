@@ -97,7 +97,7 @@ input[type=text], input[type=password], input[type=email], textarea {
   border-radius: 4px;
   outline: none;
   border: none;
-  color: #80c8df; }
+  color: #218bb6; }
   input[type=text].small, input[type=password].small, input[type=email].small, textarea.small {
     width: 400px; }
   input[type=text].medium, input[type=password].medium, input[type=email].medium, textarea.medium {
@@ -121,7 +121,7 @@ select {
   border-radius: 4px;
   outline: none;
   border: none;
-  color: #80c8df; }
+  color: #218bb6; }
 
 input[type=submit] {
   background-color: #3b9bc2;

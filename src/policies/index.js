@@ -20,6 +20,12 @@ export default {
         post: [authenticateUser(['hacker', 'admin']), emailVerify],
     },
 
+    // Can't submit CubStart app without credentials
+    '/cubstart': {
+        get: [authenticateUser(['hacker', 'admin']), emailVerify],
+        post: [authenticateUser(['hacker', 'admin']), emailVerify],
+    },
+
     // Can't create/join team without credentials
     '/team': {
         post: [authenticateUser(['hacker', 'admin']), emailVerify],

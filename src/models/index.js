@@ -19,7 +19,8 @@ let models = {};
     let modules = [
         require('./user'),
         require('./application'),
-        require('./team')
+        require('./team'),
+        require('./cubstart'),
     ];
 
     modules.forEach(module => {
