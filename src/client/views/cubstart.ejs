@@ -15,18 +15,7 @@
           }
         %>
 
-        <h3>Would you like to be considered for CubStart? <b>CubStart is for hackers attending their first hackathon.</b></h3>
-        <select id="toggle-cubstart" name="toggle-cubstart">
-          <%
-            if (Object.keys(data).length == 0) { %>
-              <option value="no" selected>No</option>
-              <option value="yes">Yes</option>
-            <% } else { %>
-              <option value="no">No</option>
-              <option value="yes" selected>Yes</option>
-            <% }
-          %>
-        </select>
+        <h3>Fill out this form if you would like to be considered for CubStart. <b>CubStart is for hackers attending their first hackathon.</b></h3>
 
         <!-- For cubstart only -->
         <span id="cubstart-questions">
@@ -62,32 +51,30 @@ validationErrors = [];
 
 function validate() {
   result = [];
-  if ($("#toggle-cubstart").val() == 'yes') {
-    requiredCubstartFields = {
-      'cubstart1': 200,
-      'cubstart2': 200,
-      'cubstart3': 200,
-      'cubstart4': 50
-    };
+  requiredCubstartFields = {
+    'cubstart1': 200,
+    'cubstart2': 200,
+    'cubstart3': 200,
+    'cubstart4': 50
+  };
 
-    for (var cubstartField in requiredCubstartFields) {
-      var val = $("#" + cubstartField).val();
-      var wc = wordCount(val);
-      var maxWc = requiredCubstartFields[cubstartField];
-      if (val == '') {
-        result.push({
-          field: "#" + cubstartField,
-          reason: "Field must not be blank."
-        });
-      } else if (wc > maxWc) {
-        result.push({
-          field: "#" + cubstartField,
-          reason: "Response must not exceed " + maxWc + " words."
-        });
-      }
+  for (var cubstartField in requiredCubstartFields) {
+    var val = $("#" + cubstartField).val();
+    var wc = wordCount(val);
+    var maxWc = requiredCubstartFields[cubstartField];
+    if (val == '') {
+      result.push({
+        field: "#" + cubstartField,
+        reason: "Field must not be blank."
+      });
+    } else if (wc > maxWc) {
+      result.push({
+        field: "#" + cubstartField,
+        reason: "Response must not exceed " + maxWc + " words."
+      });
     }
-    return result;
   }
+  return result;
 }
 
 function wordCount(str) {
@@ -117,11 +104,6 @@ updateWc();
 $("#cubstart1, #cubstart2, #cubstart3, #cubstart4").on('keyup', updateWc);
 
 function redisplay() {
-  if ($("#toggle-cubstart").val() == "yes") {
-    $("#cubstart-questions").css("display", "block");
-  } else if ($("#toggle-cubstart").val() == "no") {
-    $("#cubstart-questions").css("display", "none");
-  }
 
   $(".form-error").css("display", "none");
   for (var error of validationErrors) {
@@ -131,7 +113,6 @@ function redisplay() {
 }
 redisplay();
 
-$("#toggle-cubstart").on("change", redisplay);
 $("#cubstart").on("submit", function(e) {
   validationErrors = validate();
   if (validationErrors.length !== 0){

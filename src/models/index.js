@@ -3,13 +3,14 @@ var Sequelize = require('sequelize');
 var config = require('../config/sequelize').default[process.env.NODE_ENV || 'development'];
 
 let models = {};
+let sequelize;
 
 (function(config) {
     if (Object.keys(models).length && !force) {
         return models;
     }
 
-    const sequelize = new Sequelize(
+    sequelize = new Sequelize(
         config.database,
         config.username,
         config.password,
@@ -42,4 +43,7 @@ let models = {};
     return models;
 })(config);
 
-module.exports = models;
+module.exports = {
+    ...models,
+    sequelize
+};

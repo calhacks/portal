@@ -8,25 +8,19 @@ import ejsLocals from 'ejs-mate';
 import sass from 'node-sass-middleware';
 import flash from 'req-flash';
 import fs from 'fs';
+import cookieParser from 'cookie-parser';
+import Sequelize from 'sequelize';
+import sequelizeSession from 'connect-session-sequelize';
 
 import router from './router';
-import models from './models';
+import models, { sequelize } from './models';
 
 import passportConfig from './config/passport';
 
 require('dotenv').config();
-var Sequelize = require('sequelize');
-var config = require('../config/sequelize').default[process.env.NODE_ENV || 'development'];
-var cookieParser = require('cookie-parser');
+var config = require('./config/sequelize').default[process.env.NODE_ENV || 'development'];
 
-var SequelizeStore = require('connect-session-sequelize')(session.Store);
-
-const sequelize = new Sequelize(
-        config.database,
-        config.username,
-        config.password,
-        config
-);
+var SequelizeStore = sequelizeSession(session.Store);
 
 const app = express();
 
