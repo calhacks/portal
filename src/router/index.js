@@ -16,7 +16,7 @@ export default [
         // Does a route match? If not 404
         const target = routes[path];
         if (!target) {
-            return res.status(404).send('page not found');
+            return res.status(404).render('fourOhFour');
         }
 
         // Does method match? If not 404

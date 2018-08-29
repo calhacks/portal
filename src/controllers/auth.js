@@ -29,7 +29,7 @@ export default {
 
     logout: (req, res, next) => {
         return req.session.destroy(err => {
-            res.redirect('/');
+            res.redirect('/login');
         });
     },
 

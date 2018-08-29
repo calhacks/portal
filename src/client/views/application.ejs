@@ -159,7 +159,7 @@
         <p class="form-error" id="resume-error"></p>
 
         <h3>Any links for us? (Linkedin, GitHub, personal website, Devpost, etc.)</h3>
-        <textarea id="links" name="links"><%= data.links || '' %></textarea>
+        <textarea rows="5" id="links" name="links"><%= data.links || '' %></textarea>
 
         <h3>How many hackathons have you been to before? If this would be your first, that's okay! <span class="required">*</span></h3>
         <input id="hackathons" name="hackathons" type="text" value="<%= data.hackathons || '' %>" />
@@ -175,10 +175,12 @@
         <span id="regular-questions">
           <h3>Describe something that you created (technical or non-technical, it doesn’t matter!), and elaborate on how you made it.  What did you learn?  Why did you love building it? <span class="required">*</span></h3>
           <textarea id="question1" name="question1" rows="5"><%= data.question1 || '' %></textarea>
+          <p class="word-count" id="question1-word-count"></p>
           <p class="form-error" id="question1-error"></p>
 
           <h3>What sorts of questions do you find most intriguing? Tell us about an interesting problem you’d like to solve and why! <span class="required">*</span></h3>
           <textarea id="question2" name="question2" rows="5"><%= data.question2 || '' %></textarea>
+          <p class="word-count" id="question2-word-count"></p>
           <p class="form-error" id="question2-error"></p>
 
           <h3>Do you consider yourself a beginner hacker? <span class="required">*</span></h3>
@@ -210,6 +212,7 @@
           <span id="regular-beginner-questions">
             <h3>What programming experience do you have (if any)? <span class="required">*</span></h3>
             <textarea id="question3" name="question3" rows="5"><%= data.question3 || '' %></textarea>
+            <p class="word-count" id="question3-word-count"></p>
             <p class="form-error" id="question3-error"></p>
           </span>
         </span>
@@ -355,7 +358,7 @@ function validate() {
 
     for (var regularField in requiredRegularFields) {
       var val = $("#" + regularField).val();
-      var wc = val.trim().split(' ').length;
+      var wc = wordCount(val);
       var maxWc = requiredRegularFields[regularField];
       if (val == '') {
         result.push({
@@ -378,7 +381,7 @@ function validate() {
           field: "#question3",
           reason: "Field must not be left blank."
         });
-      } else if ($("#question3").val().trim().split(" ").length > 50){
+      } else if (wordCount($("#question3").val()) > 50){
         result.push({
           field: "#question3",
           reason: "Response must not exceed 50 words."
@@ -391,10 +394,32 @@ function validate() {
 }
 
 function wordCount(str) {
-  return str.trim().split(/\s+/).length;
+  // https://stackoverflow.com/questions/18679576/counting-words-in-string
+  return str.split(' ')
+    .filter(function(n) { return n != '' })
+    .length;
+}
+
+function updateWc() {
+  fields = {
+    'question1': 300,
+    'question2': 200,
+    'question3': 50,
+  };
+
+  for (field in fields) {
+    $('#' + field + '-word-count').text(
+      (fields[field] - wordCount($('#' + field).val())) +
+      ' words left'
+    );
+  }
 }
 
 redisplay();
+updateWc();
+
+$("#question1, #question2, #question3").on('keyup', updateWc);
+
 $("#beginner").on("change", redisplay);
 $("#application").on("submit", function(e) {
   validationErrors = validate();

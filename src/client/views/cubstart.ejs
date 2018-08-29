@@ -32,18 +32,22 @@
         <span id="cubstart-questions">
           <h3>Tell us the story of how you discovered computer science, design, or your special area of interest.  How do your individual perspectives and identity contribute to what "hacking" means to you? <span class="required">*</span></h3>
           <textarea id="cubstart1" name="cubstart1" rows="5"><%= data.cubstart1 || '' %></textarea>
+          <p class="word-count" id="cubstart1-word-count"></p>
           <p class="form-error" id="cubstart1-error"></p>
 
           <h3>Describe something that you created (technical or non-technical, it doesn’t matter!), and elaborate on how you made it.  What did you learn?  Why did you love building it? <span class="required">*</span></h3>
           <textarea id="cubstart2" name="cubstart2" rows="5"><%= data.cubstart2 || '' %></textarea>
+          <p class="word-count" id="cubstart2-word-count"></p>
           <p class="form-error" id="cubstart2-error"></p>
 
           <h3>What’s the dream innovation you hope to create within your lifetime?  If you had to bring it into effect somehow, what are some of the roadblocks you would expect and how would you account for them? <span class="required">*</span></h3>
           <textarea id="cubstart3" name="cubstart3" rows="5"><%= data.cubstart3 || '' %></textarea>
+          <p class="word-count" id="cubstart3-word-count"></p>
           <p class="form-error" id="cubstart3-error"></p>
 
           <h3>What programming experience do you have (if any)? <span class="required">*</span></h3>
           <textarea id="cubstart4" name="cubstart4" rows="5"><%= data.cubstart4 || '' %></textarea>
+          <p class="word-count" id="cubstart4-word-count"></p>
           <p class="form-error" id="cubstart4-error"></p>
         </span>
 
@@ -68,7 +72,7 @@ function validate() {
 
     for (var cubstartField in requiredCubstartFields) {
       var val = $("#" + cubstartField).val();
-      var wc = val.trim().split(' ').length;
+      var wc = wordCount(val);
       var maxWc = requiredCubstartFields[cubstartField];
       if (val == '') {
         result.push({
@@ -85,6 +89,32 @@ function validate() {
     return result;
   }
 }
+
+function wordCount(str) {
+  // https://stackoverflow.com/questions/18679576/counting-words-in-string
+  return str.split(' ')
+    .filter(function(n) { return n != '' })
+    .length;
+}
+
+function updateWc() {
+  fields = {
+    'cubstart1': 200,
+    'cubstart2': 200,
+    'cubstart3': 200,
+    'cubstart4': 50
+  };
+
+  for (field in fields) {
+    $('#' + field + '-word-count').text(
+      (fields[field] - wordCount($('#' + field).val())) +
+      ' words left'
+    );
+  }
+}
+updateWc();
+
+$("#cubstart1, #cubstart2, #cubstart3, #cubstart4").on('keyup', updateWc);
 
 function redisplay() {
   if ($("#toggle-cubstart").val() == "yes") {
