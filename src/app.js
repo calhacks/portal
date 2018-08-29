@@ -39,7 +39,7 @@ var myStore = new SequelizeStore({
     db: sequelize
 })
 app.use(session({
-    secret: 'keyboard cat',
+    secret: process.env.SECRET,
     resave: true,
     saveUninitialized: true,
     store: myStore
