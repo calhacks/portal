@@ -18,7 +18,10 @@ import models from './models';
 import passportConfig from './config/passport';
 
 require('dotenv').config();
-var config = require('./config/sequelize').default[process.env.NODE_ENV || 'development'];
+
+var Sequelize = require('sequelize');
+var config = require('config/sequelize').default[process.env.NODE_ENV || 'development'];
+var cookieParser = require('cookie-parser');
 
 var SequelizeStore = sequelizeSession(session.Store);
 
@@ -34,14 +37,16 @@ const app = express();
 require('babel-register')({ presets: ['env'] })
 
 app.use(cookieParser());
+var myStore = new SequelizeStore({
+    db: sequelize
+})
 app.use(session({
     secret: 'keyboard cat',
     resave: true,
     saveUninitialized: true,
-    store: new SequelizeStore({
-      db: sequelize
-    })
+    store: myStore
 }));
+myStore.sync();
 
 app.use(flash({ locals: 'flash' }));
 
