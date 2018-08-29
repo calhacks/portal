@@ -84,7 +84,15 @@ var prodServerConfig = {
                 {
                     from: 'src/client/assets',
                     to: 'assets'
-                }
+                },
+		{
+		    from: 'node_modules/aos/dist/aos.css',
+		    to: 'assets/css'
+		},
+		{
+		    from: 'node_modules/aos/dist/aos.js',
+		    to: 'assets/js'
+		}
             ]
         ),
         new MiniCssExtractPlugin({

@@ -1,7 +1,7 @@
 
 export default {
     home: (req, res, next) => {
-        res.render('index');
+        res.render('home');
     },
 
     codeOfConduct: (req, res, next) => {

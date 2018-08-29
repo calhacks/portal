@@ -477,7 +477,7 @@ body {
         font-size: 14px;
         padding: 0 24px; }
   body #sponsor, body #faq {
-    background-image: url("./images/dust.png");
+    background-image: url("../images/dust.png");
     background-size: 80% 100%;
     background-repeat: no-repeat;
     background-position: center;
