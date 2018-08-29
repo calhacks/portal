@@ -38,7 +38,7 @@ export default {
             if (err !== null) {
                 // Something went wrong.
                 req.flash('error', 'There was an unexpected error signing in.');
-                return next(err);
+                return res.redirect('/login');
             } else if (!user) {
                 req.flash('error', 'Invalid email/password combination.');
                 return res.redirect('/login');
@@ -46,7 +46,7 @@ export default {
                 req.logIn(user, err => {
                     if (err) {
                         req.flash('error', 'There was an unexpected error signing in.');
-                        return next(err);
+                        return res.redirect('/login');
                     } else {
                         return res.redirect('/dashboard');
                     }
@@ -60,7 +60,7 @@ export default {
             if (err !== null) {
                 // Something went wrong.
                 req.flash('error', JSON.stringify(err));
-                return next(err);
+                return res.redirect('/signup');
             } else if (!user) {
                 req.flash('error', info.message);
                 return res.redirect('/signup');
@@ -68,7 +68,7 @@ export default {
                 req.logIn(user, err => {
                     if (err) {
                         req.flash('error', 'There was an unexpected error creating an account.');
-                        return next(err);
+                        return res.redirect('/signup');
                     } else {
                         return res.redirect('/dashboard');
                     }

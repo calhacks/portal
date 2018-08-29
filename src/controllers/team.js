@@ -34,6 +34,7 @@ export default {
                 } else {
                     // Team has too many members.
                     req.flash('error', 'That team is already at the maximum of 4 members.');
+                    res.redirect('/dashboard#team');
                 }
             }
         });
