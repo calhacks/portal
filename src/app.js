@@ -91,13 +91,13 @@ app.use('/', router);
 console.log(process.env.NODE_ENV)
 
 if (process.env.NODE_ENV === 'production') {
-	fs.unlink('/srv/apps/hackthebay/hackthebay.sock', () => {
+	fs.unlink(process.env.PORT, () => {
 		console.log('cleared old socket');
 
-        app.listen('/srv/apps/hackthebay/hackthebay.sock', () => {
+        app.listen(process.env.PORT, () => {
         	console.log('listening on unix socket');
 
-        	fs.chmodSync('/srv/apps/hackthebay/hackthebay.sock', '777');
+        	fs.chmodSync(process.env.PORT, '777');
         	console.log('set permissions of socket to 777');
         });
 	});
