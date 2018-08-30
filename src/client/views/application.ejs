@@ -1,4 +1,6 @@
 <% layout('layout') -%>
+<script src="assets/js/schools.js"></script>
+
 <div class="app-box-scroll-wrapper">
   <div class="app-box">
     <div class="app-box-content">
@@ -91,8 +93,10 @@
         <input id="raceOther" placeholder="Specify race..." name="raceOther" type="text" value="<%= data.raceOther || '' %>" />
         <p class="form-error" id="race-error"></p>
 
-        <h3>What school do you currently attend? <span class="required">*</span></h3>
-        <input id="school" name="school" type="text" value="<%= data.school || '' %>" />
+        <h3>What school do you currently attend? If your school is not on the list, choose the "Other" option. <span class="required">*</span></h3>
+        <!-- <input id="school" name="school" type="text" value="<%= data.school || '' %>" /> -->
+        <input type="text" id="school" name="school" type="text" list="schools-datalist" value="<%= data.school || '' %>"/>
+        <datalist id="schools-datalist" title="schools-datalist"></datalist>
         <p class="form-error" id="school-error"></p>
 
         <h3>What year in school? <span class="required">*</span></h3>
@@ -417,6 +421,13 @@ function redisplay() {
     $(error.field + "-error").css("display", "block");
     $(error.field + "-error").text(error.reason);
   }
+
+  $("#schools-datalist").html("");
+  for (var school of schoolList) {
+    $("#schools-datalist").append(
+      "<option value='" + school + "' />"
+    );
+  }
 }
 redisplay();
 // var data = JSON.parse("<%= JSON.stringify(data) %>");
@@ -480,6 +491,13 @@ function validate() {
         reason: "Field must not be left blank."
       });
     }
+  }
+
+  if (schoolList.indexOf($("#school").val()) === -1) {
+    result.push({
+      field: "#school",
+      reason: "You must pick out a school from the list."
+    });
   }
 
   // Resume validation. We have to make sure
@@ -666,6 +684,8 @@ function updateWc() {
     );
   }
 }
+
+// console.log(schoolList);
 
 redisplay();
 updateWc();
