@@ -1,0 +1,2 @@
+#Start Server
+nodemon dist/server.js
