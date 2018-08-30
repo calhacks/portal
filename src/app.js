@@ -19,12 +19,9 @@ import passportConfig from './config/passport';
 
 require('dotenv').config();
 
-var config = require('config/sequelize').default[process.env.NODE_ENV || 'development'];
+var config = require('./config/sequelize').default[process.env.NODE_ENV || 'development'];
 
 var SequelizeStore = sequelizeSession(session.Store);
-
-
-
 const sequelize = new Sequelize(
     config.database,
     config.username,

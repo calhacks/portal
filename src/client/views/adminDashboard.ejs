@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Cal Hacks 5.0</title>
+
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <div id="app-container">
+      <div class="center-large-box">
+        <h1>God Mode</h1>
+        <div id="center-large-box-left">
+          <div id="home-tab-item" class="left-tab selected">
+            Home
+          </div>
+          <div id="stats-tab-item" class="left-tab selected">
+            Stats
+          </div>
+        </div>
+
+        <div id="center-large-box-right">
+
+          <div id="home-tab" class="tab tab-visible">
+            <p><b>Welcome to God Mode.</b></p>
+          </div>
+
+          <div id="stats-tab" class="tab tab-visible">
+            <p><b>Stats</b></p>
+            <div id="stats-container">
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <script src="assets/js/datalist-polyfill.min.js"></script>
+  </body>
+</html>
+
+<script>
+var tabNames = ['home'];
+var currentTab = 'home';
+
+function setTab(tabName) {
+  $(".left-tab").attr("class", "left-tab");
+  $("#" + tabName + "-tab-item").addClass("selected")
+  $(".tab").attr("class", "tab");
+  $("#" + tabName + "-tab").addClass("tab-visible");
+  window.location.hash = tabName;
+
+  currentTab = tabName;
+}
+
+function fetchStats() {
+  return new Promise(function(resolve) {
+    console.log('fetch')
+    $.getJSON('/stats').done(resolve);
+  });
+}
+
+function redisplay() {
+  if (currentTab == 'stats') {
+    fetchStats().then(function(data) {
+      $("#stats-container").html("")
+      for (var obj of data) {
+        console.log(obj);
+        var field = Object.keys(obj)[0];
+        var value = obj[field];
+
+        var newElement = "<p><b>" + field + "</b>";
+        newElement += " " + JSON.stringify(value) + "</p>";
+
+        $("#stats-container").append(newElement);
+      }
+    });
+  }
+}
+
+$(".left-tab").on("click", function() {
+  var tabName = $(this).attr("id").split("-")[0];
+  setTab(tabName);
+  redisplay();
+});
+
+var hash = window.location.hash.substr(1);
+if (tabNames.indexOf(hash) !== -1) {
+  setTab(hash);
+} else {
+  setTab(tabNames[0]);
+}
+</script>

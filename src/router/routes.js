@@ -5,6 +5,7 @@ import dashboardController from '../controllers/dashboard';
 import applicationController from '../controllers/application';
 import teamController from '../controllers/team';
 import cubstartController from '../controllers/cubstart';
+import adminController from '../controllers/admin';
 
 export default {
     // Home route
@@ -71,4 +72,9 @@ export default {
     '/leaveTeam': {
         post: teamController.leaveTeam,
     },
+
+    // God mode
+    '/stats': {
+        get: adminController.stats,
+    }
 };

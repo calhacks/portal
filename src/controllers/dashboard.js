@@ -11,7 +11,13 @@ export default {
                 { model: CubStart },
             ]
         }).then(user => {
-            res.render('dashboard', { user: user.toJSON() })
+            if (user.role === 'hacker') {
+                res.render('dashboard', { user: user.toJSON() });
+            } else if (user.role === 'admin') {
+                res.render('adminDashboard', {
+                    user: user.toJSON()
+                });
+            }
         });
     }
 };

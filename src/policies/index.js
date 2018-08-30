@@ -34,5 +34,10 @@ export default {
     // Can't leave team without credentials
     '/leaveTeam': {
         post: [authenticateUser(['hacker', 'admin']), emailVerify],
-    }
+    },
+
+    // God Mode
+    '/stats': {
+        get: [authenticateUser(['admin']), emailVerify],
+    },
 };
