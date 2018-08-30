@@ -92,7 +92,7 @@ function redisplay() {
         var value = obj[field];
 
         var newElement = "<p><b>" + field + "</b>";
-        newElement += " " + value + "</p>";
+        newElement += " " + JSON.stringify(value) + "</p>";
 
         $("#stats-container").append(newElement);
       }
