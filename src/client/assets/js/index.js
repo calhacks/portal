@@ -10,7 +10,6 @@ $(window).scroll(function() {
 
 function toggleMobileNav() {
     var x = document.getElementById("mobile-nav");
-    console.log('hello');
     if (x.className === "mobile-nav") {
         x.className += " show";
     } else {

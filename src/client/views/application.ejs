@@ -18,7 +18,6 @@
           if (user.Application) {
             data = user.Application;
           }
-          console.log(data)
         %>
 
         <h2>Part 1: Demographic Questions</h2>
@@ -94,9 +93,10 @@
         <p class="form-error" id="race-error"></p>
 
         <h3>What school do you currently attend? If your school is not on the list, choose the "Other" option. <span class="required">*</span></h3>
-        <!-- <input id="school" name="school" type="text" value="<%= data.school || '' %>" /> -->
-        <input type="text" id="school" name="school" type="text" list="schools-datalist" value="<%= data.school || '' %>"/>
-        <datalist id="schools-datalist" title="schools-datalist"></datalist>
+
+        <select name="school" id="school" class="datalist">
+        </select>
+
         <p class="form-error" id="school-error"></p>
 
         <h3>What year in school? <span class="required">*</span></h3>
@@ -369,6 +369,7 @@
         </span>
 
         <input type="submit" value="Save app" />
+        <p class="form-error" id="all-error"></p>
       </form>
     </div>
   </div>
@@ -422,18 +423,21 @@ function redisplay() {
     $(error.field + "-error").text(error.reason);
   }
 
-  $("#schools-datalist").html("");
-  for (var school of schoolList) {
-    $("#schools-datalist").append(
-      "<option value='" + school + "' />"
-    );
+  if (validationErrors.length !== 0) {
+    $("#all-error").text("There were some issues with your application. Review your answers in the fields above.");
+    $("#all-error").css("display", "block");
+  } else {
+    $("#all-error").css("display", "none");
   }
 }
 redisplay();
-// var data = JSON.parse("<%= JSON.stringify(data) %>");
+for (var school of schoolList) {
+  $("#school").append(
+    "<option value='" + school + "'>" + school + "</option>"
+  );
+}
 var data = JSON.stringify("<%= data %>")
 data = JSON.parse(data)
-// console.log(Object.keys(data).length)
 
 // https://stackoverflow.com/questions/6177975/how-to-validate-date-with-format-mm-dd-yyyy-in-javascript
 function isValidDate(dateString) {
@@ -490,6 +494,12 @@ function validate() {
         field: "#" + field,
         reason: "Field must not be left blank."
       });
+    } else if ($("#" + field).val().length > 500) {
+      // this is probably way too long
+      result.push({
+        field: "#" + field,
+        reason: "Keep your response under 500 characters."
+      });
     }
   }
 
@@ -497,6 +507,27 @@ function validate() {
     result.push({
       field: "#school",
       reason: "You must pick out a school from the list."
+    });
+  }
+
+  var phoneMatch = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
+  if (!$("#phone").val().trim().match(phoneMatch)) {
+    result.push({
+      field: "#phone",
+      reason: "You must provide a valid phone number."
+    });
+  }
+
+  var hackathons =  $("#hackathons").val()
+  //https://stackoverflow.com/questions/10834796/validate-that-a-string-is-a-positive-integer
+  function isNormalInteger(str) {
+    var n = Math.floor(Number(str));
+    return n !== Infinity && String(n) === str && n >= 0;
+  }
+  if (!isNormalInteger(hackathons)) {
+    result.push({
+      field: "#hackathons",
+      reason: "You must provide a valid integer."
     });
   }
 
@@ -531,74 +562,55 @@ function validate() {
     }
   }
 
-  // Other conditional validations.
-  // If cubstart is selected, all cubstart questions must be filled.
-  // Additionally they need to meet the word count requirements.
-  if ($("#cubstart").val() == 'yes') {
-    requiredCubstartFields = {
-      'cubstart1': 200,
-      'cubstart2': 200,
-      'cubstart3': 200,
-      'cubstart4': 50
-    };
+  // If cubstart isn't selected, the other questions
+  // need to be filled in.
+  requiredRegularFields = {
+    'question1': 300,
+    'question2': 200,
+    'beginner': 10
+  };
 
-
-    for (var cubstartField in requiredCubstartFields) {
-      var val = $("#" + cubstartField).val();
-      var wc = val.trim().split(' ').length;
-      var maxWc = requiredCubstartFields[cubstartField];
-      if (val == '') {
-        result.push({
-          field: "#" + cubstartField,
-          reason: "Field must not be blank."
-        });
-      } else if (wc > maxWc) {
-        result.push({
-          field: "#" + cubstartField,
-          reason: "Response must not exceed " + maxWc + " words."
-        });
-      }
+  for (var regularField in requiredRegularFields) {
+    var val = $("#" + regularField).val();
+    var wc = wordCount(val);
+    var maxWc = requiredRegularFields[regularField];
+    if (val == '') {
+      result.push({
+        field: "#" + regularField,
+        reason: "Field must not be blank."
+      });
+    } else if (wc > maxWc) {
+      result.push({
+        field: "#" + regularField,
+        reason: "Response must not exceed " + maxWc + " words."
+      });
+    } else if ($("#" + regularField).val().length >= 10 * maxWc) {
+      // 10 characters per word is a lot
+      result.push({
+        field: "#" + regularField,
+        reason: "Response must not exceed " + (10 * maxWc) + " characters."
+      });
     }
-  } else {
-    // If cubstart isn't selected, the other questions
-    // need to be filled in.
-    requiredRegularFields = {
-      'question1': 300,
-      'question2': 200,
-      'beginner': 10
-    };
+  }
 
-    for (var regularField in requiredRegularFields) {
-      var val = $("#" + regularField).val();
-      var wc = wordCount(val);
-      var maxWc = requiredRegularFields[regularField];
-      if (val == '') {
-        result.push({
-          field: "#" + regularField,
-          reason: "Field must not be blank."
-        });
-      } else if (wc > maxWc) {
-        result.push({
-          field: "#" + regularField,
-          reason: "Response must not exceed " + maxWc + " words."
-        });
-      }
-    }
-
-    // Lastly, if the beginner box is 'yes', the
-    // regular beginner question needs to be filled in properly
-    if ($("#beginner").val() == 'yes') {
-      if ($("#question3").val().trim() == '') {
-        result.push({
-          field: "#question3",
-          reason: "Field must not be left blank."
-        });
-      } else if (wordCount($("#question3").val()) > 50){
-        result.push({
-          field: "#question3",
-          reason: "Response must not exceed 50 words."
-        });
-      }
+  // Lastly, if the beginner box is 'yes', the
+  // regular beginner question needs to be filled in properly
+  if ($("#beginner").val() == 'yes') {
+    if ($("#question3").val().trim() == '') {
+      result.push({
+        field: "#question3",
+        reason: "Field must not be left blank."
+      });
+    } else if (wordCount($("#question3").val()) > 50){
+      result.push({
+        field: "#question3",
+        reason: "Response must not exceed 50 words."
+      });
+    } else if ($("#question3").val().length >= 500) {
+      result.push({
+        field: "#" + regularField,
+        reason: "Response must not exceed 500 characters."
+      });
     }
   }
 
@@ -606,6 +618,11 @@ function validate() {
     result.push({
       field: "#spotlight",
       reason: "Response must not exceed 100 words."
+    });
+  } else if ($("#spotlight").val().length > 1000) {
+    result.push({
+      field: "#spotlight",
+      reason: "Response must not exceed 1000 characters."
     });
   }
 
@@ -685,26 +702,27 @@ function updateWc() {
   }
 }
 
-// console.log(schoolList);
-
 redisplay();
 updateWc();
 
 $("#question1, #question2, #question3, #spotlight").on('keyup', updateWc);
 
+$("#school").select2({
+  placeholder: 'Select an option'
+});
+
 $("#beginner").on("change", redisplay);
 $("#gender").on("change", redisplay);
 $("#race").on("change", redisplay);
+
 $("#application").on("submit", function(e) {
   validationErrors = validate();
-  console.log(validationErrors);
   if (validationErrors.length !== 0){
-    // Validations have passed; submit the form
     redisplay();
     e.preventDefault();
     return false;
   } else {
-    console.log('All Good')
+    // Validations have passed; submit the form
     return true;
   }
 });

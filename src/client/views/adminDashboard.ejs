@@ -90,7 +90,6 @@ function redisplay() {
     fetchStats().then(function(data) {
       $("#stats-container").html("");
       for (var obj of data) {
-        console.log(obj);
         var field = Object.keys(obj)[0];
         var value = obj[field];
 
