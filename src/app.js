@@ -23,6 +23,8 @@ var config = require('config/sequelize').default[process.env.NODE_ENV || 'develo
 
 var SequelizeStore = sequelizeSession(session.Store);
 
+
+
 const sequelize = new Sequelize(
     config.database,
     config.username,
@@ -89,6 +91,7 @@ if (process.env.NODE_ENV === 'production') {
     );
 }
 app.use('/', router);
+console.log(process.env.NODE_ENV)
 
 if (process.env.NODE_ENV === 'production') {
 	fs.unlink('/srv/apps/hackthebay/hackthebay.sock', () => {
