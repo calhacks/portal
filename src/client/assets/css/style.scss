@@ -1,11 +1,11 @@
 $colors: (
-  background: #A8D9F1,
+  background: #A8D9F1, // #EBF6FB
   dark_background: #A4D6EF,
   cornflower: #97D0ED,
   french: #80C8DF,
   french_trans: #A3DAEC,
   lazuli_trans: rgba(59,155,194,0.2),
-  lazuli: #218BB6,
+  lazuli: #0D739D,
   oasis: #3B9BC2,
   dust: #EDF6FA,
   dark_dust: #C4E7F1,
@@ -43,6 +43,8 @@ body {
   font-family: Muli;
   overflow-x: hidden;
   font-weight: 400;
+
+  p { color: get(lazuli); }
 
   a {
     &:link, &:hover, &:visited, &:focus {
@@ -136,6 +138,8 @@ body {
         border-radius: 4px;
         cursor: pointer;
         transition: background 0.2s ease-in-out;
+        font-family: Nunito Sans;
+        font-weight: 600;
 
         &:hover {
           background: get(french);
@@ -160,6 +164,8 @@ body {
           border-radius: 4px;
           padding: 0 30px;
           margin: 0 0 0 15px;
+          font-family: Nunito Sans;
+          font-weight: 600;
 
           @media (max-width: 800px) {
             display: none;
@@ -214,6 +220,8 @@ body {
       width: 100vw;
       padding: 20px 0;
       text-align: center;
+      font-family: Nunito Sans;
+      font-weight: 600;
       &:hover {
         font-weight: 800;
       }
@@ -255,8 +263,8 @@ body {
         display: inline-block;
         font-size: 16px;
         line-height: 40px;
-        background: #3B9BC2;
-        color: #A8D9F1;
+        background: get(oasis);
+        color: get(background);
         border-radius: 4px;
         padding: 0 30px;
         font-weight: 800;
@@ -272,7 +280,6 @@ body {
 
         &:hover {
           background: get(lazuli);
-          color: get(cornflower);
         }
 
         @media (max-width: breakpoint(large)) {
@@ -347,6 +354,8 @@ body {
         margin: 10px 0 0 40px;
         font-weight: 600;
         padding: 0;
+        font-family: Nunito Sans;
+        font-weight: 600;
       }
 
       .apply {
@@ -378,7 +387,7 @@ body {
       }
 
       @media (max-width: 820px) {
-        margin-top: 30px;
+        margin-top: 40px;
       }
 
       @media (max-width: breakpoint(small)) {
@@ -407,7 +416,7 @@ body {
     }
 
     h3 {
-      font-family: Muli;
+      font-family: Nunito Sans;
       font-size: 20px;
       font-weight: 800;
       line-height: 30px;
@@ -457,7 +466,7 @@ body {
 
     @media (max-width: breakpoint(small)) {
       h2 { padding: 0; font-size: 20px; }
-      h3 { padding: 0; font-size: 20px; }
+      h3 { padding: 0; font-size: 18px; }
       ul { padding: 0; font-size: 20px; }
       p { padding: 0; font-size: 16px; }
     }
@@ -731,13 +740,14 @@ body {
       padding: 20px 0;
       @media (max-width: breakpoint(small)) {
         font-size: 16px;
+        margin-left: -10px;
       }
 
       .question {
         font-weight: 800;
         display: inline-block;
         border-bottom: 3px solid get(dust);
-        color: get(lazuli);
+        color: get(oasis);
         font-size: 18px;
       }
 
@@ -822,7 +832,7 @@ body {
         &.apply {
           font-size: 16px;
           line-height: 36px;
-          background: get(oasis);
+          background: get(lazuli);
           color: get(background);
           border-radius: 4px;
           padding: 0 30px;
