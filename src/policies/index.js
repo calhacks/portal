@@ -40,4 +40,10 @@ export default {
     '/stats': {
         get: [authenticateUser(['admin']), emailVerify],
     },
+    '/roster': {
+        get: [authenticateUser(['admin']), emailVerify],
+    },
+    '/deify': {
+        post: [authenticateUser(['admin']), emailVerify],
+    },
 };

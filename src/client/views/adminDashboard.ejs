@@ -20,6 +20,9 @@
           <div id="stats-tab-item" class="left-tab selected">
             Stats
           </div>
+          <div id="roster-tab-item" class="left-tab selected">
+            Roster
+          </div>
         </div>
 
         <div id="center-large-box-right">
@@ -34,6 +37,16 @@
             </div>
           </div>
 
+          <div id="roster-tab" class="tab tab-visible">
+            <p><b>Roster</b></p>
+            <div id="roster-container">
+            </div>
+            <form action="/deify" method="post">
+              <input type="text" name="email" />
+              <input style="width: 120px" placeholder="Make someone an admin..." type="submit" value="Submit email" />
+            </form>
+          </div>
+
         </div>
 
       </div>
@@ -43,8 +56,8 @@
 </html>
 
 <script>
-var tabNames = ['home'];
-var currentTab = 'home';
+var tabNames = ['home', 'stats', 'roster'];
+var currentTab = window.location.hash;
 
 function setTab(tabName) {
   $(".left-tab").attr("class", "left-tab");
@@ -54,28 +67,48 @@ function setTab(tabName) {
   window.location.hash = tabName;
 
   currentTab = tabName;
+  redisplay();
 }
 
 function fetchStats() {
   return new Promise(function(resolve) {
-    console.log('fetch')
     $.getJSON('/stats').done(resolve);
+  });
+}
+
+function fetchRoster() {
+  return new Promise(function(resolve) {
+    $.getJSON('/roster').done(resolve);
   });
 }
 
 function redisplay() {
   if (currentTab == 'stats') {
     fetchStats().then(function(data) {
-      $("#stats-container").html("")
+      $("#stats-container").html("");
       for (var obj of data) {
         console.log(obj);
         var field = Object.keys(obj)[0];
         var value = obj[field];
 
         var newElement = "<p><b>" + field + "</b>";
-        newElement += " " + JSON.stringify(value) + "</p>";
+        newElement += " " + value + "</p>";
 
         $("#stats-container").append(newElement);
+      }
+    });
+  } else if (currentTab == 'roster') {
+    fetchRoster().then(function(data) {
+      $("#roster-container").html("");
+      for (var obj of data) {
+        var fname = obj.firstname;
+        var lname = obj.lastname;
+        var email = obj.email;
+
+        var newElement = "<p><b>" + fname + " " + lname + "</b>";
+        newElement += " (" + email + ")</p>";
+
+        $("#roster-container").append(newElement);
       }
     });
   }
@@ -84,7 +117,6 @@ function redisplay() {
 $(".left-tab").on("click", function() {
   var tabName = $(this).attr("id").split("-")[0];
   setTab(tabName);
-  redisplay();
 });
 
 var hash = window.location.hash.substr(1);

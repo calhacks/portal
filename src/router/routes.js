@@ -76,5 +76,11 @@ export default {
     // God mode
     '/stats': {
         get: adminController.stats,
-    }
+    },
+    '/roster': {
+        get: adminController.roster,
+    },
+    '/deify': {
+        post: adminController.deify,
+    },
 };

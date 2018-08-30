@@ -23,11 +23,33 @@ export default {
         Promise.all(Object.keys(queries).map(query => new Promise(resolve => {
             sequelize.query(queries[query]).spread((results, meta) => {
                 resolve({
-                    [query]: results,
+                    [query]: results[Object.keys(results)[0]],
                 });
             });
         }))).then(results => {
             res.json(results);
         });
+    },
+
+    roster: (req, res, next) => {
+        User.findAll({ where: { role: 'admin' } }).then(users => {
+            res.json(users);
+        });
+    },
+
+    deify: (req, res, next) => {
+        User.findOne({ where: { email: req.body.email } })
+            .then(user => {
+                if (!user) {
+                    res.redirect('/dashboard#roster');
+                } else {
+                    user.updateAttributes({
+                        role: 'admin',
+                    }).then(user => {
+                        res.redirect('/dashboard#roster');
+                    });
+                }
+
+            });
     }
 };
