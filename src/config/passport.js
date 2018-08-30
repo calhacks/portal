@@ -25,7 +25,7 @@ export default (passport, User) => {
             if (user) {
                 done(null, user.get());
             } else {
-                done(user.errors, null);
+                done(false, null);
             }
         });
     });
@@ -99,18 +99,20 @@ export default (passport, User) => {
                         }
                     }).catch(result => {
                         // This is gonna be a pain
-                        const err = result.errors[0];
-                        const reason = err.validatorName;
+                        if (result) {
+                            const err = result.errors[0];
+                            const reason = err.validatorName;
 
-                        if (reason === 'isEmail') {
-                            // Failed email test
-                            return done(null, false, {
-                                message: 'The email you provided was invalid.'
-                            });
-                        } else {
-                            return done(null, false, {
-                                message: 'There was an unexpected error creating the user.'
-                            });
+                            if (reason === 'isEmail') {
+                                // Failed email test
+                                return done(null, false, {
+                                    message: 'The email you provided was invalid.'
+                                });
+                            } else {
+                                return done(null, false, {
+                                    message: 'There was an unexpected error creating the user.'
+                                });
+                            }
                         }
                     });
                 });

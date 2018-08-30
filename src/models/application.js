@@ -13,6 +13,9 @@ export default (sequelize, DataTypes) => {
                 notEmpty: true
             }
         },
+        genderOther: {
+            type: DataTypes.TEXT,
+        },
         school: {
             type: DataTypes.TEXT,
             validate: {
@@ -25,13 +28,55 @@ export default (sequelize, DataTypes) => {
                 notEmpty: true
             }
         },
+        bday: {
+            type: DataTypes.TEXT,
+            validate: {
+                notEmpty: true,
+            },
+        },
+        race: {
+            type: DataTypes.TEXT,
+            validate: {
+                notEmpty: true,
+            },
+        },
+        raceOther: {
+            type: DataTypes.TEXT,
+        },
         major: {
             type: DataTypes.TEXT,
             validate: {
                 notEmpty: true
             }
         },
+        thumbnail: {
+            type: DataTypes.TEXT
+        },
         transportation: {
+            type: DataTypes.TEXT,
+            validate: {
+                notEmpty: true
+            }
+        },
+        requireTransportation: {
+            type: DataTypes.TEXT,
+            validate: {
+                notEmpty: true
+            }
+        },
+        chCodeOfConduct: {
+            type: DataTypes.TEXT,
+            validate: {
+                notEmpty: true
+            }
+        },
+        mlhCodeOfConduct: {
+            type: DataTypes.TEXT,
+            validate: {
+                notEmpty: true
+            }
+        },
+        mlhAffiliation: {
             type: DataTypes.TEXT,
             validate: {
                 notEmpty: true
@@ -60,6 +105,9 @@ export default (sequelize, DataTypes) => {
             validate: {
                 notEmpty: true
             }
+        },
+        spotlightBlurb: {
+            type: DataTypes.TEXT,
         },
 
         resume: {

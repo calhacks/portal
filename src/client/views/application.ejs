@@ -6,6 +6,7 @@
         <div class="app-box-overlay-bottom">
         </div>
       </div>
+      <a href="/dashboard#application" class="a-back">&lt;&lt; Back</a>
       <h1>Cal Hacks 5.0 Application</h1>
       <p>We want to get to know you better! Fill in the form to the best of your ability. </p>
       <form action="/application" id="application" method="post" encType='multipart/form-data'>
@@ -37,8 +38,10 @@
               '': 'Select one',
               'male': 'Male',
               'female': 'Female',
-              'other': 'Other',
-              'none': 'Prefer not to disclose'
+              'transgender': 'Transgender',
+              'genderqueer': 'Genderqueer',
+              'none': 'Prefer not to disclose',
+              'other': 'Other (please specify)',
             }
 
             for (var key of Object.keys(genderOpts)) {
@@ -54,7 +57,39 @@
             }
           %>
         </select>
+        <input id="genderOther" placeholder="Specify gender..." name="genderOther" type="text" value="<%= data.genderOther || '' %>" />
         <p class="form-error" id="gender-error"></p>
+
+        <h3>What is your race/ethnicity? <span class="required">*</span></h3>
+        <select id="race" name="race">
+          <%
+            var val = data.race || ''
+            raceOpts = {
+              '': 'Select one',
+              'native': 'American Indian or Alaskan Native',
+              'asian': 'Asian/Pacific Islander',
+              'black': 'Black or African American',
+              'hisp': 'Hispanic',
+              'white': 'White/Caucasian',
+              'none': 'Prefer not to answer',
+              'other': 'Multiple ethnicity/Other (please specify)',
+            }
+
+            for (var key of Object.keys(raceOpts)) {
+              if (val == key) { %>
+
+                <option value="<%= key %>" selected><%= raceOpts[key] %></option>
+
+              <% } else { %>
+
+                <option value="<%= key %>"><%= raceOpts[key] %></option>
+
+              <% }
+            }
+          %>
+        </select>
+        <input id="raceOther" placeholder="Specify race..." name="raceOther" type="text" value="<%= data.raceOther || '' %>" />
+        <p class="form-error" id="race-error"></p>
 
         <h3>What school do you currently attend? <span class="required">*</span></h3>
         <input id="school" name="school" type="text" value="<%= data.school || '' %>" />
@@ -88,6 +123,10 @@
         </select>
         <p class="form-error" id="year-error"></p>
 
+        <h3>What is your birthday? (MM/DD/YYYY) <span class="required">*</span></h3>
+        <input id="bday" name="bday" type="text" value="<%= data.bday || '' %>" />
+        <p class="form-error" id="bday-error"></p>
+
         <h3>What are you studying? Include minors if necessary. <span class="required">*</span></h3>
         <input id="major" name="major" type="text" value="<%= data.major || '' %>" />
         <p class="form-error" id="major-error"></p>
@@ -98,9 +137,9 @@
             var val = data.transportation || '';
             transportationOpts = {
               '': 'Select one',
-              'oos': 'Out of State',
-              'ooa': 'Out of Area (California)',
-              'berkeley': 'Cal Student'
+              'oos': 'Out of state',
+              'ooa': 'Out of area (California)',
+              'berkeley': 'I\'m a Cal student'
             };
 
             for (var key of Object.keys(transportationOpts)) {
@@ -117,6 +156,31 @@
           %>
         </select>
         <p class="form-error" id="transportation-error"></p>
+
+        <h3>Will you need help with transportation? <span class="required">*</span></h3>
+        <select id="requireTransportation" name="requireTransportation">
+          <%
+            var val = data.requireTransportation || '';
+            requireTransportationOpts = {
+              '': 'Select one',
+              'yes': 'Yes, I\'ll need help with transportation',
+              'no': 'No',
+            };
+
+            for (var key of Object.keys(requireTransportationOpts)) {
+              if (val == key) { %>
+
+                <option value="<%= key %>" selected><%= requireTransportationOpts[key] %></option>
+
+              <% } else { %>
+
+                <option value="<%= key %>"><%= requireTransportationOpts[key] %></option>
+
+              <% }
+            }
+          %>
+        </select>
+        <p class="form-error" id="requireTransportation-error"></p>
 
         <h3>List food allergies, if you have any.</h3>
         <input id="allergies" name="allergies" type="text" value="<%= data.allergies || '' %>" />
@@ -149,6 +213,78 @@
         </select>
         <p class="form-error" id="shirt-error"></p>
 
+        <h3>I have read and agree to the <a href="/code-of-conduct" target="_blank">Cal Hacks Code of Conduct</a>. <span class="required">*</span></h3>
+        <select id="chCodeOfConduct" name="chCodeOfConduct">
+          <%
+            var val = data.chCodeOfConduct || '';
+            chCodeOfConductOpts = {
+              '': 'Select one',
+              'agree': 'Agree'
+            };
+
+            for (var key of Object.keys(chCodeOfConductOpts)) {
+              if (val == key) { %>
+
+                <option value="<%= key %>" selected><%= chCodeOfConductOpts[key] %></option>
+
+              <% } else { %>
+
+                <option value="<%= key %>"><%= chCodeOfConductOpts[key] %></option>
+
+              <% }
+            }
+          %>
+        </select>
+        <p class="form-error" id="chCodeOfConduct-error"></p>
+
+        <h3>I have read and agree to the <a href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf" target="_blank">MLH Code of Conduct</a>. <span class="required">*</span></h3>
+        <select id="mlhCodeOfConduct" name="mlhCodeOfConduct">
+          <%
+            var val = data.mlhCodeOfConduct || '';
+            mlhCodeOfConductOpts = {
+              '': 'Select one',
+              'agree': 'Agree'
+            };
+
+            for (var key of Object.keys(mlhCodeOfConductOpts)) {
+              if (val == key) { %>
+
+                <option value="<%= key %>" selected><%= mlhCodeOfConductOpts[key] %></option>
+
+              <% } else { %>
+
+                <option value="<%= key %>"><%= mlhCodeOfConductOpts[key] %></option>
+
+              <% }
+            }
+          %>
+        </select>
+        <p class="form-error" id="mlhCodeOfConduct-error"></p>
+
+        <h3>I authorize you to share my application/registration information for event administration, ranking, MLH administration, pre- and post-event informational e-mails, and occasional messages about hackathons in-line with the MLH Privacy Policy. I further I agree to the terms of both the <a href="https://github.com/MLH/mlh-policies/blob/master/prize-terms-and-conditions/contest-terms.md" target="_blank">MLH Contest Terms and Conditions</a> and the <a href="https://mlh.io/privacy" target="_blank">MLH Privacy Policy</a>. <span class="required">*</span></h3>
+        <select id="mlhAffiliation" name="mlhAffiliation">
+          <%
+            var val = data.mlhAffiliation || '';
+            mlhAffiliationOpts = {
+              '': 'Select one',
+              'agree': 'Agree'
+            };
+
+            for (var key of Object.keys(mlhAffiliationOpts)) {
+              if (val == key) { %>
+
+                <option value="<%= key %>" selected><%= mlhAffiliationOpts[key] %></option>
+
+              <% } else { %>
+
+                <option value="<%= key %>"><%= mlhAffiliationOpts[key] %></option>
+
+              <% }
+            }
+          %>
+        </select>
+        <p class="form-error" id="mlhAffiliation-error"></p>
+
         <h2>Part 2: More About You</h2>
 
         <h3>Upload your resume: <span class="required">*</span></h3>
@@ -168,6 +304,17 @@
         <h3>How did you hear about Cal Hacks? <span class="required">*</span></h3>
         <input id="hearAbout" name="hearAbout" type="text" value="<%= data.hearAbout || '' %>" />
         <p class="form-error" id="hearAbout-error"></p>
+
+        <h3>If you are interested in being featured on our Facebook page as a hacker spotlight, please upload a photo of yourself and a quick blurb about you and your hackathon experience! :)</h3>
+        <textarea id="spotlight" name="spotlight" rows="5"><%= data.spotlightBlurb || '' %></textarea>
+        <p class="word-count" id="spotlight-word-count"></p>
+        <p class="form-error" id="spotlight-error"></p>
+
+        <input type='file' onchange="thumbnail_upload()" name='thumbnail' id='thumbnail' />
+        <label for="thumbnail" id="thumbnail_button">
+          <%= data.thumbnail || 'Upload a photo' %>
+        </label>
+        <p class="form-error" id="thumbnail-error"></p>
 
         <h2>Part 3: Essays</h2>
 
@@ -231,6 +378,10 @@ function resume_upload() {
   $('#resume_button').text("File Uploaded!");
 }
 
+function thumbnail_upload() {
+  $('#thumbnail_button').text("Photo Uploaded!");
+}
+
 function redisplay() {
   if ($("#cubstart").val() == "yes") {
     $("#cubstart-questions").css("display", "block");
@@ -241,6 +392,18 @@ function redisplay() {
   } else {
     $("#cubstart-questions").css("display", "none");
     $("#regular-questions").css("display", "block");
+  }
+
+  if ($("#gender").val() == "other") {
+    $("#genderOther").css("display", "block");
+  } else {
+    $("#genderOther").css("display", "none");
+  }
+
+  if ($("#race").val() == "other") {
+    $("#raceOther").css("display", "block");
+  } else {
+    $("#raceOther").css("display", "none");
   }
 
   if ($("#beginner").val() == "yes") {
@@ -261,6 +424,37 @@ var data = JSON.stringify("<%= data %>")
 data = JSON.parse(data)
 // console.log(Object.keys(data).length)
 
+// https://stackoverflow.com/questions/6177975/how-to-validate-date-with-format-mm-dd-yyyy-in-javascript
+function isValidDate(dateString) {
+  // First check for the pattern
+  if(!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString))
+    return false;
+
+  // Parse the date parts to integers
+  var parts = dateString.split("/");
+  var day = parseInt(parts[1], 10);
+  var month = parseInt(parts[0], 10);
+  var year = parseInt(parts[2], 10);
+
+  // Check the ranges of month and year
+  if(year < 1000 || year > 3000 || month == 0 || month > 12)
+    return false;
+
+  var monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+
+  // Adjust for leap years
+  if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+    monthLength[1] = 29;
+
+  // Check the range of the day
+  if (day > 0 && day <= monthLength[month - 1]) {
+    // no fetuses allowed
+    return year < 2002;
+  } else {
+    return false;
+  }
+};
+
 // Return a list of invalid fields
 function validate() {
   // Basic requried fields.
@@ -274,9 +468,9 @@ function validate() {
     'major',
     'transportation',
     'shirt',
-    // 'cubstart',
     'hackathons',
-    'hearAbout'
+    'hearAbout',
+    'requireTransportation'
   ]
 
   for (var field of requiredFields) {
@@ -390,6 +584,63 @@ function validate() {
     }
   }
 
+  if (wordCount($("#spotlight").val()) > 100) {
+    result.push({
+      field: "#spotlight",
+      reason: "Response must not exceed 100 words."
+    });
+  }
+
+  requiredReading = [
+    'mlhAffiliation',
+    'mlhCodeOfConduct',
+    'chCodeOfConduct',
+  ];
+
+  for (var field of requiredReading) {
+    if ($("#" + field).val() != "agree") {
+      result.push({
+        field: "#" + field,
+        reason: "You must read and agree to the terms."
+      })
+    }
+  }
+
+  if ($("#bday").val().trim() == '') {
+    result.push({
+      field: "#bday",
+      reason: "Field must not be left blank."
+    });
+  } else if (!isValidDate($("#bday").val().trim())) {
+    result.push({
+      field: "#bday",
+      reason: "Field must be a valid date."
+    });
+  }
+
+  if ($("#gender").val() == 'other') {
+    if ($("#genderOther").val().trim() == '') {
+      result.push({
+        field: '#gender',
+        reason: 'Field must not be blank.'
+      });
+    }
+  }
+
+  if ($("#race").val() == 'other') {
+    if ($("#raceOther").val().trim() == '') {
+      result.push({
+        field: '#race',
+        reason: 'Field must not be blank.',
+      });
+    }
+  } else if ($("#race").val().trim() == '') {
+    result.push({
+      field: '#race',
+      reason: 'Field must not be blank.',
+    });
+  }
+
   return result;
 }
 
@@ -405,6 +656,7 @@ function updateWc() {
     'question1': 300,
     'question2': 200,
     'question3': 50,
+    'spotlight': 100,
   };
 
   for (field in fields) {
@@ -418,9 +670,11 @@ function updateWc() {
 redisplay();
 updateWc();
 
-$("#question1, #question2, #question3").on('keyup', updateWc);
+$("#question1, #question2, #question3, #spotlight").on('keyup', updateWc);
 
 $("#beginner").on("change", redisplay);
+$("#gender").on("change", redisplay);
+$("#race").on("change", redisplay);
 $("#application").on("submit", function(e) {
   validationErrors = validate();
   console.log(validationErrors);
