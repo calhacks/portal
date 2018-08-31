@@ -16,6 +16,8 @@ body {
   font-weight: 400; }
   body p {
     color: #0D739D; }
+  body li {
+    color: #0D739D; }
   body a:link, body a:hover, body a:visited, body a:focus {
     color: #3B9BC2;
     text-decoration: none;
