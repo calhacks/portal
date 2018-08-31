@@ -92,7 +92,7 @@ console.log(process.env.NODE_ENV)
 
 if (process.env.NODE_ENV === 'production') {
     if (process.env.TARGET === 'aws') {
-        app.listen(80, () => { console.log('Serving on 80') });
+        app.listen(8000, () => { console.log('Serving on 80') });
     } else {
         fs.unlink(process.env.PORT, () => {
     		console.log('cleared old socket');
