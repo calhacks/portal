@@ -43,6 +43,12 @@
             <textarea id="cubstart4" name="cubstart4" rows="5"><%= data.cubstart4 || '' %></textarea>
             <p class="word-count" id="cubstart4-word-count"></p>
             <p class="form-error" id="cubstart4-error"></p>
+
+
+            <h3>(Optional) Is there anything in particular that you want to learn during CubStart (e.g. iOS development, web development, data science, etc.)?</h3>
+            <textarea id="cubstart5" name="cubstart5" rows="5"><%= data.cubstart5 || '' %></textarea>
+            <p class="word-count" id="cubstart5-word-count"></p>
+            <p class="form-error" id="cubstart5-error"></p>
           </span>
 
           <input type="submit" value="Save app" />
@@ -102,7 +108,8 @@ function updateWc() {
     'cubstart1': 200,
     'cubstart2': 200,
     'cubstart3': 200,
-    'cubstart4': 50
+    'cubstart4': 50,
+    'cubstart5': 200
   };
 
   for (field in fields) {
@@ -114,7 +121,7 @@ function updateWc() {
 }
 updateWc();
 
-$("#cubstart1, #cubstart2, #cubstart3, #cubstart4").on('keyup', updateWc);
+$("#cubstart1, #cubstart2, #cubstart3, #cubstart4", "#cubstart5").on('keyup', updateWc);
 
 function redisplay() {
 
