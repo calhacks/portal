@@ -32,7 +32,7 @@ let mail = nodemailer.createTransport({
     port: 587,
     secure: true,
     auth: {
-        user: 'hackthebay',
+        user: 'team@calhacks.io',
         pass: mailPassword,
     },
 });
