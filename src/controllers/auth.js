@@ -4,6 +4,7 @@ import sendgrid from '@sendgrid/mail';
 import { User } from '../models/index';
 import reset from '../emails/reset';
 import bcrypt from 'bcrypt-nodejs';
+import nodemailer from 'nodemailer';
 var Sequelize = require('sequelize');
 
 const genUUID = () => {
@@ -17,6 +18,24 @@ const genUUID = () => {
 const generateHash = pass => {
     return bcrypt.hashSync(pass, bcrypt.genSaltSync(8), null);
 };
+
+let mailPassword;
+
+if (process.env.MAIL_PASSWORD) {
+    mailPassword = process.env.MAIL_PASSWORD;
+} else {
+    console.error('ERROR: Must define MAIL_PASSWORD');
+}
+
+let mail = nodemailer.createTransport({
+    host: 'smtp.ocf.berkeley.edu',
+    port: 587,
+    secure: true,
+    auth: {
+        user: 'hackthebay',
+        pass: mailPassword,
+    },
+});
 
 export default {
     signIn: (req, res, next) => {
@@ -111,29 +130,31 @@ export default {
         }
       }).then(user => {
         if (!(user)) {
-          req.flash('error', 'There is no user associated with that email.');
-          return res.redirect('/reset_password');
+            req.flash('error', 'There is no user associated with that email.');
+            return res.redirect('/reset_password');
         }
         else {
-          const resetCode = genUUID();
-          const email = req.body.email;
-          sendgrid.send({
-            to: email,
-            from: 'team@calhacks.io',
-            subject: 'Reset your password for Cal Hacks',
-            html: reset(
-                user.firstname + ' ' + user.lastname,
-                resetCode
-            )
-          })
-          User.update({
-              resetPasswordCode: resetCode,
-              resetPasswordExpiration: new Date()
-          }, {
-              where: { email: email }
-          }).then(result => {
-              res.render('informReset', { user: user })
-          });
+            const resetCode = genUUID();
+            const email = req.body.email;
+
+            mail.sendMail({
+                to: email,
+                from: 'team@calhacks.io',
+                subject: 'Reset your password for Cal Hacks',
+                html: reset(
+                    user.firstname + ' ' + user.lastname,
+                    resetCode
+                ),
+            });
+
+            User.update({
+                resetPasswordCode: resetCode,
+                resetPasswordExpiration: new Date()
+            }, {
+                where: { email: email }
+            }).then(result => {
+                res.render('informReset', { user: user })
+            });
         }
       })
     },
