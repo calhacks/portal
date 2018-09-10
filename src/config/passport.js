@@ -1,30 +1,18 @@
 
 import bcrypt from 'bcrypt-nodejs';
 import { Strategy as LocalStrategy } from 'passport-local';
-import nodemailer from 'nodemailer';
+import sendgrid from '@sendgrid/mail';
 
 import verify from '../emails/verify';
 
 export default (passport, User) => {
 
-    let mailPassword;
-
-    if (process.env.MAIL_PASSWORD) {
-        mailPassword = process.env.MAIL_PASSWORD;
+    if (process.env.SENDGRID_APIKEY) {
+        sendgrid.setApiKey(process.env.SENDGRID_APIKEY);
     } else {
-        console.error('ERROR: Must define MAIL_PASSWORD');
-        return;
+        console.error('ERROR: Must define SENDGRID_APIKEY');
+        return
     }
-
-    let mail = nodemailer.createTransport({
-        host: 'smtp.ocf.berkeley.edu',
-        port: 587,
-        secure: true,
-        auth: {
-            user: 'team@calhacks.io',
-            pass: mailPassword,
-        },
-    });
 
     passport.serializeUser((user, done) => {
         done(null, user.id);
@@ -91,14 +79,14 @@ export default (passport, User) => {
                         role: 'hacker'
                     };
 
-                    mail.sendMail({
+                    sendgrid.send({
                         to: email,
                         from: 'team@calhacks.io',
                         subject: 'Verify your email with Cal Hacks',
                         html: verify(
                             req.body.firstname + ' ' + req.body.lastname,
                             verifyCode
-                        ),
+                        )
                     });
 
                     User.create(data).then((newUser, created) => {
@@ -110,6 +98,7 @@ export default (passport, User) => {
                             return done(null, newUser, {});
                         }
                     }).catch(result => {
+                        // This is gonna be a pain
                         if (result) {
                             const err = result.errors[0];
                             const reason = err.validatorName;
