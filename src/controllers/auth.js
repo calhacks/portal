@@ -30,7 +30,8 @@ if (process.env.MAIL_PASSWORD) {
 let mail = nodemailer.createTransport({
     host: 'smtp.ocf.berkeley.edu',
     port: 587,
-    secure: true,
+    secure: false,
+    requireTLS: true,
     auth: {
         user: 'team@calhacks.io',
         pass: mailPassword,
