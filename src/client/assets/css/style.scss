@@ -756,6 +756,20 @@ body {
         padding: 8px 0;
         font-size: 16px;
       }
+
+      .highlight {
+        background: get(french_trans);
+        color: get(oasis);
+        border-radius: 4px;
+        padding: 0 4px;
+        display: inline-block;
+        transition: background 0.2s ease-in-out;
+        &:hover {
+          background: get(french);
+          color: get(oasis);
+          font-weight: 800;
+        }
+      }
     }
 
     @media (max-width: 650px) {

@@ -16,8 +16,6 @@ body {
   font-weight: 400; }
   body p {
     color: #0D739D; }
-  body li {
-    color: #0D739D; }
   body a:link, body a:hover, body a:visited, body a:focus {
     color: #3B9BC2;
     text-decoration: none;
@@ -488,7 +486,7 @@ body {
         font-size: 14px;
         padding: 0 24px; }
   body #sponsor, body #faq {
-    background-image: url("../images/dust.png");
+    background-image: url("./images/dust.png");
     background-size: 80% 100%;
     background-repeat: no-repeat;
     background-position: center;
@@ -581,6 +579,17 @@ body {
         font-weight: 400;
         padding: 8px 0;
         font-size: 16px; }
+      body .faq-content .faq-item .highlight {
+        background: #A3DAEC;
+        color: #3B9BC2;
+        border-radius: 4px;
+        padding: 0 4px;
+        display: inline-block;
+        transition: background 0.2s ease-in-out; }
+        body .faq-content .faq-item .highlight:hover {
+          background: #80C8DF;
+          color: #3B9BC2;
+          font-weight: 800; }
     @media (max-width: 650px) {
       body .faq-content {
         flex-direction: column; } }
