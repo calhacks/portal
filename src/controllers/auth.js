@@ -19,16 +19,6 @@ const generateHash = pass => {
     return bcrypt.hashSync(pass, bcrypt.genSaltSync(8), null);
 };
 
-let mail = nodemailer.createTransport({
-    host: 'smtp.ocf.berkeley.edu',
-    port: 587,
-    secure: true,
-    auth: {
-        user: 'team@calhacks.io',
-        pass: mailPassword,
-    },
-});
-
 export default {
     signIn: (req, res, next) => {
         return res.render('login');
