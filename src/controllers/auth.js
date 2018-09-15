@@ -19,19 +19,10 @@ const generateHash = pass => {
     return bcrypt.hashSync(pass, bcrypt.genSaltSync(8), null);
 };
 
-let mailPassword;
-
-if (process.env.MAIL_PASSWORD) {
-    mailPassword = process.env.MAIL_PASSWORD;
-} else {
-    console.error('ERROR: Must define MAIL_PASSWORD');
-}
-
 let mail = nodemailer.createTransport({
     host: 'smtp.ocf.berkeley.edu',
     port: 587,
-    secure: false,
-    requireTLS: true,
+    secure: true,
     auth: {
         user: 'team@calhacks.io',
         pass: mailPassword,
@@ -138,15 +129,15 @@ export default {
             const resetCode = genUUID();
             const email = req.body.email;
 
-            mail.sendMail({
-                to: email,
-                from: 'team@calhacks.io',
-                subject: 'Reset your password for Cal Hacks',
-                html: reset(
-                    user.firstname + ' ' + user.lastname,
-                    resetCode
-                ),
-            });
+            sendgrid.send({
+              to: email,
+              from: 'team@calhacks.io',
+              subject: 'Reset your password for Cal Hacks',
+              html: reset(
+                  user.firstname + ' ' + user.lastname,
+                  resetCode
+              )
+            })
 
             User.update({
                 resetPasswordCode: resetCode,
