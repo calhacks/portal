@@ -506,7 +506,7 @@ function validate() {
     }
   }
 
-  if (schoolList.indexOf($("#school").val()) === -1) {
+  if (schoolList.indexOf($("#school :selected").text()) === -1) {
     result.push({
       field: "#school",
       reason: "You must pick out a school from the list."
