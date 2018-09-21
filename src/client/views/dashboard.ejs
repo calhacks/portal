@@ -7,7 +7,7 @@
     </div>
     <% if (user.email.endsWith('@berkeley.edu')) { %>
       <div id="cubstart-tab-item" class="left-tab">
-        Cubstart
+        CubStart
       </div>
     <% } %>
     <div id="team-tab-item" class="left-tab">
@@ -76,13 +76,14 @@
          if (user.CubStart) { %>
            <p><b>Your application to Cubstart at Cal Hacks 5.0 is all set!</b> If you want to make changes, you can still edit your application before the deadline, October 8th.</p>
            <div class="button-justified">
-             <button onclick="location.href='/cubstart';">Edit Cubstart app</button>
+             <button onclick="location.href='/cubstart';">Edit CubStart app</button>
            </div>
         <% } else { %>
           <p>You have not completed your application to CubStart yet.</p>
           <p>CubStart is a beginning hacker program to help hackathons less intimidating and more accessible for everyone. We provide a mentorship program for team building, ideation, basic hackathon skills, and technical workshops to encourage those with little or no CS experience to try out hackathons and coding! <b>If you're a first-time hacker, we highly recommend that you apply. Acceptance to CubStart guarantees your acceptance to Cal Hacks.</b></p>
-          <div class="button-justified">
-            <button onclick="location.href='/cubstart';">Start Cubstart Application</button>
+          <p>More information about CubStart can be found on our <a href="https://paper.dropbox.com/doc/CubStart-2018-FAQ--ANTL7gAZZFWK88JKzjANj4W2AQ-j81WBZRSgPEYps8G7Lo7D" target="_blank">FAQ</a>. If you have any additional questions, send us an email at cubstart@calhacks.io.</p>
+          <div class="button-justified"> 
+            <button onclick="location.href='/cubstart';">Start CubStart Application</button>
           </div>
         <% } %>
       </div>
