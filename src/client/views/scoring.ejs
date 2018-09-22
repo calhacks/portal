@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Cal Hacks 5.0</title>
+
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <div id="app-container">
+      <h1>Cal Hacks Scoring Tool </h1>
+      <div class="center-large-box">
+          <form action="javascript:redisplay();">
+            App Num: <input type="text" id="app-num"><br>
+            <input type="submit" value="Submit">
+          </form>
+          <div id="info-container">
+
+          </div>
+
+      </div>
+    </div>
+    <script src="assets/js/datalist-polyfill.min.js"></script>
+  </body>
+</html>
+
+<script>
+function getApp() {
+    return new Promise(function(resolve) {
+      // console.log($("#app-num").val());
+      var app_num = $("#app-num").val();
+      if (app_num == '' || !Number.isInteger(+app_num)) {
+        console.log("NaN");
+        $.post('/app', {id: 1}).done(resolve);
+      } else {
+        console.log("Num Given");
+        $.post('/app', {id: app_num}).done(resolve);
+      }
+    });
+}
+
+function redisplay() {
+  getApp().then(function(data) {
+    $("#info-container").html("");
+    for (var obj of data) {
+      var field = Object.keys(obj)[0];
+      var value = obj[field];
+      console.log(value);
+      var newElement = "<b>" + field + "</b>";
+      newElement += JSON.stringify(value);
+
+      $("#info-container").append(newElement);
+    }
+  });
+}
+
+redisplay();
+
+</script>
