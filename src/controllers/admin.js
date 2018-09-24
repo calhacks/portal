@@ -71,13 +71,12 @@ export default {
 
     // Get a User's App
     getApp: (req, res, next) => {
-      console.log("-----------------------------------");
-      console.log(req['body']['id']);
+      // console.log("-----------------------------------");
+      // console.log(req['body']['id']);
       var app_str = "SELECT A.*, U.firstname, U.lastname, U.email FROM Applications as A INNER JOIN Users as U ON A.userId = U.id WHERE U.id =" + req['body']['id'];
       const queries = {
           app: app_str,
       };
-      console.log(queries['app']);
       // executes all queries and puts them in a promise
       Promise.all(Object.keys(queries).map(query => new Promise(resolve => {
           sequelize.query(queries[query]).spread((results, meta) => {

@@ -13,12 +13,14 @@
     <div id="app-container">
       <h1>Cal Hacks Scoring Tool </h1>
       <div class="center-large-box">
+          <span id="left" onclick="javascript:nextPrevApp(-1); javascript:redisplay();">Previous</span>
+          <span id="right" onclick="javascript:nextPrevApp(1); javascript:redisplay();">Next</span>
           <form action="javascript:redisplay();">
-            App Num: <input type="text" id="app-num"><br>
-            <input type="submit" value="Submit">
+              App Num: <input type="text" id="app-num">
+              <input type="submit" value="Submit">
           </form>
           <div id="info-container">
-
+            
           </div>
 
       </div>
@@ -34,6 +36,7 @@ function getApp() {
       var app_num = $("#app-num").val();
       if (app_num == '' || !Number.isInteger(+app_num)) {
         console.log("NaN");
+        $("#app-num").val(1)
         $.post('/app', {id: 1}).done(resolve);
       } else {
         console.log("Num Given");
@@ -42,13 +45,21 @@ function getApp() {
     });
 }
 
+function nextPrevApp(direction) {
+  return new Promise(function(resolve) {
+    var app_num = parseInt($("#app-num").val(), 10) + direction;
+    $("#app-num").val(app_num);
+    redisplay();
+  });
+}
+
 function redisplay() {
   getApp().then(function(data) {
     $("#info-container").html("");
     for (var obj of data) {
       var field = Object.keys(obj)[0];
       var value = obj[field];
-      console.log(value);
+      // console.log(value);
       var newElement = "<b>" + field + "</b>";
       newElement += JSON.stringify(value);
 
