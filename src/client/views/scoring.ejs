@@ -19,8 +19,14 @@
               App Num: <input type="text" id="app-num">
               <input type="submit" value="Submit">
           </form>
+
+          <button id="oos" onclick="javascript:setLocation(1);">OOS</button>
+          <button id="ooa" onclick="javascript:setLocation(2);">OOA</button>
+          <button id="cal" onclick="javascript:setLocation(3);">Cal</button>
+
+
           <div id="info-container">
-            
+
           </div>
 
       </div>
@@ -30,17 +36,31 @@
 </html>
 
 <script>
+var locationMap = {
+  0: '',       // DEFAULT
+  1: 'oos',
+  2: 'ooa',
+  3: 'berkeley'
+};
+
+var locationFilter = ''; // Default to all
+
+function setLocation(location) {
+    location = +location;
+    locationFilter = locationMap[location];
+    // console.log(locationFilter);
+    redisplay();
+}
+
 function getApp() {
     return new Promise(function(resolve) {
       // console.log($("#app-num").val());
       var app_num = $("#app-num").val();
       if (app_num == '' || !Number.isInteger(+app_num)) {
-        console.log("NaN");
         $("#app-num").val(1)
-        $.post('/app', {id: 1}).done(resolve);
+        $.post('/app', {id: 1, location: locationFilter}).done(resolve);
       } else {
-        console.log("Num Given");
-        $.post('/app', {id: app_num}).done(resolve);
+        $.post('/app', {id: app_num, location: locationFilter}).done(resolve);
       }
     });
 }
@@ -55,15 +75,47 @@ function nextPrevApp(direction) {
 
 function redisplay() {
   getApp().then(function(data) {
-    $("#info-container").html("");
+    // $("#info-container").html("");
     for (var obj of data) {
       var field = Object.keys(obj)[0];
       var value = obj[field];
-      // console.log(value);
-      var newElement = "<b>" + field + "</b>";
-      newElement += JSON.stringify(value);
+      console.log(value);
+      var infoHTML = "";
+      if (value == null) {
+          infoHTML += "Apps not Found";
+      } else {
+          infoHTML += "<b>Name:</b> " + value['firstname'] + " " + value['lastname'] + "<br/>";
+          infoHTML += "<b>Email:</b> " + value['email'] + "<br />";
+          infoHTML += "<b>University:</b> " + value['school'] + "<br />";
+          infoHTML += "<b>Gender</b>: " + value['gender'] + "<br />";
+          infoHTML += "<b>Major</b>: " + value['major'] + "<br />";
+          infoHTML += "<b>Number of Previous Hackthons</b>: " + value['hackathons'] + "<br />";
+          infoHTML += "<b>How'd they hear about us</b>: " + value['hearAbout'] + "<br />";
+          infoHTML += "<b>Transportation</b>: " + value['requireTransportation'] + ", from " + value['transportation'] + " <br />";
 
-      $("#info-container").append(newElement);
+          infoHTML += "<br /><h3>Links</h3>";
+          infoHTML += value['links'] + "<br />";
+
+
+          infoHTML += "<br /><h3>Essays</h3>";
+          infoHTML += "<br/><b>Describe something that you created (technical or non-technical, it doesn’t matter!), and elaborate on how you made it.  What did you learn?  Why did you love building it? </b>:<br/> " + value['question1'] + "<br />";
+          infoHTML += "<br/><b>What sorts of questions do you find most intriguing? Tell us about an interesting problem you’d like to solve and why! </b>:<br/> " + value['question2'] + "<br />";
+
+          infoHTML += "<br/><b>Beginner</b>: " + value['beginner'] + "<br />";
+          if (value['beginner'] == 'yes') {
+            infoHTML += "<br/><b>What programming experience do you have (if any)? </b>:<br />" + value['question3'] + "<br />";
+          }
+      }
+      $("#info-container").html(infoHTML);
+
+      // $("#info-name").html("<b>" + name + "</b>");
+      // $("#info-email").html("<b>" + value['email'] + "</b>");
+
+
+      // var newElement = "<b>" + field + "</b>";
+      // newElement += JSON.stringify(value);
+      //
+      // $("#info-container").append(newElement);
     }
   });
 }

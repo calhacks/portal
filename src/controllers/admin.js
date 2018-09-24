@@ -73,7 +73,13 @@ export default {
     getApp: (req, res, next) => {
       // console.log("-----------------------------------");
       // console.log(req['body']['id']);
-      var app_str = "SELECT A.*, U.firstname, U.lastname, U.email FROM Applications as A INNER JOIN Users as U ON A.userId = U.id WHERE U.id =" + req['body']['id'];
+      // console.log(req['body']['location']);
+      if (req['body']['location'] == '') {
+        var app_str = "SELECT A.*, U.firstname, U.lastname, U.email FROM Applications as A INNER JOIN Users as U ON A.userId = U.id WHERE U.id = " + req['body']['id'];
+      } else {
+        var app_str = "SELECT A.*, U.firstname, U.lastname, U.email FROM Applications as A INNER JOIN Users as U ON A.userId = U.id WHERE U.id = " + req['body']['id'] + " AND A.transportation = '" + req['body']['location'] + "'";
+      }
+      console.log(app_str);
       const queries = {
           app: app_str,
       };
