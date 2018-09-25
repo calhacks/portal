@@ -13,7 +13,31 @@
         Back
       </a>
       <h1>Cal Hacks 5.0 Application</h1>
-      <p>We want to get to know you better! Fill in the form to the best of your ability. </p>
+
+      <%
+        var canSubmit = true;
+
+        if (
+          user.Application &&
+          user.Application.transportation == "oos" &&
+          Math.round((new Date()).getTime() / 1000 >= 1537833600) {
+          // it's past the deadline to apply out of state!
+          canSubmit = false;
+        }
+      %>
+
+      <%
+        if (canSubmit) {
+          %>
+            <p>We want to get to know you better! Fill in the form to the best of your ability. </p>
+          <%
+        } else {
+          %>
+            <p>Out of state applications have been closed, and your application can no longer be changed.</p>
+          <%
+        }
+      %>
+
       <form action="/application" id="application" method="post" encType='multipart/form-data'>
 
         <%
@@ -144,7 +168,6 @@
             var val = data.transportation || '';
             transportationOpts = {
               '': 'Select one',
-              'oos': 'Out of state',
               'ooa': 'Out of area (California)',
               'berkeley': 'I\'m a Cal student'
             };
@@ -370,8 +393,17 @@
             <p class="form-error" id="question3-error"></p>
           </span>
         </span>
-
-        <input type="submit" value="Save app" />
+        <%
+          if (canSubmit) {
+            %>
+              <input type="submit" value="Save app" />
+            <%
+          } else {
+            %>
+              <p>Out of state applications have been closed, and your application can no longer be changed.</p>
+            <%
+          }
+        %>
         <p class="form-error" id="all-error"></p>
       </form>
     </div>
