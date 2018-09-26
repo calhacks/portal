@@ -90,7 +90,6 @@
 
       function changeTransport() {
         locationFilter = $('#transport').val();
-        currIndex = 0;
         updateFields();
       }
 
@@ -163,7 +162,10 @@
         });
       }
 
-      $('#transport').change(changeTransport);
+      $('#transport').change(function() {
+        currIndex = 0;
+        changeTransport();
+      });
       changeTransport();
 
       $("#prev").click(function() {
