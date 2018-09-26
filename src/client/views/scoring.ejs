@@ -147,7 +147,6 @@ redisplay();
           <button id="next" class="btn btn-primary">&gt;&gt;</button>
         </div>
         <div class="col ml-4">
-          <p>#<span id="data-id"></span> out of <span id="data-total"></span></p>
         </div>
         <div class="col-2">
           <select id="transport" class="form-control">
@@ -212,7 +211,8 @@ redisplay();
             <p><b>Major:</b> <span id="data-major"></span></p>
             <p><b># of Prev Hackathons:</b> <span id="data-hackathons"></span></p>
             <p><b>Heard from:</b> <span id="data-hearAbout"></span></p>
-            <p><b>Help w/ transport?</b> <a id="data-requireTransportation"></a></p>
+            <p><b>Help w/ transport?</b> <span id="data-requireTransportation"></span></p>
+            <p><b>Resume link:</b> <a id="data-resumeLink"></a></p>
           </div>
 <!-- 
         infoLeft += "<b>Number of Previous Hackthons</b>: " + value['hackathons'] + "<br />";
@@ -226,7 +226,9 @@ redisplay();
           infoLeft += "<a href="+'"'+links[i]+'"'+">"+links[i]+"</a>"+"<br />";
         } -->
           <div class="col">
-            <p>fasdf</p>
+            <p><b>Question 1:</b> <span id="data-question1"></span></p>
+            <p><b>Question 2:</b> <span id="data-question2"></span></p>
+            <p><b>Question 3:</b> <span id="data-question3"></span></p>
           </div>
         </div>
       </div>
@@ -305,13 +307,24 @@ redisplay();
         //   $("#submit").prop("disabled", false);
         // }
 
-        getApp().then(function(currApp) {
-          console.log(currApp);
+        getApp().then(function(data) {
+          currApp = data[0];
           var keys = Object.keys(currApp);
           for (var i = 0; i < keys.length; i++) {
             $("#data-" + keys[i]).text(currApp[keys[i]]);
           }
-        })
+
+          $('#data-resumeLink').attr(
+            'href',
+            'https://vortex.ocf.berkeley.edu/resumes/resume-' + currIndex + '.pdf'
+          );
+          $('#data-resumeLink').attr(
+            'target',
+            '_blank'
+          );
+
+          $('#data-resumeLink').html('Here');
+        });
 
         // getScores();
       }
