@@ -153,6 +153,12 @@
           $("#app-pointer").text(
             $('#transport').val() + ' app #' + currIndex
           );
+
+          if (data.id === undefined) {
+            $("#app-pointer").css('color', 'red');
+          } else {
+            $("#app-pointer").css('color', 'black');
+          }
           getScores();
         });
       }
