@@ -69,7 +69,9 @@ export default {
                         console.log(err);
                         res.redirect('/dashboard');
                     });
-                })
+                }).catch(err => {
+                    res.send(err);
+                });
             } else {
                 console.log(req.files.resume.name);
                 var data = req.body;
@@ -88,7 +90,9 @@ export default {
                         console.log(err);
                         res.redirect('/dashboard');
                     });
-                })
+                }).catch(err => {
+                    res.send(err);
+                });
             }
         }).catch(err => {
             res.send(err);
