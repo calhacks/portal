@@ -184,7 +184,8 @@
           function(data) {
             currIndex = data.appIndex;
             locationFilter = data.location;
-            updateFields();
+            $("#transport").val(data.location);
+            changeTransport();
           }
         );
       });
