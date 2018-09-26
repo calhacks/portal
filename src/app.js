@@ -19,34 +19,42 @@ import passportConfig from './config/passport';
 
 require('dotenv').config();
 
-var config = require('./config/sequelize').default[process.env.NODE_ENV || 'development'];
-
-var SequelizeStore = sequelizeSession(session.Store);
-const sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
-    config
-);
-
 const app = express();
+
+// sequelize session storage causes a massive pain w/ local development
+if (process.env.NODE_ENV === 'production') {
+    var config = require('./config/sequelize')
+        .default[process.env.NODE_ENV || 'development'];
+    
+    var SequelizeStore = sequelizeSession(session.Store);
+    const sequelize = new Sequelize(
+        config.database,
+        config.username,
+        config.password,
+        config
+    );
+    var myStore = new SequelizeStore({
+        db: sequelize
+    });
+    myStore.sync();
+    app.use(session({
+        secret: 'keyboard cat',
+        resave: true,
+        saveUninitialized: true,
+        store: myStore
+    }));
+} else {
+    app.use(session({
+        secret: 'keyboard cat',
+        resave: true,
+        saveUninitialized: true,
+    }))
+}
 
 require('babel-register')({ presets: ['env'] })
 
 app.use(cookieParser());
-var myStore = new SequelizeStore({
-    db: sequelize
-})
-app.use(session({
-    secret: 'keyboard cat',
-    resave: true,
-    saveUninitialized: true,
-    store: myStore
-}));
-myStore.sync();
-
 app.use(flash({ locals: 'flash' }));
-
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static('./dist'));
@@ -88,7 +96,6 @@ if (process.env.NODE_ENV === 'production') {
     );
 }
 app.use('/', router);
-console.log(process.env.NODE_ENV)
 
 if (process.env.NODE_ENV === 'production') {
     if (process.env.TARGET === 'aws') {

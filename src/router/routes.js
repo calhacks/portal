@@ -87,11 +87,13 @@ export default {
         get: adminController.scoring,
     },
     '/app': {
-        // get: adminController.getApp,
         get: adminController.getApp
     },
     '/score': {
         post: adminController.postScore,
         get: adminController.getScore
-    }
+    },
+    '/findApp': {
+        get: adminController.findApp,
+    },
 };

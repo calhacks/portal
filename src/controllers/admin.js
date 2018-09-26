@@ -54,17 +54,104 @@ export default {
     },
 
     postScore: (req, res, next) => {
-        console.log(req);
-        ApplicationScore.create({
-            director: req.body.director,
-            UserId: req.body.id,
-            experience: (req.body.experience == 'yes' ? 1 : 0),
-            category1: req.body.cat1,
-            category2: req.body.cat2,
-            category3: req.body.cat3
-        }).then(newScore =>{
-            res.send()
+        ApplicationScore.findOne({
+            director: req.user.id,
+            ApplicationId: req.body.ApplicationId
+        }).then(score => {
+            if (score) {
+                score.updateAttributes({ ...req.body }).then(newScore => {
+                    res.send(newScore);
+                });
+            } else {
+                ApplicationScore.create({ ...req.body }).then(newScore =>{
+                    res.send(newScore);
+                });
+            }
         });
+    },
+
+    getScore: (req, res, next) => {
+        ApplicationScore.findOne({
+            where: {
+                director: req.user.id,
+                ApplicationId: req.query.appId,
+            }
+        }).then(score => {
+            res.json(score);
+        }).catch(err => {
+            res.send(err);
+        });
+    },
+
+    findApp: (req, res, next) => {
+        const val = req.query.query.toLowerCase();
+        const to = parseInt(val);
+
+        if (val.indexOf('@') != -1) {
+            User.findOne({
+                where: {
+                    email: val.trim()
+                }
+            }).then(user => {
+                Application.findOne({
+                    where: {
+                        UserId: user.id,
+                    }
+                }).then(app => {
+                    if (app) {
+                        sequelize.query(
+                            'select id from Applications ' +
+                            'where transportation="' + req.query.location + '" ' +
+                            'order by id;'
+                        ).spread((results, meta) => {
+                            for (let i = 0; i < results.length; i++) {
+                                if (results[i].id == app.id) {
+                                    res.json({
+                                        location: req.query.location,
+                                        appIndex: i
+                                    });
+                                    return;
+                                }
+                            }
+                            res.json({});
+                            return;
+                        })
+                    } else {
+                        res.json({});
+                        return;
+                    }
+                });
+            });
+        } else if (isNaN(to)) {
+            // searching "oos 5" or something
+            const components = val.split(' ');
+            if (components.length == 1 || components.length == 0) {
+                res.json({});
+                return;
+            }
+            if (
+                components[0] == 'oos' ||
+                components[0] == 'ooa' ||
+                components[0] == 'berkeley'
+            ) {
+                // oos app
+                const ix = parseInt(components[1]);
+                if (isNaN(ix)) {
+                    res.json({});
+                    return;
+                }
+
+                res.json({
+                    location: components[0],
+                    appIndex: ix,
+                });
+            } else {
+                res.json({});
+            }
+        } else {
+            res.json({});
+            return;
+        }
     },
 
     scoring: (req, res, next) => {
@@ -130,7 +217,7 @@ export default {
             'where ' +
             conditions.join(' and ') +
 
-            ' order by u.id limit 1 offset ' + req.query.id + ';';
+            ' order by a.id limit 1 offset ' + req.query.id + ';';
 
         console.log(query);
 

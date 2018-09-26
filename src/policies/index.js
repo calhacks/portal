@@ -55,5 +55,8 @@ export default {
     '/score': {
         get: [authenticateUser(['admin']), emailVerify],
         post: [authenticateUser(['admin']), emailVerify],
-    }
+    },
+    '/findApp': {
+        get: [authenticateUser(['admin']), emailVerify],
+    },
 };
