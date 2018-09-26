@@ -46,4 +46,7 @@ export default {
     '/deify': {
         post: [authenticateUser(['admin']), emailVerify],
     },
+    '/scoring': {
+        get: [authenticateUser(['admin']), emailVerify],
+    }
 };

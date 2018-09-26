@@ -83,4 +83,11 @@ export default {
     '/deify': {
         post: adminController.deify,
     },
+    '/scoring': {
+        get: adminController.scoring,
+    },
+    '/app': {
+        // get: adminController.getApp,
+        post: adminController.getApp
+    }
 };

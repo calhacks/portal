@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Cal Hacks 5.0</title>
+
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <div id="app-container">
+      <h1>Cal Hacks Scoring Tool </h1>
+      <div class="center-large-box">
+          <span id="left" onclick="javascript:nextPrevApp(-1); javascript:redisplay();">Previous</span>
+          <span id="right" onclick="javascript:nextPrevApp(1); javascript:redisplay();">Next</span>
+          <form action="javascript:redisplay();">
+              App Num: <input type="text" id="app-num">
+              <input type="submit" value="Submit">
+          </form>
+
+          <button id="oos" onclick="javascript:setLocation(1);">OOS</button>
+          <button id="ooa" onclick="javascript:setLocation(2);">OOA</button>
+          <button id="cal" onclick="javascript:setLocation(3);">Cal</button>
+
+
+          <div id="info-container">
+
+          </div>
+
+      </div>
+    </div>
+    <script src="assets/js/datalist-polyfill.min.js"></script>
+  </body>
+</html>
+
+<script>
+var locationMap = {
+  0: '',       // DEFAULT
+  1: 'oos',
+  2: 'ooa',
+  3: 'berkeley'
+};
+
+var locationFilter = ''; // Default to all
+
+function setLocation(location) {
+    location = +location;
+    locationFilter = locationMap[location];
+    // console.log(locationFilter);
+    redisplay();
+}
+
+function getApp() {
+    return new Promise(function(resolve) {
+      // console.log($("#app-num").val());
+      var app_num = $("#app-num").val();
+      if (app_num == '' || !Number.isInteger(+app_num)) {
+        $("#app-num").val(1)
+        $.post('/app', {id: 1, location: locationFilter}).done(resolve);
+      } else {
+        $.post('/app', {id: app_num, location: locationFilter}).done(resolve);
+      }
+    });
+}
+
+function nextPrevApp(direction) {
+  return new Promise(function(resolve) {
+    var app_num = parseInt($("#app-num").val(), 10) + direction;
+    $("#app-num").val(app_num);
+    redisplay();
+  });
+}
+
+function redisplay() {
+  getApp().then(function(data) {
+    // $("#info-container").html("");
+    for (var obj of data) {
+      var field = Object.keys(obj)[0];
+      var value = obj[field];
+      console.log(value);
+      var infoHTML = "";
+      if (value == null) {
+          infoHTML += "Apps not Found";
+      } else {
+          infoHTML += "<b>Name:</b> " + value['firstname'] + " " + value['lastname'] + "<br/>";
+          infoHTML += "<b>Email:</b> " + value['email'] + "<br />";
+          infoHTML += "<b>University:</b> " + value['school'] + "<br />";
+          infoHTML += "<b>Gender</b>: " + value['gender'] + "<br />";
+          infoHTML += "<b>Major</b>: " + value['major'] + "<br />";
+          infoHTML += "<b>Number of Previous Hackthons</b>: " + value['hackathons'] + "<br />";
+          infoHTML += "<b>How'd they hear about us</b>: " + value['hearAbout'] + "<br />";
+          infoHTML += "<b>Transportation</b>: " + value['requireTransportation'] + ", from " + value['transportation'] + " <br />";
+
+          infoHTML += "<br /><h3>Links</h3>";
+          infoHTML += value['links'] + "<br />";
+
+
+          infoHTML += "<br /><h3>Essays</h3>";
+          infoHTML += "<br/><b>Describe something that you created (technical or non-technical, it doesn’t matter!), and elaborate on how you made it.  What did you learn?  Why did you love building it? </b>:<br/> " + value['question1'] + "<br />";
+          infoHTML += "<br/><b>What sorts of questions do you find most intriguing? Tell us about an interesting problem you’d like to solve and why! </b>:<br/> " + value['question2'] + "<br />";
+
+          infoHTML += "<br/><b>Beginner</b>: " + value['beginner'] + "<br />";
+          if (value['beginner'] == 'yes') {
+            infoHTML += "<br/><b>What programming experience do you have (if any)? </b>:<br />" + value['question3'] + "<br />";
+          }
+      }
+      $("#info-container").html(infoHTML);
+
+      // $("#info-name").html("<b>" + name + "</b>");
+      // $("#info-email").html("<b>" + value['email'] + "</b>");
+
+
+      // var newElement = "<b>" + field + "</b>";
+      // newElement += JSON.stringify(value);
+      //
+      // $("#info-container").append(newElement);
+    }
+  });
+}
+
+redisplay();
+
+</script>
