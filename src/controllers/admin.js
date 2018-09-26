@@ -71,29 +71,58 @@ export default {
 
     // Get a User's App
     getApp: (req, res, next) => {
-      // console.log("-----------------------------------");
-      // console.log(req['body']['id']);
-      // console.log(req['body']['location']);
-      if (req['body']['location'] == '') {
-        var app_str = "SELECT * from OOS_Apps WHERE app_num = " + req['body']['id'];
-      }
-      else {
-        var app_str = "SELECT * from OOS_Apps WHERE app_num = " + req['body']['id'];
-      }
-      console.log(app_str);
-      const queries = {
-          app: app_str,
-      };
-      // executes all queries and puts them in a promise
-      Promise.all(Object.keys(queries).map(query => new Promise(resolve => {
-          sequelize.query(queries[query]).spread((results, meta) => {
-              resolve({
-                  [query]: results[Object.keys(results)[0]],
-              });
-          });
-      }))).then(results => {
-          res.json(results);
-      });
+        const conditions = [
+            'u.id=a.UserId',
+        ];
+
+        if (!['oos', 'ooa', 'all', 'berkeley'].includes(req.query.location)) {
+            res.json({});
+            return;
+        } else if (req.query.location !== 'all') {
+            conditions.push(
+                'a.transportation="' + req.query.location + '"',
+            );
+        }
+
+        // hot query
+        const query =
+            'select ' +
+
+            'u.firstname firstname, ' +
+            'u.lastname lastname, ' +
+            'u.email email, ' +
+            'a.gender gender, ' +
+            'a.genderOther genderOther, ' +
+            'a.school school, ' +
+            'a.year year, ' +
+            'a.bday bday, ' +
+            'a.race race, ' +
+            'a.raceOther raceOther, ' +
+            'a.major major, ' +
+            'a.transportation transportation, ' +
+            'a.links links, ' +
+            'a.hackathons hackathons, ' +
+            'a.hearAbout hearAbout, ' +
+            'a.question1 question1, ' +
+            'a.question2 question2, ' +
+            'a.question3 question3, ' +
+            'a.beginner beginner, ' +
+            'a.createdAt createdAt ' +
+
+            'from ' +
+            'Users u, ' +
+            'Applications a ' +
+
+            'where ' +
+            conditions.join(' and ') +
+
+            ' order by u.id limit 1 offset ' + req.query.id + ';';
+
+        console.log(query);
+
+        sequelize.query(query).spread((results, meta) => {
+            res.json(results);
+        });
     },
 
     // POST to save scores/ data

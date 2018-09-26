@@ -48,5 +48,8 @@ export default {
     },
     '/scoring': {
         get: [authenticateUser(['admin']), emailVerify],
+    },
+    '/app': {
+        get: [authenticateUser(['admin']), emailVerify],
     }
 };

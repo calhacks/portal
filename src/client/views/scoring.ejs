@@ -1,4 +1,4 @@
-
+<!-- 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -19,16 +19,15 @@
               App Num: <input type="text" id="app-num">
               <input type="submit" value="Submit">
           </form>
-
           <button id="oos" onclick="javascript:setLocation(1);">OOS</button>
           <button id="ooa" onclick="javascript:setLocation(2);">OOA</button>
           <button id="cal" onclick="javascript:setLocation(3);">Cal</button>
-
-
           <div id="info-container">
-
+            <div id="info-left">
+            </div>
+            <div id="info-right">
+            </div>
           </div>
-
       </div>
     </div>
     <script src="assets/js/datalist-polyfill.min.js"></script>
@@ -48,21 +47,19 @@ var locationFilter = ''; // Default to all
 function setLocation(location) {
     location = +location;
     locationFilter = locationMap[location];
-    // console.log(locationFilter);
     redisplay();
 }
 
 function getApp() {
-    return new Promise(function(resolve) {
-      // console.log($("#app-num").val());
-      var app_num = $("#app-num").val();
-      if (app_num == '' || !Number.isInteger(+app_num)) {
-        $("#app-num").val(1)
-        $.post('/app', {id: 1, location: locationFilter}).done(resolve);
-      } else {
-        $.post('/app', {id: app_num, location: locationFilter}).done(resolve);
-      }
-    });
+  return new Promise(function(resolve) {
+    var app_num = $("#app-num").val();
+    if (app_num == '' || !Number.isInteger(+app_num)) {
+      $("#app-num").val(1)
+      $.post('/app', {id: 1, location: locationFilter}).done(resolve);
+    } else {
+      $.post('/app', {id: app_num, location: locationFilter}).done(resolve);
+    }
+  });
 }
 
 function nextPrevApp(direction) {
@@ -80,48 +77,41 @@ function redisplay() {
       var field = Object.keys(obj)[0];
       var value = obj[field];
       console.log(value);
-      var infoHTML = "";
+      var infoLeft = "";
+      var infoRight = "";
       if (value == null) {
-          infoHTML += "Apps not Found";
+        infoLeft = "";
+        infoRight = "";
       } else {
-          infoHTML += "<b>Name:</b> " + value['firstname'] + " " + value['lastname'] + "<br/>";
-          infoHTML += "<b>Email:</b> " + value['email'] + "<br />";
-          infoHTML += "<b>University:</b> " + value['school'] + "<br />";
-          infoHTML += "<b>Gender</b>: " + value['gender'] + "<br />";
-          infoHTML += "<b>Major</b>: " + value['major'] + "<br />";
-          infoHTML += "<b>Number of Previous Hackthons</b>: " + value['hackathons'] + "<br />";
-          infoHTML += "<b>How'd they hear about us</b>: " + value['hearAbout'] + "<br />";
-          infoHTML += "<b>Transportation</b>: " + value['requireTransportation'] + ", from " + value['transportation'] + " <br />";
+        infoLeft += "<b>Name:</b> " + value['firstname'] + " " + value['lastname'] + "<br/>";
+        infoLeft += "<b>Email:</b> " + value['email'] + "<br />";
+        infoLeft += "<b>University:</b> " + value['school'] + "<br />";
+        infoLeft += "<b>Gender</b>: " + value['gender'] + "<br />";
+        infoLeft += "<b>Major</b>: " + value['major'] + "<br />";
+        infoLeft += "<b>Number of Previous Hackthons</b>: " + value['hackathons'] + "<br />";
+        infoLeft += "<b>How'd they hear about us</b>: " + value['hearAbout'] + "<br />";
+        infoLeft += "<b>Transportation</b>: " + value['requireTransportation'] + ", from " + value['transportation'] + " <br />";
 
-          infoHTML += "<br /><h3>Links</h3>";
-          var links = value['links'].match(/\S+/g)
-          var i;
-          for (i=0; i < links.length; i++) {
-            infoHTML += "<a href="+'"'+links[i]+'"'+">"+links[i]+"</a>"+"<br />";
-          }
-          infoHTML += "<br /><h3>Resume</h3>";
-          infoHTML += "<object data= "+'"' + "http://vortex.ocf.berkeley.edu/resumes/"+"resume-"+value['UserId']+'.pdf"' + 'type="application/pdf" width= "100%" height= "100%"></object>';
-          //infoHTML += "<embed src= "+'"' + "http://vortex.ocf.berkeley.edu/resumes/"+"resume-"+value['UserId']+'.pdf"' + ' width= "50%" height= "50%">';
-          infoHTML += "<a href="+'"'+"http://vortex.ocf.berkeley.edu/resumes/"+"resume-"+value['UserId']+'.pdf"'+">"+'Resume'+"</a>"+"<br />";
-          infoHTML += "<br /><h3>Essays</h3>";
-          infoHTML += "<br/><b>Describe something that you created (technical or non-technical, it doesn’t matter!), and elaborate on how you made it.  What did you learn?  Why did you love building it? </b>:<br/> " + value['question1'] + "<br />";
-          infoHTML += "<br/><b>What sorts of questions do you find most intriguing? Tell us about an interesting problem you’d like to solve and why! </b>:<br/> " + value['question2'] + "<br />";
+        infoLeft += "<br /><h3>Links</h3>";
+        var links = value['links'].match(/\S+/g)
+        var i;
+        for (i=0; i < links.length; i++) {
+          infoLeft += "<a href="+'"'+links[i]+'"'+">"+links[i]+"</a>"+"<br />";
+        }
+        infoRight += "<br /><h3>Resume</h3>";
+        infoRight += "<object data= "+'"' + "http://vortex.ocf.berkeley.edu/resumes/"+"resume-"+value['UserId']+'.pdf"' + 'type="application/pdf" width= "100%" height= "100%"></object>';
+        infoRight += "<a href="+'"'+"http://vortex.ocf.berkeley.edu/resumes/"+"resume-"+value['UserId']+'.pdf"'+">"+'Resume'+"</a>"+"<br />";
+        infoRight += "<br /><h3>Essays</h3>";
+        infoRight += "<br/><b>Describe something that you created (technical or non-technical, it doesn’t matter!), and elaborate on how you made it.  What did you learn?  Why did you love building it? </b>:<br/> " + value['question1'] + "<br />";
+        infoRight += "<br/><b>What sorts of questions do you find most intriguing? Tell us about an interesting problem you’d like to solve and why! </b>:<br/> " + value['question2'] + "<br />";
 
-          infoHTML += "<br/><b>Beginner</b>: " + value['beginner'] + "<br />";
-          if (value['beginner'] == 'yes') {
-            infoHTML += "<br/><b>What programming experience do you have (if any)? </b>:<br />" + value['question3'] + "<br />";
-          }
+        infoRight += "<br/><b>Beginner</b>: " + value['beginner'] + "<br />";
+        if (value['beginner'] == 'yes') {
+          infoRight += "<br/><b>What programming experience do you have (if any)? </b>:<br />" + value['question3'] + "<br />";
+        }
       }
-      $("#info-container").html(infoHTML);
-
-      // $("#info-name").html("<b>" + name + "</b>");
-      // $("#info-email").html("<b>" + value['email'] + "</b>");
-
-
-      // var newElement = "<b>" + field + "</b>";
-      // newElement += JSON.stringify(value);
-      //
-      // $("#info-container").append(newElement);
+      $("#info-left").html(infoLeft);
+      $("#info-right").html(infoRight);
     }
   });
 }
@@ -129,3 +119,279 @@ function redisplay() {
 redisplay();
 
 </script>
+
+ -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Director App Reading</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+
+    <%
+    var directors = [
+      'ani',
+      'george',
+      'someone'
+    ];
+    %>
+
+    <div class="container mt-3">
+      <div id="controls" class="form-row">
+        <div>
+          <button id="prev" class="btn btn-primary">&lt;&lt;</button>
+          <button id="next" class="btn btn-primary">&gt;&gt;</button>
+        </div>
+        <div class="col ml-4">
+          <p>#<span id="data-id"></span> out of <span id="data-total"></span></p>
+        </div>
+        <div class="col-2">
+          <select id="transport" class="form-control">
+            <option value="none">--TRANSPORT--</option>
+            <option value="all">All applicants</option>
+            <option value="oos">Out of state</option>
+            <option value="ooa">Out of area</option>
+            <option value="berkeley">Cal</option>
+          </select>
+        </div>
+        <div class="col-2">
+          <select id="reader" class="form-control">
+            <option value="null">--READER--</option>
+            <% for (var i = 0; i < directors.length; i++) { %>
+              <option value="<%- directors[i] %>"><%- directors[i] %></option>
+            <% } %>
+          </select>
+        </div>
+        <div class="col-3">
+          <input id="jump" type="text" class="form-control ml-4" placeholder="Jump To:" />
+        </div>
+      </div>
+
+      <div id="data">
+        <div class="row justify-content-start mt-4">
+          <div class="col-6">
+            <!-- <h1 class="display-4" id="data-name"></h1> -->
+            <h1 id="name" class="display-4">
+              <span id="data-firstname"></span>
+              <span id="data-lastname"></span>
+            </h1>
+            <img id="sp" class="ml-4 mb-4" src="/ajax-loader.gif" />
+          </div>
+
+          <div class="col">
+            <form class="form-row">
+                <div class="form-group col-xs-3 col-md-3">
+                    <label for="culture-score" class="small control-label">Culture Fit (1-5)</label>
+                    <input type="text" class="form-control" name="culture-score" id="culture-score">
+                </div>
+                <div class="form-group col-xs-3 col-md-3">
+                    <label for="passion-score" class="small control-label">Passion (1-5)</label>
+                    <input type="text" class="form-control" name="passion-score" id="passion-score">
+                </div>
+                <div class="form-group col-xs-3 col-md-3">
+                    <label for="exp-score" class="small control-label">Experience (1-5)</label>
+                    <input type="text" class="form-control" name="exp-score" id="exp-score">
+                </div>
+                <div class="form-group col-xs-3 col-md-3">
+                  <label for="submit" class="small control-label">&nbsp;</label>
+                    <button class="form-control btn-success" id="submit">Submit</button>
+                </div>
+            </form>
+          </div>
+        </div>
+        <div class="row justify-content-start mt-2 mb-5">
+          <div class="col-4">
+            <p><b>Email:</b> <span id="data-email"></span></p>
+            <p><b>Gender:</b> <span id="data-gender"></span></p>
+            <p><b>School:</b> <span id="data-school"></span></p>
+            <p><b>Year:</b> <span id="data-year"></span></p>
+            <p><b>Major:</b> <span id="data-major"></span></p>
+            <p><b># of Prev Hackathons:</b> <span id="data-hackathons"></span></p>
+            <p><b>Heard from:</b> <span id="data-hearAbout"></span></p>
+            <p><b>Help w/ transport?</b> <a id="data-requireTransportation"></a></p>
+          </div>
+<!-- 
+        infoLeft += "<b>Number of Previous Hackthons</b>: " + value['hackathons'] + "<br />";
+        infoLeft += "<b>How'd they hear about us</b>: " + value['hearAbout'] + "<br />";
+        infoLeft += "<b>Transportation</b>: " + value['requireTransportation'] + ", from " + value['transportation'] + " <br />";
+
+        infoLeft += "<br /><h3>Links</h3>";
+        var links = value['links'].match(/\S+/g)
+        var i;
+        for (i=0; i < links.length; i++) {
+          infoLeft += "<a href="+'"'+links[i]+'"'+">"+links[i]+"</a>"+"<br />";
+        } -->
+          <div class="col">
+            <p>fasdf</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      data = {};
+      currIndex = 0;
+      currApp = data[0];
+      currReader = null;
+      locationFilter = 0;
+
+      $('#transport').change(function() {
+        locationFilter = $('#transport').val();
+        updateFields();
+      });
+
+      function getApp() {
+        return new Promise(function(resolve) {
+          var app_num = currIndex;
+          if (app_num == '' || !Number.isInteger(+app_num)) {
+            $("#app-num").val(1)
+            $.get('/app', {
+              id: 0, location: locationFilter
+            }).done(resolve);
+          } else {
+            $.get('/app', {
+              id: app_num, location: locationFilter
+            }).done(resolve);
+          }
+        });
+      }
+
+      $("#sp").hide();
+      $("#name").css("display", "inline");
+
+      // var getScores = function() {
+      //   var email = currApp.email;
+      //   var reader = currReader;
+      //   $("#sp").show();
+      //   $.getJSON('/score', function(data) {
+      //     var found = false;
+      //     for (var i = 0; i < data.length; i++) {
+      //       if (email == data[i].target && reader == data[i].reader) {
+      //         var score = data[i].score;
+      //         $("#culture-score").val("" + score.culture);
+      //         $("#passion-score").val("" + score.passion);
+      //         $("#exp-score").val("" + score.experience);
+      //         found = true;
+      //       }
+      //     }
+      //     if (found == false) {
+      //       $("#culture-score").val("");
+      //       $("#passion-score").val("");
+      //       $("#exp-score").val("");
+      //     }
+      //     $("#sp").hide();
+      //   });
+      // }
+
+      var updateFields = function() {
+        // $("#data-total").text(data.length);
+        // if (currApp.resumeLink == "") {
+        //   $("#data-resumeLink").text("None uploaded");
+        //   $("#data-resumeLink").removeAttr("href");
+        // }
+        // else {
+        //   $("#data-resumeLink").attr("href", currApp.resumeLink);
+        // }
+        // $("#data-id1").text(currIndex);
+
+        // if (currReader == null) {
+        //   $("#submit").prop("disabled", true);
+        // }
+        // else {
+        //   $("#submit").prop("disabled", false);
+        // }
+
+        getApp().then(function(currApp) {
+          console.log(currApp);
+          var keys = Object.keys(currApp);
+          for (var i = 0; i < keys.length; i++) {
+            $("#data-" + keys[i]).text(currApp[keys[i]]);
+          }
+        })
+
+        // getScores();
+      }
+
+      updateFields();
+
+      $("#prev").click(function() {
+        if (currIndex > 0) {
+          currIndex -= 1;
+        }
+        updateFields();
+      });
+
+      $("#next").click(function() {
+        if (currIndex < data.length - 1) {
+          currIndex += 1;
+        }
+        updateFields();
+      });
+
+      $("#jump").bind('enter', function(e) {
+        // console.log("SDF");
+        var to = parseInt($(this).val());
+        if ($(this).val().indexOf("@") != -1) {
+          for (var i = 0; i < data.length; i++) {
+            if (data[i].email == $(this).val()) {
+              currIndex = i;
+              updateFields();
+            }
+          }
+        }
+        else if (isNaN(to)) {
+          for (var i = 0; i < data.length; i++) {
+            if (data[i].name.toLowerCase() == $(this).val().toLowerCase()) {
+              currIndex = i;
+              updateFields();
+            }
+          }
+        }
+        else {
+          if (0 <= to && to < data.length) {
+            currIndex = to;
+            updateFields();
+          }
+        }
+        
+      });
+
+      $("#jump").keyup(function(e) {
+        if (e.keyCode == 13) {
+          $(this).trigger('enter');
+        }
+      });
+
+      $("#reader").change(function() {
+        if ($(this).val() == "null") {
+          currReader = null;
+        }
+        else {
+          currReader = $(this).val();
+        }
+        updateFields();
+      });
+
+      $("#submit").click(function(e) {
+        e.preventDefault();
+        $.post('/score', {
+          reader: currReader,
+          target: currApp.email,
+          score: {
+            culture: parseInt($("#culture-score").val()),
+            passion: parseInt($("#passion-score").val()),
+            experience: parseInt($("#exp-score").val())
+          }
+        });
+        return false;
+      });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>

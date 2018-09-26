@@ -88,6 +88,6 @@ export default {
     },
     '/app': {
         // get: adminController.getApp,
-        post: adminController.getApp
+        get: adminController.getApp
     }
 };
