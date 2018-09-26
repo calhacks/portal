@@ -75,9 +75,10 @@ export default {
       // console.log(req['body']['id']);
       // console.log(req['body']['location']);
       if (req['body']['location'] == '') {
-        var app_str = "SELECT A.*, U.firstname, U.lastname, U.email FROM Applications as A INNER JOIN Users as U ON A.userId = U.id WHERE U.id = " + req['body']['id'];
-      } else {
-        var app_str = "SELECT A.*, U.firstname, U.lastname, U.email FROM Applications as A INNER JOIN Users as U ON A.userId = U.id WHERE U.id = " + req['body']['id'] + " AND A.transportation = '" + req['body']['location'] + "'";
+        var app_str = "SELECT * from OOS_Apps WHERE app_num = " + req['body']['id'];
+      }
+      else {
+        var app_str = "SELECT * from OOS_Apps WHERE app_num = " + req['body']['id'];
       }
       console.log(app_str);
       const queries = {

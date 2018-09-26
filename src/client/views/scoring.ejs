@@ -12,7 +12,7 @@
   <body>
     <div id="app-container">
       <h1>Cal Hacks Scoring Tool </h1>
-      <div class="center-large-box">
+      <div >
           <span id="left" onclick="javascript:nextPrevApp(-1); javascript:redisplay();">Previous</span>
           <span id="right" onclick="javascript:nextPrevApp(1); javascript:redisplay();">Next</span>
           <form action="javascript:redisplay();">
@@ -94,9 +94,15 @@ function redisplay() {
           infoHTML += "<b>Transportation</b>: " + value['requireTransportation'] + ", from " + value['transportation'] + " <br />";
 
           infoHTML += "<br /><h3>Links</h3>";
-          infoHTML += value['links'] + "<br />";
-
-
+          var links = value['links'].match(/\S+/g)
+          var i;
+          for (i=0; i < links.length; i++) {
+            infoHTML += "<a href="+'"'+links[i]+'"'+">"+links[i]+"</a>"+"<br />";
+          }
+          infoHTML += "<br /><h3>Resume</h3>";
+          infoHTML += "<object data= "+'"' + "http://vortex.ocf.berkeley.edu/resumes/"+"resume-"+value['UserId']+'.pdf"' + 'type="application/pdf" width= "100%" height= "100%"></object>';
+          //infoHTML += "<embed src= "+'"' + "http://vortex.ocf.berkeley.edu/resumes/"+"resume-"+value['UserId']+'.pdf"' + ' width= "50%" height= "50%">';
+          infoHTML += "<a href="+'"'+"http://vortex.ocf.berkeley.edu/resumes/"+"resume-"+value['UserId']+'.pdf"'+">"+'Resume'+"</a>"+"<br />";
           infoHTML += "<br /><h3>Essays</h3>";
           infoHTML += "<br/><b>Describe something that you created (technical or non-technical, it doesn’t matter!), and elaborate on how you made it.  What did you learn?  Why did you love building it? </b>:<br/> " + value['question1'] + "<br />";
           infoHTML += "<br/><b>What sorts of questions do you find most intriguing? Tell us about an interesting problem you’d like to solve and why! </b>:<br/> " + value['question2'] + "<br />";
