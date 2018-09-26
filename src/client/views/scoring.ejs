@@ -9,14 +9,6 @@
   </head>
   <body>
 
-    <%
-    var directors = [
-      'fasdf',
-      'asdf',
-      'askdfkajdf'
-    ];
-    %>
-
     <div class="container mt-3">
       <div id="controls" class="form-row">
         <div>
@@ -32,14 +24,6 @@
             <option value="oos">Out of state</option>
             <option value="ooa">Out of area</option>
             <option value="berkeley">Cal</option>
-          </select>
-        </div>
-        <div class="col-2">
-          <select id="reader" class="form-control">
-            <option value="null">--READER--</option>
-            <% for (var i = 0; i < directors.length; i++) { %>
-              <option value="<%- directors[i] %>"><%- directors[i] %></option>
-            <% } %>
           </select>
         </div>
         <div class="col-3">
@@ -61,16 +45,16 @@
           <div class="col">
             <form class="form-row">
                 <div class="form-group col-xs-3 col-md-3">
-                    <label for="culture-score" class="small control-label">Culture Fit (1-5)</label>
-                    <input type="text" class="form-control" name="culture-score" id="culture-score">
+                    <label for="cat1-score" class="small control-label">Cat1 (0-2)</label>
+                    <input type="text" class="form-control" name="cat1-score" id="cat1-score">
                 </div>
                 <div class="form-group col-xs-3 col-md-3">
-                    <label for="passion-score" class="small control-label">Passion (1-5)</label>
-                    <input type="text" class="form-control" name="passion-score" id="passion-score">
+                    <label for="cat2-score" class="small control-label">Cat2 (0-2)</label>
+                    <input type="text" class="form-control" name="cat2-score" id="cat2-score">
                 </div>
                 <div class="form-group col-xs-3 col-md-3">
-                    <label for="exp-score" class="small control-label">Experience (1-5)</label>
-                    <input type="text" class="form-control" name="exp-score" id="exp-score">
+                    <label for="cat3-score" class="small control-label">Cat3 (0-1)</label>
+                    <input type="text" class="form-control" name="cat3-score" id="cat3-score">
                 </div>
                 <div class="form-group col-xs-3 col-md-3">
                   <label for="submit" class="small control-label">&nbsp;</label>
@@ -104,7 +88,7 @@
       data = {};
       currIndex = 0;
       currApp = data[0];
-      currReader = null;
+      currReader = <%- JSON.stringify(user) %>;
       locationFilter = 0;
 
       $('#transport').change(function() {
@@ -131,48 +115,31 @@
       $("#sp").hide();
       $("#name").css("display", "inline");
 
-      // var getScores = function() {
-      //   var email = currApp.email;
-      //   var reader = currReader;
-      //   $("#sp").show();
-      //   $.getJSON('/score', function(data) {
-      //     var found = false;
-      //     for (var i = 0; i < data.length; i++) {
-      //       if (email == data[i].target && reader == data[i].reader) {
-      //         var score = data[i].score;
-      //         $("#culture-score").val("" + score.culture);
-      //         $("#passion-score").val("" + score.passion);
-      //         $("#exp-score").val("" + score.experience);
-      //         found = true;
-      //       }
-      //     }
-      //     if (found == false) {
-      //       $("#culture-score").val("");
-      //       $("#passion-score").val("");
-      //       $("#exp-score").val("");
-      //     }
-      //     $("#sp").hide();
-      //   });
-      // }
+      var getScores = function() {
+        var email = currApp.email;
+        var reader = currReader;
+        $("#sp").show();
+        $.getJSON('/score', function(data) {
+          var found = false;
+          for (var i = 0; i < data.length; i++) {
+            if (email == data[i].target && reader == data[i].reader) {
+              var score = data[i].score;
+              $("#cat1-score").val("" + score.cat1);
+              $("#cat2-score").val("" + score.cat2);
+              $("#cat3-score").val("" + score.cat3);
+              found = true;
+            }
+          }
+          if (found == false) {
+            $("#cat1-score").val("");
+            $("#cat2-score").val("");
+            $("#cat3-score").val("");
+          }
+          $("#sp").hide();
+        });
+      }
 
       var updateFields = function() {
-        // $("#data-total").text(data.length);
-        // if (currApp.resumeLink == "") {
-        //   $("#data-resumeLink").text("None uploaded");
-        //   $("#data-resumeLink").removeAttr("href");
-        // }
-        // else {
-        //   $("#data-resumeLink").attr("href", currApp.resumeLink);
-        // }
-        // $("#data-id1").text(currIndex);
-
-        // if (currReader == null) {
-        //   $("#submit").prop("disabled", true);
-        // }
-        // else {
-        //   $("#submit").prop("disabled", false);
-        // }
-
         getApp().then(function(data) {
           currApp = data[0];
           var keys = Object.keys(currApp);
@@ -192,7 +159,7 @@
           $('#data-resumeLink').html('Here');
         });
 
-        // getScores();
+        getScores();
       }
 
       updateFields();
@@ -257,11 +224,11 @@
         e.preventDefault();
         $.post('/score', {
           director: currReader,
-          id: currApp.id,
+          ApplicationId: currApp.id,
           experience: currApp.beginner,
-          cat1: parseFloat($("#culture-score").val()),
-          cat2: parseFloat($("#passion-score").val()),
-          cat3: parseFloat($("#exp-score").val())
+          cat1: parseFloat($("#cat1-score").val()),
+          cat2: parseFloat($("#cat2-score").val()),
+          cat3: parseFloat($("#cat3-score").val())
         });
         return false;
       });

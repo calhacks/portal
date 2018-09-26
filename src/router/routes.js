@@ -91,6 +91,7 @@ export default {
         get: adminController.getApp
     },
     '/score': {
-        post: adminController.score
+        post: adminController.postScore,
+        get: adminController.getScore
     }
 };

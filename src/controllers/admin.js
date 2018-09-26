@@ -52,20 +52,21 @@ export default {
 
             });
     },
-    score: (req, res, next) => {
-      console.log(req);
-      ApplicationScore.create({
-        director: req.body.director,
-        UserId: req.body.id,
-        experience: (req.body.experience == 'yes' ? 1 : 0),
-        category1: req.body.cat1,
-        category2: req.body.cat2,
-        category3: req.body.cat3
-      }).then(newScore =>{
-        res.redirect('/scoring')
-      })
+
+    postScore: (req, res, next) => {
+        console.log(req);
+        ApplicationScore.create({
+            director: req.body.director,
+            UserId: req.body.id,
+            experience: (req.body.experience == 'yes' ? 1 : 0),
+            category1: req.body.cat1,
+            category2: req.body.cat2,
+            category3: req.body.cat3
+        }).then(newScore =>{
+            res.send()
+        });
     },
-    // GET to Scoring Tool Page
+
     scoring: (req, res, next) => {
         User.findOne({
             where: { id: req.user.id }
