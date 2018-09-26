@@ -68,6 +68,7 @@
             <p><b>Gender:</b> <span id="data-gender"></span></p>
             <p><b>School:</b> <span id="data-school"></span></p>
             <p><b>Year:</b> <span id="data-year"></span></p>
+            <p><b>Beginner:</b> <span id="data-beginner"></span></p>
             <p><b>Major:</b> <span id="data-major"></span></p>
             <p><b># of Prev Hackathons:</b> <span id="data-hackathons"></span></p>
             <p><b>Heard from:</b> <span id="data-hearAbout"></span></p>
@@ -158,6 +159,17 @@
           } else {
             $("#app-pointer").css('color', 'black');
           }
+
+          if (currApp.beginner === 'yes') {
+            $('#label[for=cat1-score]').text('Self-starter (0-2)');
+            $('#label[for=cat2-score]').text('Enthusiasm (0-2)');
+            $('#label[for=cat3-score]').text('All-star (0-1)');
+          } else {
+            $('#label[for=cat1-score]').text('Experience (0-2)');
+            $('#label[for=cat2-score]').text('Enthusiasm (0-2)');
+            $('#label[for=cat3-score]').text('All-star (0-1)');
+          }
+
           getScores();
         });
       }
