@@ -90,6 +90,8 @@ export default {
                     });
                 })
             }
+        }).catch(err => {
+            res.send(err);
         });
     },
 
