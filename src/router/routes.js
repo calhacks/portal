@@ -89,5 +89,8 @@ export default {
     '/app': {
         // get: adminController.getApp,
         get: adminController.getApp
+    },
+    '/score': {
+        post: adminController.score
     }
 };

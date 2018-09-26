@@ -21,6 +21,7 @@ let models = {};
         require('./application'),
         require('./team'),
         require('./cubstart'),
+        require('./applicationScore')
     ];
 
     modules.forEach(module => {

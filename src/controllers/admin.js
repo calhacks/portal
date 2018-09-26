@@ -1,6 +1,6 @@
 
 import Sequelize from 'sequelize';
-import { User, Application, Team, CubStart } from '../models';
+import { User, Application, Team, CubStart, ApplicationScore } from '../models';
 var config = require('../config/sequelize').default[process.env.NODE_ENV || 'development'];
 
 const sequelize = new Sequelize(
@@ -52,7 +52,19 @@ export default {
 
             });
     },
-
+    score: (req, res, next) => {
+      console.log(req);
+      ApplicationScore.create({
+        director: req.body.director,
+        UserId: req.body.id,
+        experience: (req.body.experience == 'yes' ? 1 : 0),
+        category1: req.body.cat1,
+        category2: req.body.cat2,
+        category3: req.body.cat3
+      }).then(newScore =>{
+        res.redirect('/scoring')
+      })
+    },
     // GET to Scoring Tool Page
     scoring: (req, res, next) => {
         User.findOne({
@@ -88,6 +100,7 @@ export default {
         const query =
             'select ' +
 
+            'u.id id,' +
             'u.firstname firstname, ' +
             'u.lastname lastname, ' +
             'u.email email, ' +

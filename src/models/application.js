@@ -131,6 +131,7 @@ export default (sequelize, DataTypes) => {
 
     Application.associate = models => {
         models.Application.belongsTo(models.User);
+        models.Application.hasMany(models.ApplicationScore);
     };
     return Application;
 };

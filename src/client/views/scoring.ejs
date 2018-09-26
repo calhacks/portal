@@ -1,4 +1,4 @@
-<!-- 
+<!--
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -214,7 +214,7 @@ redisplay();
             <p><b>Help w/ transport?</b> <span id="data-requireTransportation"></span></p>
             <p><b>Resume link:</b> <a id="data-resumeLink"></a></p>
           </div>
-<!-- 
+<!--
         infoLeft += "<b>Number of Previous Hackthons</b>: " + value['hackathons'] + "<br />";
         infoLeft += "<b>How'd they hear about us</b>: " + value['hearAbout'] + "<br />";
         infoLeft += "<b>Transportation</b>: " + value['requireTransportation'] + ", from " + value['transportation'] + " <br />";
@@ -316,7 +316,7 @@ redisplay();
 
           $('#data-resumeLink').attr(
             'href',
-            'https://vortex.ocf.berkeley.edu/resumes/resume-' + currIndex + '.pdf'
+            'http://vortex.ocf.berkeley.edu/resumes/resume-' + currIndex + '.pdf'
           );
           $('#data-resumeLink').attr(
             'target',
@@ -368,7 +368,7 @@ redisplay();
             updateFields();
           }
         }
-        
+
       });
 
       $("#jump").keyup(function(e) {
@@ -390,13 +390,12 @@ redisplay();
       $("#submit").click(function(e) {
         e.preventDefault();
         $.post('/score', {
-          reader: currReader,
-          target: currApp.email,
-          score: {
-            culture: parseInt($("#culture-score").val()),
-            passion: parseInt($("#passion-score").val()),
-            experience: parseInt($("#exp-score").val())
-          }
+          director: currReader,
+          id: currApp.id,
+          experience: currApp.beginner,
+          cat1: parseFloat($("#culture-score").val()),
+          cat2: parseFloat($("#passion-score").val()),
+          cat3: parseFloat($("#exp-score").val())
         });
         return false;
       });
