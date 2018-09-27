@@ -294,4 +294,93 @@ export default {
             });
         });
     },
+
+    accumulate: (req, res, next) => {
+        const scores = ApplicationScore.find({}).then(scores => {
+            const lists = {};
+            const norms = {};
+
+            for (let i = 0; i < scores.length; i++) {
+                for (let c of [1,2,3]) {
+                    if (lists[scores[i].director]) {
+                        lists[scores[i].director]['cat' + c].push(scores[i]['category' + c]);
+                    } else {
+                        lists[scores[i].director]['cat' + c] = [scores[i]['category' + c]];
+                    }
+                }
+            }
+
+            for (let director in lists) {
+                let results = {
+                    mean1: 0,
+                    mean2: 0,
+                    mean3: 0,
+                    ssm1: 0,
+                    ssm2: 0,
+                    ssm3: 0,
+                }
+
+                for (let c of [1,2,3]) {
+                    const l = lists[director].['cat' + c];
+                    for (let i = 0; i < len; i++) {
+                        results['mean' + c] += l[i] / len;
+                        results['ssm' + c] += l[i] * l[i] / len;
+                    }
+                }
+
+                for (let c of [1,2,3]) {
+                    results['stdev' + c] =
+                        results['ssm' + c] - (results['mean' + c] * results['mean' + c]);
+                }
+
+                norms[director] = results;
+            }
+
+            let normalizedScores = [];
+
+            for (let score of scores) {
+                const applicant = score.UserId;
+                const director = score.director;
+                const n = norms[director];
+
+                const cat1 = score.category1;
+                const cat2 = score.category2;
+                const cat3 = score.category3;
+
+                const z1 = (cat1 - n.mean1) / n.stdev1;
+                const z2 = (cat2 - n.mean2) / n.stdev2;
+                const z3 = (cat3 - n.mean3) / n.stdev3;
+
+                normalizedScores.push({
+                    hacker: applicant,
+                    score: z1 + z2 + z3,
+                });
+            }
+
+            let finalScores = {};
+
+            for (let score of normalizedScores) {
+                if (finalScores[score.hacker]) {
+                    finalScores[score.hacker].push(score.score);
+                } else {
+                    finalScores[score.hacker] = [score.score];
+                }
+            }
+
+            for (let hacker of finalScores) {
+                let total = 0;
+                for (let i = 0; i < finalScores[hacker].length; i++) {
+                    total += finalScores[hacker][i];
+                }
+                const avg = total / finalScores[hacker].length;
+                finalScores[hacker] = avg;
+            }
+
+            const final = finalScores.sort((h1, h2) => h1.score - h2.score).map(h => {
+                return h.hacker;
+            });
+
+            res.json(final);
+        });
+    }
 };
