@@ -138,10 +138,9 @@
           for (var i = 0; i < keys.length; i++) {
             $("#data-" + keys[i]).text(currApp[keys[i]]);
           }
-
           $('#data-resumeLink').attr(
             'href',
-            'http://vortex.ocf.berkeley.edu/resumes/resume-' + currIndex + '.pdf'
+            'http://vortex.ocf.berkeley.edu/resumes/resume-' + currApp['id'] + '.pdf'
           );
           $('#data-resumeLink').attr(
             'target',
