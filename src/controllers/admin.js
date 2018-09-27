@@ -10,6 +10,7 @@ const sequelize = new Sequelize(
     config
 );
 
+import fs from 'fs';
 import path from 'path';
 
 const homedir = require('os').homedir();
@@ -105,30 +106,31 @@ export default {
         // gets the distribution of file types
 
         const types = {
-            'pdf': 'application/pdf',
-            'rtf': 'application/rtf',
-            'jpg': 'image/jpeg',
-            'png': 'image/png',
-            'txt': 'text/plain',
-            'rtf': 'application/rtf',
+            '.pdf': 'application/pdf',
+            '.rtf': 'application/rtf',
+            '.jpg': 'image/jpeg',
+            '.png': 'image/png',
+            '.txt': 'text/plain',
+            '.rtf': 'application/rtf',
         }
         // Anything else is handled as application/octet-stream
-
-        let type = types[path.extname(filename)];
-        if (type === undefined) {
-            type = 'application/octet-stream';
-        }
 
         if (!filename) {
             res.send(404);
         } else {
-            const info = fs.statSync(resumePath + filename);
-            res.writeHead({
+            console.log(path.extname(filename));
+            let type = types[path.extname(filename)];
+            if (type === undefined) {
+                type = 'application/octet-stream';
+            }
+
+            const info = fs.statSync(resumePath + '/' + filename);
+            res.writeHead(200, {
                 'Content-Type': type,
                 'Content-Length': info.size,
             });
 
-            const stream = fs.createReadStream(resumePath + filename);
+            const stream = fs.createReadStream(resumePath + '/' + filename);
             stream.pipe(res);
         }
     },
