@@ -60,8 +60,10 @@ export default {
 
     postScore: (req, res, next) => {
         ApplicationScore.findOne({
-            director: req.user.id,
-            ApplicationId: req.body.ApplicationId
+            where: {
+                director: req.user.id,
+                ApplicationId: req.body.ApplicationId,
+            }
         }).then(score => {
             if (score) {
                 score.updateAttributes({ ...req.body }).then(newScore => {
@@ -241,7 +243,7 @@ export default {
             'select ' +
 
             'u.id id,' +
-            'a.id appId' +
+            'a.id appId, ' +
             'u.firstname firstname, ' +
             'u.lastname lastname, ' +
             'u.email email, ' +
