@@ -196,7 +196,7 @@
         $.getJSON(
           '/findApp?location=' + locationFilter + '&query=' + $('#jump').val(),
           function(data) {
-            if (data.appIndex) {
+            if (data.appIndex !== undefined) {
               currIndex = data.appIndex;
               locationFilter = data.location;
               $("#transport").val(data.location);
