@@ -96,4 +96,7 @@ export default {
     '/findApp': {
         get: adminController.findApp,
     },
+    '/resume': {
+        get: adminController.loadResume,
+    },
 };
