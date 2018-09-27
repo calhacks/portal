@@ -59,4 +59,7 @@ export default {
     '/findApp': {
         get: [authenticateUser(['admin']), emailVerify],
     },
+    '/resume': {
+        get: [authenticateUser(['admin']), emailVerify],
+    }
 };

@@ -10,6 +10,11 @@ const sequelize = new Sequelize(
     config
 );
 
+import fs from 'fs';
+import path from 'path';
+
+const homedir = require('os').homedir();
+
 export default {
     stats: (req, res, next) => {
         const queries = {
@@ -81,6 +86,53 @@ export default {
         }).catch(err => {
             res.send(err);
         });
+    },
+
+    // Serve resumes from the ../resumes/ directory
+    loadResume: (req, res, next) => {
+        const resumePath = path.resolve(homedir, 'resumes');
+        const filenames = fs.readdirSync(resumePath);
+        const resumeId = req.query.id;
+
+        let filename;
+        for (var i = filenames.length - 1; i >= 0; i--) {
+            if (filenames[i].startsWith('resume-' + resumeId + '.')) {
+                filename = filenames[i];
+            }
+        }
+
+        // Guess what the MIME type is based on the resume
+        // find . | sed s/..resume-[0-9]*\.//g | tr A-Z a-z | sort | uniq -c
+        // gets the distribution of file types
+
+        const types = {
+            '.pdf': 'application/pdf',
+            '.rtf': 'application/rtf',
+            '.jpg': 'image/jpeg',
+            '.png': 'image/png',
+            '.txt': 'text/plain',
+            '.rtf': 'application/rtf',
+        }
+        // Anything else is handled as application/octet-stream
+
+        if (!filename) {
+            res.send(404);
+        } else {
+            console.log(path.extname(filename));
+            let type = types[path.extname(filename)];
+            if (type === undefined) {
+                type = 'application/octet-stream';
+            }
+
+            const info = fs.statSync(resumePath + '/' + filename);
+            res.writeHead(200, {
+                'Content-Type': type,
+                'Content-Length': info.size,
+            });
+
+            const stream = fs.createReadStream(resumePath + '/' + filename);
+            stream.pipe(res);
+        }
     },
 
     findApp: (req, res, next) => {
