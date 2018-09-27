@@ -99,4 +99,7 @@ export default {
     '/resume': {
         get: adminController.loadResume,
     },
+    '/accumulate': {
+        get: adminController.accumulate,
+    }
 };

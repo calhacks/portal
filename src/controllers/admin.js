@@ -296,16 +296,21 @@ export default {
     },
 
     accumulate: (req, res, next) => {
-        const scores = ApplicationScore.find({}).then(scores => {
+        ApplicationScore.findAll({}).then(scores => {
             const lists = {};
             const norms = {};
 
             for (let i = 0; i < scores.length; i++) {
-                for (let c of [1,2,3]) {
-                    if (lists[scores[i].director]) {
+                if (lists[scores[i].director] !== undefined) {
+                    for (let c of [1,2,3]) {
                         lists[scores[i].director]['cat' + c].push(scores[i]['category' + c]);
-                    } else {
-                        lists[scores[i].director]['cat' + c] = [scores[i]['category' + c]];
+                    }
+                } else {
+                    for (let c of [1,2,3]) {
+                        lists[scores[i].director] = {
+                            ...lists[scores[i].director],
+                            ['cat' + c]: [scores[i]['category' + c]],
+                        };
                     }
                 }
             }
@@ -322,9 +327,9 @@ export default {
 
                 for (let c of [1,2,3]) {
                     const l = lists[director]['cat' + c];
-                    for (let i = 0; i < len; i++) {
-                        results['mean' + c] += l[i] / len;
-                        results['ssm' + c] += l[i] * l[i] / len;
+                    for (let i = 0; i < l.length; i++) {
+                        results['mean' + c] += l[i] / l.length;
+                        results['ssm' + c] += l[i] * l[i] / l.length;
                     }
                 }
 
@@ -339,7 +344,7 @@ export default {
             let normalizedScores = [];
 
             for (let score of scores) {
-                const applicant = score.UserId;
+                const applicant = score.ApplicationId;
                 const director = score.director;
                 const n = norms[director];
 
@@ -367,7 +372,7 @@ export default {
                 }
             }
 
-            for (let hacker of finalScores) {
+            for (let hacker of Object.keys(finalScores)) {
                 let total = 0;
                 for (let i = 0; i < finalScores[hacker].length; i++) {
                     total += finalScores[hacker][i];
@@ -376,11 +381,29 @@ export default {
                 finalScores[hacker] = avg;
             }
 
-            const final = finalScores.sort((h1, h2) => h1.score - h2.score).map(h => {
-                return h.hacker;
+            const final = Object.keys(finalScores).sort((h1, h2) => {
+                return finalScores[h2] - finalScores[h1];
             });
 
-            res.json(final);
+            const proms = [];
+            for (let i = 0; i < final.length; i++) {
+                proms.push(new Promise(resolve => {
+                    sequelize.query(
+                        'select u.email from Applications a, Users u ' +
+                        'where u.id=a.UserId and a.id=' + final[i] + ';'
+                    ).spread((results, meta) => {
+                        resolve(results[0].email);
+                    });
+                }));
+            }
+
+            Promise.all(proms).then(result => {
+                res.send(
+                    '<ol><li>' +
+                    result.join('</li><li>') +
+                    '</li></ol>'
+                );
+            });
         });
     }
 };
