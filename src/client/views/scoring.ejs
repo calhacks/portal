@@ -6,6 +6,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+
+    <style>
+    a {
+      color: #4286f4 !important;
+      cursor: pointer;
+    }
+    </style>
   </head>
   <body>
 
@@ -64,6 +71,10 @@
         </div>
         <div class="row justify-content-start mt-2 mb-5">
           <div class="col-4">
+            <p>
+              <b>Team:</b><br/>
+              <span id="team-list"></span>
+            </p>
             <p><b>Email:</b> <span id="data-email"></span></p>
             <p><b>Gender:</b> <span id="data-gender"></span></p>
             <p><b>School:</b> <span id="data-school"></span></p>
@@ -133,7 +144,7 @@
 
       var updateFields = function() {
         getApp().then(function(data) {
-          currApp = data[0];
+          currApp = data;
           var keys = Object.keys(currApp);
           for (var i = 0; i < keys.length; i++) {
             $("#data-" + keys[i]).text(currApp[keys[i]]);
@@ -169,6 +180,26 @@
             $('label[for=cat3-score]').text('All-star (0-1)');
           }
 
+          let teammateComponents = [];
+          if (currApp.teammates.length) {
+            for (let j = 0; j < currApp.teammates.length; j++) {
+              if (currApp.teammates[j] === currApp.email) {
+                teammateComponents.push(
+                  '<b>' + currApp.email + '</b>'
+                );
+              } else {
+                teammateComponents.push(
+                  '<a ' +
+                    'onclick=\'jump("' + currApp.teammates[j] + '")\'' +
+                    '>' + currApp.teammates[j] + '</a>'
+                );
+              }
+            }
+          } else {
+            teammateComponents.push('None');
+          }
+          $('#team-list').html(teammateComponents.join('<br/>'));
+
           getScores();
         });
       }
@@ -191,9 +222,9 @@
         updateFields();
       });
 
-      $("#jump").bind('enter', function(e) {
+      function jump(query) {
         $.getJSON(
-          '/findApp?location=' + locationFilter + '&query=' + $('#jump').val(),
+          '/findApp?location=' + locationFilter + '&query=' + query,
           function(data) {
             if (data.appIndex !== undefined) {
               currIndex = data.appIndex;
@@ -203,6 +234,10 @@
             }
           }
         );
+      }
+
+      $("#jump").bind('enter', function(e) {
+        jump($('#jump').val());
       });
 
       $("#jump").keyup(function(e) {

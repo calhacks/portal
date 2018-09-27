@@ -271,12 +271,24 @@ export default {
 
             ' order by a.id limit 1 offset ' + req.query.id + ';';
 
-        console.log(query);
-
         sequelize.query(query).spread((results, meta) => {
-            res.json(results);
+            const uid = results[0].id;
+            let teammates = [];
+            User.findOne({
+                where: { id: uid },
+                include: [
+                    { model: Team, include: [ User ], },
+                ],
+            }).then(userRaw => {
+                // team id is user.TeamId
+                const user = userRaw.toJSON();
+                if (user.Team) {
+                    teammates = user.Team.Users.map(user => user.email).sort();
+                    console.log(teammates);
+                }
+
+                res.json({ ...results[0], teammates });
+            });
         });
     },
-
-    // POST to save scores/ data
 };
