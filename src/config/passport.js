@@ -78,7 +78,7 @@ export default (passport, User) => {
                         lastname: req.body.lastname,
                         emailCode: verifyCode,
                         emailValidated: false,
-                        role: 'hacker'
+                        role: email.endsWith('@calhacks.io') ? 'admin' : 'hacker',
                     };
 
                     sendgrid.send({
