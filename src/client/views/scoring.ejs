@@ -128,7 +128,7 @@
         var email = currApp.email;
         var reader = currReader;
         $("#sp").show();
-        $.getJSON('/score?appId=' + currApp.id, function(score) {
+        $.getJSON('/score?appId=' + currApp.appId, function(score) {
           if (score) {
             $("#cat1-score").val("" + score.category1);
             $("#cat2-score").val("" + score.category2);
@@ -260,7 +260,7 @@
         e.preventDefault();
         $.post('/score', {
           director: currReader,
-          ApplicationId: currApp.id,
+          ApplicationId: currApp.appId,
           experience: currApp.beginner == 'yes' ? 1 : 0,
           category1: parseFloat($("#cat1-score").val()),
           category2: parseFloat($("#cat2-score").val()),

@@ -241,6 +241,7 @@ export default {
             'select ' +
 
             'u.id id,' +
+            'a.id appId' +
             'u.firstname firstname, ' +
             'u.lastname lastname, ' +
             'u.email email, ' +
