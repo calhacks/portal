@@ -321,7 +321,7 @@ export default {
                 }
 
                 for (let c of [1,2,3]) {
-                    const l = lists[director].['cat' + c];
+                    const l = lists[director]['cat' + c];
                     for (let i = 0; i < len; i++) {
                         results['mean' + c] += l[i] / len;
                         results['ssm' + c] += l[i] * l[i] / len;
