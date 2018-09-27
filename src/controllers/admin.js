@@ -101,7 +101,7 @@ export default {
                     if (app) {
                         sequelize.query(
                             'select id from Applications ' +
-                            'where transportation="' + req.query.location + '" ' +
+                            'where transportation="' + app.transportation + '" ' +
                             'order by id;'
                         ).spread((results, meta) => {
                             for (let i = 0; i < results.length; i++) {

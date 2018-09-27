@@ -196,10 +196,12 @@
         $.getJSON(
           '/findApp?location=' + locationFilter + '&query=' + $('#jump').val(),
           function(data) {
-            currIndex = data.appIndex;
-            locationFilter = data.location;
-            $("#transport").val(data.location);
-            changeTransport();
+            if (data.appIndex) {
+              currIndex = data.appIndex;
+              locationFilter = data.location;
+              $("#transport").val(data.location);
+              changeTransport();
+            }
           }
         );
       });
