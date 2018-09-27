@@ -61,5 +61,8 @@ export default {
     },
     '/resume': {
         get: [authenticateUser(['admin']), emailVerify],
+    },
+    '/accumulate': {
+        get: [authenticateUser(['admin']), emailVerify],
     }
 };
