@@ -381,7 +381,7 @@ export default {
                 if (finalScores[hacker].length > 1) {
                     finalScores[hacker] = avg;
                 } else {
-                    finalScores[hacker] = undefined;
+                    delete finalScores[hacker];
                 }
             }
 
