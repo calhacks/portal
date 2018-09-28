@@ -389,20 +389,21 @@ export default {
             for (let i = 0; i < final.length; i++) {
                 proms.push(new Promise(resolve => {
                     sequelize.query(
-                        'select u.email from Applications a, Users u ' +
+                        'select u.email, a.transportation from Applications a, Users u ' +
                         'where u.id=a.UserId and a.id=' + final[i] + ';'
                     ).spread((results, meta) => {
-                        resolve(results[0].email);
+                        resolve({
+                            email: results[0].email,
+                            location: results[0].transportation,
+                        });
                     });
                 }));
             }
 
             Promise.all(proms).then(result => {
-                res.send(
-                    '<ol><li>' +
-                    result.join('</li><li>') +
-                    '</li></ol>'
-                );
+                res.render('results', {
+                    results: result
+                });
             });
         });
     }

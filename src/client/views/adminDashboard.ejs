@@ -23,7 +23,7 @@
           <div id="roster-tab-item" class="left-tab selected">
             Roster
           </div>
-          <div id="scoring-tab-item" class="left-tab selected" onclick="location.href='/scoring'">
+          <div id="scoring-tab-item" class="left-tab selected">
             Scoring
           </div>
           <div id="logout-tab-item" class="left-tab selected" onclick="location.href='/logout'">
@@ -40,6 +40,18 @@
           <div id="stats-tab" class="tab tab-visible">
             <p><b>Stats</b></p>
             <div id="stats-container">
+            </div>
+          </div>
+
+          <div id="scoring-tab" class="tab tab-visible">
+            <p><b>Scoring</b></p>
+            <div id="scoring-container">
+              <div class="button-justified"> 
+                <button onclick="location.href='/scoring';">Start Scoring</button>
+              </div>
+              <div class="button-justified"> 
+                <button onclick="location.href='/accumulate';">View Results</button>
+              </div>
             </div>
           </div>
 
