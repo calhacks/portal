@@ -7,25 +7,54 @@ import formidable from 'formidable';
 import ejsLocals from 'ejs-mate';
 import sass from 'node-sass-middleware';
 import flash from 'req-flash';
+import fs from 'fs';
+import cookieParser from 'cookie-parser';
+import Sequelize from 'sequelize';
+import sequelizeSession from 'connect-session-sequelize';
 
 import router from './router';
 import models from './models';
 
 import passportConfig from './config/passport';
 
-
-var fs = require('fs');
+require('dotenv').config();
 
 const app = express();
 
-require('babel-register')({ presets: ['env'] })
-app.use(session({
-    secret: 'keyboard cat',
-    resave: true,
-    saveUninitialized: true
-}));
-app.use(flash({ locals: 'flash' }));
+// sequelize session storage causes a massive pain w/ local development
+if (process.env.NODE_ENV === 'production') {
+    var config = require('./config/sequelize')
+        .default[process.env.NODE_ENV || 'development'];
+    
+    var SequelizeStore = sequelizeSession(session.Store);
+    const sequelize = new Sequelize(
+        config.database,
+        config.username,
+        config.password,
+        config
+    );
+    var myStore = new SequelizeStore({
+        db: sequelize
+    });
+    myStore.sync();
+    app.use(session({
+        secret: 'keyboard cat',
+        resave: true,
+        saveUninitialized: true,
+        store: myStore
+    }));
+} else {
+    app.use(session({
+        secret: 'keyboard cat',
+        resave: true,
+        saveUninitialized: true,
+    }))
+}
 
+require('babel-register')({ presets: ['env'] })
+
+app.use(cookieParser());
+app.use(flash({ locals: 'flash' }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static('./dist'));
@@ -51,28 +80,38 @@ app.set('views', 'src/client/views');
 
 passportConfig(passport, models.User);
 
-app.use(
-    sass({
-        src: 'src/client/assets',
-        dest: 'dist/assets',
-        indentedSyntax: true,
-        debug: true
-    })
-);
-app.use(express.static('dist/assets'));
+if (process.env.NODE_ENV === 'production') {
+    require('./client/assets/css/main.sass');
+    app.use(express.static('dist/assets'));
+} else {
+    app.use(express.static('dist/assets'));
+    app.use(
+        sass({
+            src: 'src/client/assets',
+            dest: 'dist/assets',
+            indentedSyntax: true,
+            debug: true,
+            force: true,
+        })
+    );
+}
 app.use('/', router);
 
-if (process.env.NODE_ENV == "production") {
-	fs.unlink('/srv/apps/hackthebay/hackthebay.sock', () => {
-		console.log('cleared old socket');
+if (process.env.NODE_ENV === 'production') {
+    if (process.env.TARGET === 'aws') {
+        app.listen(8000, () => { console.log('Serving on 80') });
+    } else {
+        fs.unlink(process.env.PORT, () => {
+    		console.log('cleared old socket');
 
-        app.listen('/srv/apps/hackthebay/hackthebay.sock', () => {
-        	console.log('listening on unix socket');
+            app.listen(process.env.PORT, () => {
+            	console.log('listening on unix socket');
 
-        	fs.chmodSync('/srv/apps/hackthebay/hackthebay.sock', '777');
-        	console.log('set permissions of socket to 777');
-        });
-	});
+            	fs.chmodSync(process.env.PORT, '777');
+            	console.log('set permissions of socket to 777');
+            });
+    	});
+    }
 } else {
 	app.listen(8000, () => {
 		console.log('listening on 8000');

@@ -13,6 +13,9 @@ export default (sequelize, DataTypes) => {
                 notEmpty: true
             }
         },
+        genderOther: {
+            type: DataTypes.TEXT,
+        },
         school: {
             type: DataTypes.TEXT,
             validate: {
@@ -25,13 +28,55 @@ export default (sequelize, DataTypes) => {
                 notEmpty: true
             }
         },
+        bday: {
+            type: DataTypes.TEXT,
+            validate: {
+                notEmpty: true,
+            },
+        },
+        race: {
+            type: DataTypes.TEXT,
+            validate: {
+                notEmpty: true,
+            },
+        },
+        raceOther: {
+            type: DataTypes.TEXT,
+        },
         major: {
             type: DataTypes.TEXT,
             validate: {
                 notEmpty: true
             }
         },
+        thumbnail: {
+            type: DataTypes.TEXT
+        },
         transportation: {
+            type: DataTypes.TEXT,
+            validate: {
+                notEmpty: true
+            }
+        },
+        requireTransportation: {
+            type: DataTypes.TEXT,
+            validate: {
+                notEmpty: true
+            }
+        },
+        chCodeOfConduct: {
+            type: DataTypes.TEXT,
+            validate: {
+                notEmpty: true
+            }
+        },
+        mlhCodeOfConduct: {
+            type: DataTypes.TEXT,
+            validate: {
+                notEmpty: true
+            }
+        },
+        mlhAffiliation: {
             type: DataTypes.TEXT,
             validate: {
                 notEmpty: true
@@ -61,27 +106,12 @@ export default (sequelize, DataTypes) => {
                 notEmpty: true
             }
         },
+        spotlightBlurb: {
+            type: DataTypes.TEXT,
+        },
 
         resume: {
             type: DataTypes.TEXT,
-        },
-        cubstart: {
-            type: DataTypes.TEXT,
-            validate: {
-                notEmpty: true
-            }
-        },
-        cubstart1: {
-            type: DataTypes.TEXT
-        },
-        cubstart2: {
-            type: DataTypes.TEXT
-        },
-        cubstart3: {
-            type: DataTypes.TEXT
-        },
-        cubstart4: {
-            type: DataTypes.TEXT
         },
 
         question1: {
@@ -96,20 +126,12 @@ export default (sequelize, DataTypes) => {
 
         beginner: {
             type: DataTypes.TEXT
-        },
-        status: {
-            type: DataTypes.ENUM(
-                'inreview',
-                'accepted',
-                'rejected',
-                'waitlisted'
-            ),
-            defaultValue: 'inreview'
         }
     }, {});
 
     Application.associate = models => {
         models.Application.belongsTo(models.User);
+        models.Application.hasMany(models.ApplicationScore);
     };
     return Application;
 };

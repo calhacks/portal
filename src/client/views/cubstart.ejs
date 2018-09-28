@@ -6,36 +6,167 @@
         <div class="app-box-overlay-bottom">
         </div>
       </div>
+      <a href="/dashboard#cubstart" class="a-back">
+        <i class="material-icons" style="font-size:12px">arrow_back_ios</i>
+        Back
+      </a>
       <h1>Cal Hacks 5.0 Cubstart Application</h1>
-      <form action="/cubstart" id="cubstart" method="post" encType='multipart/form-data'>
-        <%
-          var data = {};
-          if (user.Application) {
-            data = user.Application;
-          }
-        %>
+      <% if (user.email.endsWith('@berkeley.edu')) { %>
+        <form action="/cubstart" id="cubstart" method="post" encType='multipart/form-data'>
+          <%
+            var data = {};
+            if (user.CubStart) {
+              data = user.CubStart;
+            }
+          %>
 
-        <!-- For cubstart only -->
-        <span id="cubstart-questions">
-          <h3>Tell us the story of how you discovered computer science, design, or your special area of interest.  How do your individual perspectives and identity contribute to what "hacking" means to you? <span class="required">*</span></h3>
-          <textarea id="cubstart1" name="cubstart1" rows="5"><%= data.cubstart1 || '' %></textarea>
-          <p class="form-error" id="cubstart1-error"></p>
+          <h3>Fill out this form if you would like to be considered for CubStart. <b>CubStart is for hackers attending their first hackathon.</b></h3>
 
-          <h3>Describe something that you created (technical or non-technical, it doesn’t matter!), and elaborate on how you made it.  What did you learn?  Why did you love building it? <span class="required">*</span></h3>
-          <textarea id="cubstart2" name="cubstart2" rows="5"><%= data.cubstart2 || '' %></textarea>
-          <p class="form-error" id="cubstart2-error"></p>
+          <!-- For cubstart only -->
+          <span id="cubstart-questions">
+            <h3>Tell us the story of how you discovered computer science, design, or your special area of interest.  How do your individual perspectives and identity contribute to what "hacking" means to you? <span class="required">*</span></h3>
+            <textarea id="cubstart1" name="cubstart1" rows="5"><%= data.cubstart1 || '' %></textarea>
+            <p class="word-count" id="cubstart1-word-count"></p>
+            <p class="form-error" id="cubstart1-error"></p>
 
-          <h3>What’s the dream innovation you hope to create within your lifetime?  If you had to bring it into effect somehow, what are some of the roadblocks you would expect and how would you account for them? <span class="required">*</span></h3>
-          <textarea id="cubstart3" name="cubstart3" rows="5"><%= data.cubstart3 || '' %></textarea>
-          <p class="form-error" id="cubstart3-error"></p>
+            <h3>Describe something that you created (technical or non-technical, it doesn’t matter!), and elaborate on how you made it.  What did you learn?  Why did you love building it? <span class="required">*</span></h3>
+            <textarea id="cubstart2" name="cubstart2" rows="5"><%= data.cubstart2 || '' %></textarea>
+            <p class="word-count" id="cubstart2-word-count"></p>
+            <p class="form-error" id="cubstart2-error"></p>
 
-          <h3>What programming experience do you have (if any)? <span class="required">*</span></h3>
-          <textarea id="cubstart4" name="cubstart4" rows="5"><%= data.cubstart4 || '' %></textarea>
-          <p class="form-error" id="cubstart4-error"></p>
-        </span>
+            <h3>What’s the dream innovation you hope to create within your lifetime?  If you had to bring it into effect somehow, what are some of the roadblocks you would expect and how would you account for them? <span class="required">*</span></h3>
+            <textarea id="cubstart3" name="cubstart3" rows="5"><%= data.cubstart3 || '' %></textarea>
+            <p class="word-count" id="cubstart3-word-count"></p>
+            <p class="form-error" id="cubstart3-error"></p>
 
-        <input type="submit" value="Save app" />
-      </form>
+            <h3>What programming experience do you have (if any)? <span class="required">*</span></h3>
+            <textarea id="cubstart4" name="cubstart4" rows="5"><%= data.cubstart4 || '' %></textarea>
+            <p class="word-count" id="cubstart4-word-count"></p>
+            <p class="form-error" id="cubstart4-error"></p>
+
+
+            <h3>(Optional) Is there anything in particular that you want to learn during CubStart (e.g. iOS development, web development, data science, etc.)?</h3>
+            <textarea id="cubstart5" name="cubstart5" rows="5"><%= data.cubstart5 || '' %></textarea>
+            <p class="word-count" id="cubstart5-word-count"></p>
+            <p class="form-error" id="cubstart5-error"></p>
+
+            <h3>As attendance is mandatory for CubStart, are you available for all the following dates and times: 10/13, 10/20, and 10/27 from 2-4 pm?<span class="required">*</span></h3>
+            <select id="cubstart6" name="cubstart6">
+              <%
+                var val = data.cubstart6 || '';
+                cubstart6Opts = {
+                  '': 'Select one',
+                  'yes': 'Yes',
+                  'no': 'No',
+                };
+
+                for (var key of Object.keys(cubstart6Opts)) {
+                  if (val == key) { %>
+
+                    <option value="<%= key %>" selected><%= cubstart6Opts[key] %></option>
+
+                  <% } else { %>
+
+                    <option value="<%= key %>"><%= cubstart6Opts[key] %></option>
+
+                  <% }
+                }
+              %>
+            </select>
+            <p class="form-error" id="cubstart6-error"></p>
+          </span>
+
+          <input type="submit" value="Save app" />
+        </form>
+      <% } else { %>
+        <h3>Unfortunately, CubStart is only available for Berkeley students right now. If you're a Berkeley student, you should create an account with your @berkeley.edu email address.</h3>
+      <% } %>
     </div>
   </div>
 </div>
+
+<script>
+validationErrors = [];
+
+function validate() {
+  result = [];
+  requiredCubstartFields = {
+    'cubstart1': 200,
+    'cubstart2': 200,
+    'cubstart3': 200,
+    'cubstart4': 50
+  };
+
+  for (var cubstartField in requiredCubstartFields) {
+    var val = $("#" + cubstartField).val();
+    var wc = wordCount(val);
+    var maxWc = requiredCubstartFields[cubstartField];
+    if (val == '') {
+      result.push({
+        field: "#" + cubstartField,
+        reason: "Field must not be blank."
+      });
+    } else if (wc > maxWc) {
+      result.push({
+        field: "#" + cubstartField,
+        reason: "Response must not exceed " + maxWc + " words."
+      });
+    } else if (val.length > wc * 10) {
+      result.push({
+        field: "#" + cubstartField,
+        reason: "Response must not exceed " + (maxWc * 10) + " characters."
+      });
+    }
+  }
+  return result;
+}
+
+function wordCount(str) {
+  // https://stackoverflow.com/questions/18679576/counting-words-in-string
+  return str.split(' ')
+    .filter(function(n) { return n != '' })
+    .length;
+}
+
+function updateWc() {
+  fields = {
+    'cubstart1': 200,
+    'cubstart2': 200,
+    'cubstart3': 200,
+    'cubstart4': 50,
+    'cubstart5': 200
+  };
+
+  for (field in fields) {
+    $('#' + field + '-word-count').text(
+      (fields[field] - wordCount($('#' + field).val())) +
+      ' words left'
+    );
+  }
+}
+updateWc();
+
+$("#cubstart1, #cubstart2, #cubstart3, #cubstart4", "#cubstart5").on('keyup', updateWc);
+
+function redisplay() {
+
+  $(".form-error").css("display", "none");
+  for (var error of validationErrors) {
+    $(error.field + "-error").css("display", "block");
+    $(error.field + "-error").text(error.reason);
+  }
+}
+redisplay();
+
+$("#cubstart").on("submit", function(e) {
+  validationErrors = validate();
+  if (validationErrors.length !== 0){
+    // Validations have passed; submit the form
+    redisplay();
+    e.preventDefault();
+    return false;
+  } else {
+    return true;
+  }
+});
+</script>

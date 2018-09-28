@@ -1,12 +1,14 @@
 
 import bcrypt from 'bcrypt-nodejs';
 import { Strategy as LocalStrategy } from 'passport-local';
+// import nodemailer from 'nodemailer';
 import sendgrid from '@sendgrid/mail';
 
 import verify from '../emails/verify';
 
 export default (passport, User) => {
 
+    let mailPassword;
     if (process.env.SENDGRID_APIKEY) {
         sendgrid.setApiKey(process.env.SENDGRID_APIKEY);
     } else {
@@ -25,7 +27,7 @@ export default (passport, User) => {
             if (user) {
                 done(null, user.get());
             } else {
-                done(user.errors, null);
+                done(false, null);
             }
         });
     });
@@ -52,6 +54,12 @@ export default (passport, User) => {
                 passReqToCallback: true
             },
             (req, email, password, done) => {
+                if (password.length < 8) {
+                    return done(null, false, {
+                        message: 'Your password must be at least 8 characters.',
+                    });
+                }
+
                 User.findOne({
                     where: { email }
                 }).then(user => {
@@ -70,7 +78,7 @@ export default (passport, User) => {
                         lastname: req.body.lastname,
                         emailCode: verifyCode,
                         emailValidated: false,
-                        role: 'hacker'
+                        role: email.endsWith('@calhacks.io') ? 'admin' : 'hacker',
                     };
 
                     sendgrid.send({
@@ -91,7 +99,23 @@ export default (passport, User) => {
                         } else {
                             return done(null, newUser, {});
                         }
-                    }).catch(err => console.log(err));
+                    }).catch(result => {
+                        if (result) {
+                            const err = result.errors[0];
+                            const reason = err.validatorName;
+
+                            if (reason === 'isEmail') {
+                                // Failed email test
+                                return done(null, false, {
+                                    message: 'The email you provided was invalid.'
+                                });
+                            } else {
+                                return done(null, false, {
+                                    message: 'There was an unexpected error creating the user.'
+                                });
+                            }
+                        }
+                    });
                 });
             }
         )
@@ -115,18 +139,15 @@ export default (passport, User) => {
                 }).then(user => {
                     if (!user || !isValidPassword(user.password, password)) {
                         return done(null, false, {
-                            message: 'Incorrect username/password'
+                            message: 'Incorrect username/password.'
                         });
                     }
                     const userInfo = user.get();
                     return done(null, userInfo);
                 })
                 .catch(err => {
-                    console.log('Something went wrong:');
-                    console.log(err);
-
                     done(null, false, {
-                        message: 'Something went wrong'
+                        message: 'Something went wrong.'
                     });
                 });
             }

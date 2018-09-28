@@ -5,11 +5,16 @@ import dashboardController from '../controllers/dashboard';
 import applicationController from '../controllers/application';
 import teamController from '../controllers/team';
 import cubstartController from '../controllers/cubstart';
+import adminController from '../controllers/admin';
 
 export default {
     // Home route
     '/': {
         get: homeController.home
+    },
+    // Home -> CH Code of Conduct
+    '/code-of-conduct': {
+        get: homeController.codeOfConduct,
     },
 
     // Auth routes
@@ -66,5 +71,35 @@ export default {
     // Leaving a team
     '/leaveTeam': {
         post: teamController.leaveTeam,
+    },
+
+    // God mode
+    '/stats': {
+        get: adminController.stats,
+    },
+    '/roster': {
+        get: adminController.roster,
+    },
+    '/deify': {
+        post: adminController.deify,
+    },
+    '/scoring': {
+        get: adminController.scoring,
+    },
+    '/app': {
+        get: adminController.getApp
+    },
+    '/score': {
+        post: adminController.postScore,
+        get: adminController.getScore
+    },
+    '/findApp': {
+        get: adminController.findApp,
+    },
+    '/resume': {
+        get: adminController.loadResume,
+    },
+    '/accumulate': {
+        get: adminController.accumulate,
     }
 };

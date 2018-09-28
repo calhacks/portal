@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Director App Reading</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+
+    <style>
+    a {
+      color: #4286f4 !important;
+      cursor: pointer;
+    }
+    </style>
+  </head>
+  <body>
+
+    <div class="container mt-3">
+      <div id="controls" class="form-row">
+        <div>
+          <button id="prev" class="btn btn-primary">&lt;&lt;</button>
+          <button id="next" class="btn btn-primary">&gt;&gt;</button>
+        </div>
+        <div class="col ml-4">
+          <span id="app-pointer"></span>
+        </div>
+        <div class="col-2">
+          <select id="transport" class="form-control">
+            <option value="none">--TRANSPORT--</option>
+            <option value="oos" selected>Out of state</option>
+            <option value="ooa">Out of area</option>
+            <option value="berkeley">Cal</option>
+          </select>
+        </div>
+        <div class="col-3">
+          <input id="jump" type="text" class="form-control ml-4" placeholder='Jump: (e.g. "oos 5")' />
+        </div>
+      </div>
+
+      <div id="data">
+        <div class="row justify-content-start mt-4">
+          <div class="col-6">
+            <h1 id="name" class="display-4">
+              <span id="data-firstname"></span>
+              <span id="data-lastname"></span>
+            </h1>
+            <img id="sp" class="ml-4 mb-4" src="https://loading.io/spinners/microsoft/lg.rotating-balls-spinner.gif" width="30" />
+          </div>
+
+          <div class="col">
+            <form class="form-row">
+                <div class="form-group col-xs-3 col-md-3">
+                    <label for="cat1-score" class="small control-label">Cat1 (0-2)</label>
+                    <input type="text" class="form-control" name="cat1-score" id="cat1-score">
+                </div>
+                <div class="form-group col-xs-3 col-md-3">
+                    <label for="cat2-score" class="small control-label">Cat2 (0-2)</label>
+                    <input type="text" class="form-control" name="cat2-score" id="cat2-score">
+                </div>
+                <div class="form-group col-xs-3 col-md-3">
+                    <label for="cat3-score" class="small control-label">Cat3 (0-1)</label>
+                    <input type="text" class="form-control" name="cat3-score" id="cat3-score">
+                </div>
+                <div class="form-group col-xs-3 col-md-3">
+                  <label for="submit" class="small control-label">&nbsp;</label>
+                    <button class="form-control btn-success" id="submit">Submit</button>
+                </div>
+            </form>
+          </div>
+        </div>
+        <div class="row justify-content-start mt-2 mb-5">
+          <div class="col-4">
+            <p>
+              <b>Team:</b><br/>
+              <span id="team-list"></span>
+            </p>
+            <p><b>Email:</b> <span id="data-email"></span></p>
+            <p><b>Gender:</b> <span id="data-gender"></span></p>
+            <p><b>School:</b> <span id="data-school"></span></p>
+            <p><b>Year:</b> <span id="data-year"></span></p>
+            <p><b>Beginner:</b> <span id="data-beginner"></span></p>
+            <p><b>Major:</b> <span id="data-major"></span></p>
+            <p><b># of Prev Hackathons:</b> <span id="data-hackathons"></span></p>
+            <p><b>Heard from:</b> <span id="data-hearAbout"></span></p>
+            <p><b>Help w/ transport?</b> <span id="data-requireTransportation"></span></p>
+            <p><b>Resume link:</b> <a id="data-resumeLink"></a></p>
+          </div>
+          <div class="col">
+            <p><b>Describe something that you created (technical or non-technical, it doesn’t matter!), and elaborate on how you made it.  What did you learn?  Why did you love building it? </b> <span id="data-question1"></span></p>
+            <p><b>What sorts of questions do you find most intriguing? Tell us about an interesting problem you’d like to solve and why! </b> <span id="data-question2"></span></p>
+            <p><b>(Beginners only) What programming experience do you have (if any)? </b> <span id="data-question3"></span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      currIndex = 0;
+      currReader = <%- user.id %>;
+      locationFilter = 0;
+
+      function changeTransport() {
+        locationFilter = $('#transport').val();
+        updateFields();
+      }
+
+      function getApp() {
+        return new Promise(function(resolve) {
+          var app_num = currIndex;
+          if (app_num == '' || !Number.isInteger(+app_num)) {
+            $("#app-num").val(1)
+            $.get('/app', {
+              id: 0, location: locationFilter
+            }).done(resolve);
+          } else {
+            $.get('/app', {
+              id: app_num, location: locationFilter
+            }).done(resolve);
+          }
+        });
+      }
+
+      $("#sp").hide();
+      $("#name").css("display", "inline");
+
+      var getScores = function() {
+        var email = currApp.email;
+        var reader = currReader;
+        $("#sp").show();
+        $.getJSON('/score?appId=' + currApp.appId, function(score) {
+          if (score) {
+            $("#cat1-score").val("" + score.category1);
+            $("#cat2-score").val("" + score.category2);
+            $("#cat3-score").val("" + score.category3);
+          } else {
+            $("#cat1-score").val("");
+            $("#cat2-score").val("");
+            $("#cat3-score").val("");
+          }
+          $("#sp").hide();
+        });
+      }
+
+      var updateFields = function() {
+        getApp().then(function(data) {
+          currApp = data;
+          var keys = Object.keys(currApp);
+          for (var i = 0; i < keys.length; i++) {
+            $("#data-" + keys[i]).text(currApp[keys[i]]);
+          }
+          $('#data-resumeLink').attr(
+            'href',
+            '/resume?id=' + currApp['id']
+          );
+          $('#data-resumeLink').attr(
+            'target',
+            '_blank'
+          );
+
+          $('#data-resumeLink').html('Here');
+
+          $("#app-pointer").text(
+            $('#transport').val() + ' app #' + currIndex
+          );
+
+          if (currApp.id === undefined) {
+            $("#app-pointer").css('color', 'red');
+          } else {
+            $("#app-pointer").css('color', 'black');
+          }
+
+          if (currApp.beginner === 'yes') {
+            $('label[for=cat1-score]').text('Self-starter (0-2)');
+            $('label[for=cat2-score]').text('Enthusiasm (0-2)');
+            $('label[for=cat3-score]').text('Diversity (0-1)');
+          } else {
+            $('label[for=cat1-score]').text('Experience (0-2)');
+            $('label[for=cat2-score]').text('Enthusiasm (0-2)');
+            $('label[for=cat3-score]').text('All-star (0-1)');
+          }
+
+          let teammateComponents = [];
+          if (currApp.teammates.length) {
+            for (let j = 0; j < currApp.teammates.length; j++) {
+              if (currApp.teammates[j] === currApp.email) {
+                teammateComponents.push(
+                  '<b>' + currApp.email + '</b>'
+                );
+              } else {
+                teammateComponents.push(
+                  '<a ' +
+                    'onclick=\'jump("' + currApp.teammates[j] + '")\'' +
+                    '>' + currApp.teammates[j] + '</a>'
+                );
+              }
+            }
+          } else {
+            teammateComponents.push('None');
+          }
+          $('#team-list').html(teammateComponents.join('<br/>'));
+
+          getScores();
+        });
+      }
+
+      $('#transport').change(function() {
+        currIndex = 0;
+        changeTransport();
+      });
+      changeTransport();
+
+      $("#prev").click(function() {
+        if (currIndex > 0) {
+          currIndex -= 1;
+        }
+        updateFields();
+      });
+
+      $("#next").click(function() {
+        currIndex += 1;
+        updateFields();
+      });
+
+      function jump(query) {
+        $.getJSON(
+          '/findApp?location=' + locationFilter + '&query=' + query,
+          function(data) {
+            if (data.appIndex !== undefined) {
+              currIndex = data.appIndex;
+              locationFilter = data.location;
+              $("#transport").val(data.location);
+              changeTransport();
+            }
+          }
+        );
+      }
+
+      $("#jump").bind('enter', function(e) {
+        jump($('#jump').val());
+      });
+
+      $("#jump").keyup(function(e) {
+        if (e.keyCode == 13) {
+          $(this).trigger('enter');
+        }
+      });
+
+      $("#reader").change(function() {
+        if ($(this).val() == "null") {
+          currReader = null;
+        }
+        else {
+          currReader = $(this).val();
+        }
+        updateFields();
+      });
+
+      $("#submit").click(function(e) {
+        e.preventDefault();
+        $.post('/score', {
+          director: currReader,
+          ApplicationId: currApp.appId,
+          experience: currApp.beginner == 'yes' ? 1 : 0,
+          category1: parseFloat($("#cat1-score").val()),
+          category2: parseFloat($("#cat2-score").val()),
+          category3: parseFloat($("#cat3-score").val())
+        });
+        return false;
+      });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>

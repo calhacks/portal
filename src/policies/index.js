@@ -20,6 +20,12 @@ export default {
         post: [authenticateUser(['hacker', 'admin']), emailVerify],
     },
 
+    // Can't submit CubStart app without credentials
+    '/cubstart': {
+        get: [authenticateUser(['hacker', 'admin']), emailVerify],
+        post: [authenticateUser(['hacker', 'admin']), emailVerify],
+    },
+
     // Can't create/join team without credentials
     '/team': {
         post: [authenticateUser(['hacker', 'admin']), emailVerify],
@@ -28,5 +34,35 @@ export default {
     // Can't leave team without credentials
     '/leaveTeam': {
         post: [authenticateUser(['hacker', 'admin']), emailVerify],
+    },
+
+    // God Mode
+    '/stats': {
+        get: [authenticateUser(['admin']), emailVerify],
+    },
+    '/roster': {
+        get: [authenticateUser(['admin']), emailVerify],
+    },
+    '/deify': {
+        post: [authenticateUser(['admin']), emailVerify],
+    },
+    '/scoring': {
+        get: [authenticateUser(['admin']), emailVerify],
+    },
+    '/app': {
+        get: [authenticateUser(['admin']), emailVerify],
+    },
+    '/score': {
+        get: [authenticateUser(['admin']), emailVerify],
+        post: [authenticateUser(['admin']), emailVerify],
+    },
+    '/findApp': {
+        get: [authenticateUser(['admin']), emailVerify],
+    },
+    '/resume': {
+        get: [authenticateUser(['admin']), emailVerify],
+    },
+    '/accumulate': {
+        get: [authenticateUser(['admin']), emailVerify],
     }
 };

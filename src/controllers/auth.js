@@ -4,6 +4,7 @@ import sendgrid from '@sendgrid/mail';
 import { User } from '../models/index';
 import reset from '../emails/reset';
 import bcrypt from 'bcrypt-nodejs';
+import nodemailer from 'nodemailer';
 var Sequelize = require('sequelize');
 
 const genUUID = () => {
@@ -29,7 +30,7 @@ export default {
 
     logout: (req, res, next) => {
         return req.session.destroy(err => {
-            res.redirect('/');
+            res.redirect('/login');
         });
     },
 
@@ -38,7 +39,7 @@ export default {
             if (err !== null) {
                 // Something went wrong.
                 req.flash('error', 'There was an unexpected error signing in.');
-                return next(err);
+                return res.redirect('/login');
             } else if (!user) {
                 req.flash('error', 'Invalid email/password combination.');
                 return res.redirect('/login');
@@ -46,7 +47,7 @@ export default {
                 req.logIn(user, err => {
                     if (err) {
                         req.flash('error', 'There was an unexpected error signing in.');
-                        return next(err);
+                        return res.redirect('/login');
                     } else {
                         return res.redirect('/dashboard');
                     }
@@ -60,7 +61,7 @@ export default {
             if (err !== null) {
                 // Something went wrong.
                 req.flash('error', JSON.stringify(err));
-                return next(err);
+                return res.redirect('/signup');
             } else if (!user) {
                 req.flash('error', info.message);
                 return res.redirect('/signup');
@@ -68,7 +69,7 @@ export default {
                 req.logIn(user, err => {
                     if (err) {
                         req.flash('error', 'There was an unexpected error creating an account.');
-                        return next(err);
+                        return res.redirect('/signup');
                     } else {
                         return res.redirect('/dashboard');
                     }
@@ -111,29 +112,31 @@ export default {
         }
       }).then(user => {
         if (!(user)) {
-          req.flash('error', 'There is no user associated with that email.');
-          return res.redirect('/reset_password');
+            req.flash('error', 'There is no user associated with that email.');
+            return res.redirect('/reset_password');
         }
         else {
-          const resetCode = genUUID();
-          const email = req.body.email;
-          sendgrid.send({
-            to: email,
-            from: 'team@calhacks.io',
-            subject: 'Reset your password for Cal Hacks',
-            html: reset(
-                user.firstname + ' ' + user.lastname,
-                resetCode
-            )
-          })
-          User.update({
-              resetPasswordCode: resetCode,
-              resetPasswordExpiration: new Date()
-          }, {
-              where: { email: email }
-          }).then(result => {
-              res.render('informReset', { user: user })
-          });
+            const resetCode = genUUID();
+            const email = req.body.email;
+
+            sendgrid.send({
+              to: email,
+              from: 'team@calhacks.io',
+              subject: 'Reset your password for Cal Hacks',
+              html: reset(
+                  user.firstname + ' ' + user.lastname,
+                  resetCode
+              )
+            })
+
+            User.update({
+                resetPasswordCode: resetCode,
+                resetPasswordExpiration: new Date()
+            }, {
+                where: { email: email }
+            }).then(result => {
+                res.render('informReset', { user: user })
+            });
         }
       })
     },

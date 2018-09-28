@@ -36,12 +36,14 @@ export default (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
         resetPasswordExpiration: {
-          type: DataTypes.DATE
-        }
+            type: DataTypes.DATE
+        },
+
     }, {});
 
     User.associate = models => {
         models.User.hasOne(models.Application);
+        models.User.hasOne(models.CubStart);
         models.User.belongsTo(models.Team);
     };
     return User;

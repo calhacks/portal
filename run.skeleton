@@ -1,0 +1,12 @@
+#!/bin/bash -e
+
+PORT="port here" \
+DB_USER=dbuserhere \
+DB_PASSWD=dbpasshere \
+DB_NAME=dbnamehere \
+DB_HOST=hostnamehere \
+SENDGRID_APIKEY=keyhere \
+SECRET=justputwhateversecretyouwanthere \
+RESUMEDIR="directoryhere ex. /tmp/resumes" \
+MAIL_PASSWORD=passwordtoaccessmailserver_ifitexists \
+exec nodemon ./dist/server.js

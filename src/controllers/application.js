@@ -1,6 +1,9 @@
 
 import fs from 'fs-extra';
+import path from 'path';
 import { Application, User } from '../models';
+
+const homedir = require('os').homedir();
 
 export default {
     submitApp: (req, res, next) => {
@@ -8,20 +11,43 @@ export default {
 
         const saveFile = () => {
             const resume = req.files.resume;
+            const thumbnail = req.files.thumbnail;
+
+            const result = [];
+
             if (resume.size !== 0) {
+                console.log('detected resume');
                 const lst = resume.name.split('.');
                 let newFilename;
                 if (lst.length > 1) {
-                    newFilename = `${req.user.id}.${lst[lst.length - 1]}`;
+                    newFilename = `resume-${req.user.id}.${lst[lst.length - 1]}`;
                 } else {
-                    newFilename = `${req.user.id}`;
+                    newFilename = `resume-${req.user.id}`;
                 }
 
                 const oldPath = resume.path;
-                const newPath = `/tmp/calhacks/portal/resumes/${newFilename}`;
-                return fs.move(oldPath, newPath, { overwrite: true });
+                const newPath = path.resolve(homedir, `resumes/${newFilename}`);
+
+                result.push(fs.move(oldPath, newPath, { overwrite: true }));
             }
-            return Promise.resolve();
+
+            if (thumbnail.size !== 0) {
+                console.log('detected thumb');
+                const lst = thumbnail.name.split('.');
+                let newFilename;
+                if (lst.length > 1) {
+                    newFilename = `pic-${req.user.id}.${lst[lst.length - 1]}`;
+                } else {
+                    newFilename = `pic-${req.user.id}`;
+                }
+
+                const oldPath = thumbnail.path;
+                const newPath = path.resolve(homedir, `pics/${newFilename}`);
+
+                result.push(fs.move(oldPath, newPath, { overwrite: true }));
+            }
+
+            return Promise.all(result);
         }
 
         User.findOne({
@@ -43,11 +69,17 @@ export default {
                         console.log(err);
                         res.redirect('/dashboard');
                     });
-                })
+                }).catch(err => {
+                    res.send(err);
+                });
             } else {
                 console.log(req.files.resume.name);
                 var data = req.body;
                 data['resume'] = req.files.resume.name;
+                if (req.files.thumbnail.size !== 0) {
+                    data['thumbnail'] = req.files.thumbnail.name;
+                }
+                
                 user.Application.updateAttributes(data).then(newApp => {
                     // App has been saved.
                     console.log(req.body)
@@ -58,8 +90,12 @@ export default {
                         console.log(err);
                         res.redirect('/dashboard');
                     });
-                })
+                }).catch(err => {
+                    res.send(err);
+                });
             }
+        }).catch(err => {
+            res.send(err);
         });
     },
 
