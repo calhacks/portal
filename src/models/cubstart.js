@@ -27,9 +27,6 @@ export default (sequelize, DataTypes) => {
         },
         cubstart5: {
             type: DataTypes.TEXT,
-            validate: {
-                notEmpty: false
-            }
         },
         cubstart6: {
             type: DataTypes.TEXT,
