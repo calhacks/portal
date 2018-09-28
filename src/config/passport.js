@@ -1,7 +1,6 @@
 
 import bcrypt from 'bcrypt-nodejs';
 import { Strategy as LocalStrategy } from 'passport-local';
-// import nodemailer from 'nodemailer';
 import sendgrid from '@sendgrid/mail';
 
 import verify from '../emails/verify';

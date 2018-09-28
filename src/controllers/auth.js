@@ -4,7 +4,6 @@ import sendgrid from '@sendgrid/mail';
 import { User } from '../models/index';
 import reset from '../emails/reset';
 import bcrypt from 'bcrypt-nodejs';
-import nodemailer from 'nodemailer';
 var Sequelize = require('sequelize');
 
 const genUUID = () => {
