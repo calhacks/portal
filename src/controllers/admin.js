@@ -358,7 +358,7 @@ export default {
 
                 normalizedScores.push({
                     hacker: applicant,
-                    score: z1 + z2 + 0.5 * z3,
+                    score: z1 + z2 + z3,
                 });
             }
 
@@ -378,11 +378,7 @@ export default {
                     total += finalScores[hacker][i];
                 }
                 const avg = total / finalScores[hacker].length;
-                if (finalScores[hacker].length > 1) {
-                    finalScores[hacker] = avg;
-                } else {
-                    finalScores[hacker] = undefined;
-                }
+                finalScores[hacker] = avg;
             }
 
             const final = Object.keys(finalScores).sort((h1, h2) => {
