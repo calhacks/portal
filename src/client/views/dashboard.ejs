@@ -70,7 +70,7 @@
       <% } %>
     </div>
 
-    <% if (user.email.endsWith('@berkeley.edu')) { %>
+    <% if (user.email.toLowerCase().endsWith('@berkeley.edu')) { %>
       <div id="cubstart-tab" class="tab">
         <%
          if (user.CubStart) { %>
