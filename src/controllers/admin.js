@@ -389,7 +389,31 @@ export default {
             for (let i = 0; i < final.length; i++) {
                 proms.push(new Promise(resolve => {
                     sequelize.query(
-                        'select u.email, a.transportation from Applications a, Users u ' +
+                        'select ' +
+                        'u.email email, ' +
+                        'a.transportation transportation, ' +
+                        'a.id appId, ' +
+                        'u.firstname firstname, ' +
+                        'u.lastname lastname, ' +
+                        'u.email email, ' +
+                        'a.gender gender, ' +
+                        'a.genderOther genderOther, ' +
+                        'a.school school, ' +
+                        'a.year year, ' +
+                        'a.bday bday, ' +
+                        'a.race race, ' +
+                        'a.raceOther raceOther, ' +
+                        'a.major major, ' +
+                        'a.transportation transportation, ' +
+                        'a.links links, ' +
+                        'a.hackathons hackathons, ' +
+                        'a.hearAbout hearAbout, ' +
+                        'a.question1 question1, ' +
+                        'a.question2 question2, ' +
+                        'a.question3 question3, ' +
+                        'a.beginner beginner, ' +
+                        'a.createdAt createdAt ' +
+                        'from Applications a, Users u ' +
                         'where u.id=a.UserId and a.id=' + final[i] + ';'
                     ).spread((results, meta) => {
                         resolve({
