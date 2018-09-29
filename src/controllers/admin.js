@@ -417,7 +417,7 @@ export default {
                         'where u.id=a.UserId and a.id=' + final[i] + ';'
                     ).spread((results, meta) => {
                         resolve({
-                            email: results[0].email,
+                            ...results[0],
                             location: results[0].transportation,
                         });
                     });
