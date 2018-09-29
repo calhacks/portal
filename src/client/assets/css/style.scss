@@ -695,6 +695,22 @@ body {
         width: calc(100% - 40px);
       }
 
+      .flex-grid-3 {
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
+          grid-template-rows: 100% 100% 100%;
+          padding: 0 20px;
+      }
+
+      .flex-grid-3 img {
+        height: auto;
+        width: auto;
+      }
+
+      .big {
+        grid-column: 1 / 4;
+      }
+
       .row {
         position: relative;
       }
