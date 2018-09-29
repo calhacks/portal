@@ -383,7 +383,10 @@ export default {
 
             const final = Object.keys(finalScores).sort((h1, h2) => {
                 return finalScores[h2] - finalScores[h1];
-            });
+            }).map(h => ({
+                score: finalScores[h],
+                id: h,
+            }));
 
             const proms = [];
             for (let i = 0; i < final.length; i++) {
@@ -396,6 +399,7 @@ export default {
                         'u.firstname firstname, ' +
                         'u.lastname lastname, ' +
                         'u.email email, ' +
+                        'u.TeamId team, ' +
                         'a.gender gender, ' +
                         'a.genderOther genderOther, ' +
                         'a.school school, ' +
@@ -414,11 +418,12 @@ export default {
                         'a.beginner beginner, ' +
                         'a.createdAt createdAt ' +
                         'from Applications a, Users u ' +
-                        'where u.id=a.UserId and a.id=' + final[i] + ';'
+                        'where u.id=a.UserId and a.id=' + final[i].id + ';'
                     ).spread((results, meta) => {
                         resolve({
                             ...results[0],
                             location: results[0].transportation,
+                            normalizedScore: final[i].score,
                         });
                     });
                 }));
