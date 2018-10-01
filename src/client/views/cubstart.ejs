@@ -11,7 +11,7 @@
         Back
       </a>
       <h1>Cal Hacks 5.0 Cubstart Application</h1>
-      <% if (user.email.endsWith('@berkeley.edu')) { %>
+      <% if (user.email.toLowerCase().endsWith('@berkeley.edu')) { %>
         <form action="/cubstart" id="cubstart" method="post" encType='multipart/form-data'>
           <%
             var data = {};

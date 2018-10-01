@@ -5,7 +5,7 @@
     <div id="application-tab-item" class="left-tab selected">
       Application
     </div>
-    <% if (user.email.endsWith('@berkeley.edu')) { %>
+    <% if (user.email.toLowerCase().endsWith('@berkeley.edu')) { %>
       <div id="cubstart-tab-item" class="left-tab">
         CubStart
       </div>
