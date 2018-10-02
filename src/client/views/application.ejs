@@ -21,7 +21,11 @@
           user.Application &&
           user.Application.transportation == "oos" &&
           Math.round((new Date()).getTime() / 1000) >= 1537858800) {
-          // it's past the deadline to apply out of state!
+          canSubmit = false;
+        } else if (
+          user.Application &&
+          user.Application.transportation == "ooa" &&
+          Math.round((new Date()).getTime() / 1000) >= 1538463600) {
           canSubmit = false;
         }
       %>
@@ -33,7 +37,7 @@
           <%
         } else {
           %>
-            <p>Out of state applications have been closed, and your application can no longer be changed.</p>
+            <p>Applications have been closed for your region, and your application can no longer be changed.</p>
           <%
         }
       %>
@@ -168,7 +172,6 @@
             var val = data.transportation || '';
             transportationOpts = {
               '': 'Select one',
-              'ooa': 'Out of area (California)',
               'berkeley': 'I\'m a Cal student'
             };
 
@@ -400,7 +403,7 @@
             <%
           } else {
             %>
-              <p>Out of state applications have been closed, and your application can no longer be changed.</p>
+              <p>Applications have been closed for your region, and your application can no longer be changed.</p>
             <%
           }
         %>
