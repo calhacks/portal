@@ -59,3 +59,5 @@ typings/
 
 # compiled dist
 dist/
+run*
+log.txt
