@@ -101,5 +101,8 @@ export default {
     },
     '/accumulate': {
         get: adminController.accumulate,
+    },
+    '/scoringStats': {
+        get: adminController.scoringStats,
     }
 };

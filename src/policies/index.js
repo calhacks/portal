@@ -64,5 +64,8 @@ export default {
     },
     '/accumulate': {
         get: [authenticateUser(['admin']), emailVerify],
+    },
+    '/scoringStats': {
+        get: [authenticateUser(['admin']), emailVerify],
     }
 };

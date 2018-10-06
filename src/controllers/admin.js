@@ -335,7 +335,9 @@ export default {
 
                 for (let c of [1,2,3]) {
                     results['stdev' + c] =
-                        results['ssm' + c] - (results['mean' + c] * results['mean' + c]);
+                        Math.sqrt(
+                            results['ssm' + c] - (results['mean' + c] * results['mean' + c])
+                        );
                 }
 
                 norms[director] = results;
@@ -434,6 +436,26 @@ export default {
                     results: result
                 });
             });
+        });
+    },
+
+    scoringStats: (req, res, next) => {
+        sequelize.query(
+            'select u.email, count(*) ' +
+
+            'from ' +
+                'Users u, ' +
+                'ApplicationScores s, ' +
+                'Applications a ' +
+
+            'where ' +
+                'u.id=s.director and ' +
+                'a.transportation="' + req.query.location + '" and ' +
+                's.ApplicationId=a.id ' +
+
+            'group by s.director order by -count(*);'
+        ).spread((results, meta) => {
+            res.render('scoringStats', { results });
         });
     }
 };
