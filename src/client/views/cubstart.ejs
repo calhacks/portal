@@ -18,9 +18,25 @@
             if (user.CubStart) {
               data = user.CubStart;
             }
+
+            if (
+              Math.round((new Date()).getTime() / 1000) >= 1539068400) {
+              // apps are closed!
+              canSubmit = false;
+            }
           %>
 
-          <h3>Fill out this form if you would like to be considered for CubStart. <b>CubStart is for hackers attending their first hackathon.</b></h3>
+          <%
+            if (canSubmit) {
+              %>
+                <h3>Fill out this form if you would like to be considered for CubStart. <b>CubStart is for hackers attending their first hackathon.</b></h3>
+              <%
+            } else {
+              %>
+                <p>Applications have been closed for your region, and your application can no longer be changed.</p>
+              <%
+            }
+          %>
 
           <!-- For cubstart only -->
           <span id="cubstart-questions">
@@ -76,7 +92,17 @@
             <p class="form-error" id="cubstart6-error"></p>
           </span>
 
-          <input type="submit" value="Save app" />
+          <%
+            if (canSubmit) {
+              %>
+                <input type="submit" value="Save app" />
+              <%
+            } else {
+              %>
+                <p>Applications have been closed for your region, and your application can no longer be changed.</p>
+              <%
+            }
+          %>
         </form>
       <% } else { %>
         <h3>Unfortunately, CubStart is only available for Berkeley students right now. If you're a Berkeley student, you should create an account with your @berkeley.edu email address.</h3>

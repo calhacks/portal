@@ -27,6 +27,10 @@
           user.Application.transportation == "ooa" &&
           Math.round((new Date()).getTime() / 1000) >= 1538463600) {
           canSubmit = false;
+        } else if (
+          Math.round((new Date()).getTime() / 1000) >= 1539068400) {
+          // apps are closed!
+          canSubmit = false;
         }
       %>
 
