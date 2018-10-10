@@ -67,5 +67,15 @@ export default {
     },
     '/scoringStats': {
         get: [authenticateUser(['admin']), emailVerify],
-    }
+    },
+
+    '/admissions': {
+        get: [authenticateUser(['admin']), emailVerify],
+        post: [authenticateUser(['admin']), emailVerify],
+    },
+
+    '/hackerStatus': {
+        get: [authenticateUser(['admin']), emailVerify],
+        post: [authenticateUser(['admin']), emailVerify],
+    },
 };

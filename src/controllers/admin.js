@@ -457,5 +457,61 @@ export default {
         ).spread((results, meta) => {
             res.render('scoringStats', { results });
         });
-    }
+    },
+
+    getAdmissions: (req, res, next) => {
+        sequelize.query(
+            'select ' +
+
+            'status as status, ' +
+            'count(*) as count ' +
+
+            'from Users u where ' +
+            'u.status like "accepted%" ' +
+
+            'group by status;'
+        ).spread((results, meta) => {
+            res.render('admissions', { results });
+        });
+    },
+
+    postAdmissions: (req, res, next) => {
+        const emails = req.body.emails.split('\n');
+        if (emails) {
+            const mapping = email => 'email="' + email + '"';
+            const mapped = emails.map(mapping).join(' or ');
+            const newStatus = req.body.newStatus;
+
+            const query = 'update Users set ' +
+                'status="' + newStatus + '" where ' + mapped + ';';
+
+            sequelize.query(query).spread((results, meta) => {
+                sequelize.query(
+                    'select ' +
+
+                    'status as status, ' +
+                    'count(*) as count ' +
+
+                    'from Users u where ' +
+                    'u.status like "accepted%" ' +
+
+                    'group by status;'
+                ).spread((results1, meta) => {
+                    res.render('admissions', { results1 });
+                });
+            });
+        }
+
+        res.redirect('/dashboard');
+    },
+
+    // list all hackers with a certain status
+    hackerStatus: (req, res, next) => {
+        sequelize.query(
+            'select email from Users ' +
+            'where status="' + req.query.status + '";'
+        ).spread((results, meta) => {
+            res.send(results.map(row => row.email).join('<br/>'));
+        });
+    },
 };

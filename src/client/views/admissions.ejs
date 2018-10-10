@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Cal Hacks 5.0</title>
+
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <div id="app-container" style="padding:100px">
+      <div id="data">
+        
+      </div>
+
+      <br/>
+      <br/>
+
+      <form name="admissions" action="admissions" method="post">
+
+        Type a list of emails, separated by newlines.<br/>
+
+        <textarea name="emails" rows="10" cols="50"></textarea>
+
+        <br/><br/>
+
+        <label for="newStatus">Hacker status:</label><br/>
+        <select name="newStatus"  style="width:250px;">
+          <option>noresult</option>
+          <option>rejected</option>
+          <option>accepted_oos_ooa_reimbursed</option>
+          <option>accepted_oos_ooa_noreimbursed</option>
+          <option>accepted_berkeley_wave1</option>
+          <option>accepted_berkeley_wave2a</option>
+          <option>accepted_berkeley_wave2b</option>
+        </select>
+
+        <br/><br/>
+        <br/><br/>
+
+        <input type="submit" value="submit" />
+      </form>
+    </div>
+
+    <script>
+    data = <%- JSON.stringify(results) %>;
+    for (var i of data) {
+      $("#data").append('<b>' + i.status + '</b> acceptances: ' + i.count + ' ');
+      $('#data').append('<a target="_blank" href="/hackerStatus?status='+i.status+'">(view)</a>');
+      $('#data').append('<br/>');
+    }
+    </script>
+  </body>
+</html>

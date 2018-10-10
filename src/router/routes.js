@@ -104,5 +104,12 @@ export default {
     },
     '/scoringStats': {
         get: adminController.scoringStats,
-    }
+    },
+    '/admissions': {
+        get: adminController.getAdmissions,
+        post: adminController.postAdmissions,
+    },
+    '/hackerStatus': {
+        get: adminController.hackerStatus,
+    },
 };

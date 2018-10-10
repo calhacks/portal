@@ -39,6 +39,11 @@ export default (sequelize, DataTypes) => {
             type: DataTypes.DATE
         },
 
+        status: {
+            type: DataTypes.STRING,
+            defaultValue: 'noresult',
+        }
+
     }, {});
 
     User.associate = models => {
