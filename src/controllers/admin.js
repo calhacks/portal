@@ -492,8 +492,7 @@ export default {
                     'status as status, ' +
                     'count(*) as count ' +
 
-                    'from Users u where ' +
-                    'u.status like "accepted%" ' +
+                    'from Users u ' +
 
                     'group by status;'
                 ).spread((results1, meta) => {

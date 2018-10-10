@@ -47,7 +47,7 @@
     <script>
     data = <%- JSON.stringify(results) %>;
     for (var i of data) {
-      $("#data").append('<b>' + i.status + '</b> acceptances: ' + i.count + ' ');
+      $("#data").append('<b>' + i.status + '</b> hackers: ' + i.count + ' ');
       $('#data').append('<a target="_blank" href="/hackerStatus?status='+i.status+'">(view)</a>');
       $('#data').append('<br/>');
     }
