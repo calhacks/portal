@@ -501,7 +501,7 @@ export default {
             });
         }
 
-        else res.redirect('/dashboard');
+        else { res.redirect('/dashboard'); }
     },
 
     // list all hackers with a certain status
