@@ -92,7 +92,7 @@ export default {
 
     // Serve resumes from the ../resumes/ directory
     loadResume: (req, res, next) => {
-        const resumePath = path.resolve(homedir, 'resumes');
+        const resumePath = path.resolve(homedir, 'converted_resumes');
         const filenames = fs.readdirSync(resumePath);
         const resumeId = req.query.id;
 
