@@ -2,24 +2,110 @@
 <div class="center-large-box">
   <h1>Dashboard</h1>
   <div id="center-large-box-left">
-    <div id="application-tab-item" class="left-tab selected">
+    <!-- <div id="application-tab-item" class="left-tab selected">
       Application
     </div>
     <% if (user.email.toLowerCase().endsWith('@berkeley.edu')) { %>
       <div id="cubstart-tab-item" class="left-tab">
         CubStart
       </div>
-    <% } %>
-    <div id="team-tab-item" class="left-tab">
-      Team
+    <% } %> -->
+    <div id="main-tab-item" class="left-tab">
+      Main
     </div>
+    <% if (user.status != 'rejected') { %>
+      <div id="team-tab-item" class="left-tab">
+        Team
+      </div>
+    <% } %>
+    <% if (user.status == 'accepted_oos_ooa_reimbursed') { %>
+      <div id="travel-tab-item" class="left-tab">
+        Travel Reimbursement
+      </div>
+    <% } %>
     <div id="logout-tab-item" class="left-tab" onClick="location.href='/logout'">
       Logout
     </div>
   </div>
+
   <div id="center-large-box-right">
 
-    <div id="application-tab" class="tab tab-visible">
+    <div id="main-tab" class="tab tab-visible">
+      <% switch(user.status) {
+          case 'rejected': %>
+          <div>
+            <p>Please apply again next year! </p>
+          </div>
+        <% break; %>
+
+        <% case 'accepted_oos_ooa_reimbursed': %>
+          <div>
+            <p>Accepted OOS/OOA with Reimbursement </p>
+          </div>
+        <% break; %>
+
+        <% case 'accepted_oos_ooa_noreimbursed': %>
+          <div>
+            <p>Accepted OOS/OOA without Reimbursement </p>
+          </div>
+        <% break; %>
+
+        <% case 'accepted_berkeley_wave1': %>
+          <div>
+            <p>Accepted Berkeley wave 1 </p>
+          </div>
+        <% break; %>
+
+        <% case 'accepted_berkeley_wave2a': %>
+          <div>
+            <p>Accepted Berkeley wave 2a </p>
+          </div>
+        <% break; %>
+
+        <% case 'accepted_berkeley_wave2b': %>
+          <div>
+            <p>Accepted Berkeley wave 2b </p>
+          </div>
+        <% break; %>
+
+        <% default: %>
+          <div>
+            <p>Default </p>
+          </div>
+      <% } %>
+
+       <!-- <% if (user.status == 'rejected') { %>
+         <div>
+             <p>Please apply again next year! </p>
+         </div>
+       <% } else if (user.status == 'accepted_oos_ooa_reimbursed') { %>
+         <div>
+            <p>Accepted OOS/OOA with Reimbursement </p>
+         </div>
+       <% } else if (user.status == 'accepted_oos_ooa_noreimbursed') { %>
+         <div>
+           <p>Accepted OOS/OOA without Reimbursement </p>
+         </div>
+       <% } else if (user.status == 'accepted_berkeley_wave1') { %>
+         <div>
+           <p>Accepted Berkeley wave 1 </p>
+         </div>
+       <% } else if (user.status == 'accepted_berkeley_wave2a') { %>
+         <div>
+           <p>Accepted Berkeley wave 2a </p>
+         </div>
+       <% } else if (user.status == 'accepted_berkeley_wave2b') { %>
+         <div>
+           <p>Accepted Berkeley wave 2b </p>
+         </div>
+       <% } %> -->
+    </div>
+
+    <div id="travel-tab" class="tab">
+
+    </div>
+
+    <div id="application-tab" class="tab">
       <%
       var app = user.Application
       if (app) { %>
@@ -82,7 +168,7 @@
           <p>You have not completed your application to CubStart yet.</p>
           <p>CubStart is a mentorship program for team building, ideation, basic hackathon skills, and technical workshops to encourage those with little or no CS experience to try out hackathons and coding! <b>If you're a first-time hacker, we highly recommend that you apply. Acceptance to CubStart guarantees your acceptance to Cal Hacks.</b></p>
           <p>More information about CubStart can be found on our <a href="https://tinyurl.com/ch5cubstartfaq" target="_blank">FAQ at tinyurl.com/ch5cubstartfaq</a>. If you have any additional questions, send us an email at cubstart@calhacks.io.</p>
-          <div class="button-justified"> 
+          <div class="button-justified">
             <button onclick="location.href='/cubstart';">Start CubStart Application</button>
           </div>
         <% } %>
@@ -93,13 +179,13 @@
 </div>
 
 <script>
-var tabNames = ['application', 'team', 'cubstart'];
+var tabNames = ['main', 'team', 'travel'];
 
 function setTab(tabName) {
   $(".left-tab").attr("class", "left-tab");
   $("#" + tabName + "-tab-item").addClass("selected")
   $(".tab").attr("class", "tab");
-  $("#" + tabName + "-tab").addClass("tab-visible");x
+  $("#" + tabName + "-tab").addClass("tab-visible");
   window.location.hash = tabName;
 }
 

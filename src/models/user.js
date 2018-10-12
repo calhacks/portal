@@ -38,6 +38,10 @@ export default (sequelize, DataTypes) => {
         resetPasswordExpiration: {
             type: DataTypes.DATE
         },
+        status: {
+            type: DataTypes.ENUM('noresult', 'rejected', 'accepted_oos_ooa_reimbursed', 'accepted_oos_ooa_noreimbursed', 'accepted_berkeley_wave1', 'accepted_berkeley_wave2a', 'accepted_berkeley_wave2b'),
+            notEmpty: true
+        },
 
     }, {});
 
