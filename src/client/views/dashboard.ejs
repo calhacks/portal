@@ -73,36 +73,16 @@
             <p>Default </p>
           </div>
       <% } %>
-
-       <!-- <% if (user.status == 'rejected') { %>
-         <div>
-             <p>Please apply again next year! </p>
-         </div>
-       <% } else if (user.status == 'accepted_oos_ooa_reimbursed') { %>
-         <div>
-            <p>Accepted OOS/OOA with Reimbursement </p>
-         </div>
-       <% } else if (user.status == 'accepted_oos_ooa_noreimbursed') { %>
-         <div>
-           <p>Accepted OOS/OOA without Reimbursement </p>
-         </div>
-       <% } else if (user.status == 'accepted_berkeley_wave1') { %>
-         <div>
-           <p>Accepted Berkeley wave 1 </p>
-         </div>
-       <% } else if (user.status == 'accepted_berkeley_wave2a') { %>
-         <div>
-           <p>Accepted Berkeley wave 2a </p>
-         </div>
-       <% } else if (user.status == 'accepted_berkeley_wave2b') { %>
-         <div>
-           <p>Accepted Berkeley wave 2b </p>
-         </div>
-       <% } %> -->
     </div>
 
     <div id="travel-tab" class="tab">
-
+      <form action="/travel" id="travel" method="post">
+        <input type='file' onchange="travel_upload()" name='travel' id='travel'/>
+        <label for="travel" id="travel_button">
+          <%= user.travel_receipt || 'Upload' %>
+        </label>
+        <p class="form-error" id="travel-error"></p>
+      </form>
     </div>
 
     <div id="application-tab" class="tab">
@@ -199,5 +179,9 @@ if (tabNames.indexOf(hash) !== -1) {
   setTab(hash);
 } else {
   setTab(tabNames[0]);
+}
+
+function travel_upload() {
+  $('#travel_button').text("File Uploaded!");
 }
 </script>
