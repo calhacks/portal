@@ -34,37 +34,105 @@
       <% switch(user.status) {
           case 'rejected': %>
           <div>
-            <p>Please apply again next year! </p>
+            <p>Hey <%= user.firstname %>, <br />
+
+            <p>Thank you so much for applying to Cal Hacks 5.0. After much consideration, we’re truly sorry to inform you that we are unable to invite you to join Cal Hacks 5.0 this year.</p>
+            <p>Firstly, we want to commend you for taking the time out of your schedule to apply for Cal Hacks and to show your excitement for innovation. We thoroughly enjoyed reading your applications and appreciated the thought and effort you put into your responses.</p>
+            <p>
+              If you have any other questions about our decision-making process, or if you’re curious about how you can stay involved with the hackathon scene, please do not hesitate to reach out to us at <b>team@calhacks.io</b>.
+              We cannot emphasize enough how much we respect you for taking the effort to apply and offering your time to create something you’ve never done before. We hope you continue to be passionate about innovation and we wish you the best in doing so.
+            </p>
+            <p>
+              Best,<br />
+              Cal Hacks Team
+            </p>
           </div>
         <% break; %>
 
         <% case 'accepted_oos_ooa_reimbursed': %>
           <div>
-            <p>Accepted OOS/OOA with Reimbursement </p>
+            <p>Hey <%= user.firstname %>, <br /> <br />
+            <b>Congratulations!!</b> We’d like to offer you the opportunity to be a hacker at Cal Hack’s fifth year anniversary!
+            Our team was impressed by your application and would love to see you make this our best hackathon yet!</p>
+          
+            <h1>Some quick logistics:</h1>
+            <ul>
+              <li><p>Cal Hack 5.0 will take place at <b>Cal Memorial Stadium at UC Berkeley</b>, starting at 6pm Nov. 2 to 3pm Nov. 4, 2018</p></li>
+              <li><p>Watch out in the coming weeks as we'll be posting updates here and on our social media!</p></li>
+              <li><p>You should have received an email from us regarding travel reimburement. In addition to those instructions, we ask that you also upload your travel receipt to this portal (on the tab to the left).</p></li>
+              <li><p>Don’t hesitate to send us an email at team@calhacks.io if you have any more questions. We can’t wait to see what you build at Cal Hacks 5.0!</p></li>
+              <li><p>P.S. Post about why you are excited to come out to Cal Hacks 5.0 with #whyihack #ch5 and you could potentially win a (giant) stuffed bear!</p></li>
+            </ul>
           </div>
         <% break; %>
 
         <% case 'accepted_oos_ooa_noreimbursed': %>
           <div>
-            <p>Accepted OOS/OOA without Reimbursement </p>
+            <p>Hey <%= user.firstname %>, <br /> <br />
+            <b>Congratulations!!</b> We’d like to offer you the opportunity to be a hacker at Cal Hack’s fifth year anniversary!
+            Our team was impressed by your application and would love to see you make this our best hackathon yet!</p>
+
+            <h1>Some quick logistics:</h1>
+            <ul>
+              <li><p>Cal Hack 5.0 will take place at <b>Cal Memorial Stadium at UC Berkeley</b>, starting at 6pm Nov. 2 to 3pm Nov. 4, 2018</p></li>
+              <li><p>Watch out in the coming weeks as we'll be posting updates here and on our social media!</p></li>
+              <li><p>Don’t hesitate to send us an email at team@calhacks.io if you have any more questions. We can’t wait to see what you build at Cal Hacks 5.0!</p></li>
+              <li><p>P.S. Post about why you are excited to come out to Cal Hacks 5.0 with #whyihack #ch5 and you could potentially win a (giant) stuffed bear!</p></li>
+            </ul>
           </div>
         <% break; %>
 
         <% case 'accepted_berkeley_wave1': %>
           <div>
-            <p>Accepted Berkeley wave 1 </p>
+            <p>Hey <%= user.firstname %>, <br /> <br />
+            <b>Congratulations!!</b> We’d like to offer you the opportunity to be a hacker at Cal Hack’s fifth year anniversary!
+            Our team was impressed by your application and would love to see you make this our best hackathon yet!</p>
+
+            <h1>Some quick logistics:</h1>
+            <ul>
+              <li><p>Cal Hack 5.0 will take place at <b>Cal Memorial Stadium at UC Berkeley</b>, starting at 6pm Nov. 2 to 3pm Nov. 4, 2018</p></li>
+              <li><p>Watch out in the coming weeks as we'll be posting updates here and on our social media!</p></li>
+              <li><p>Don’t hesitate to send us an email at team@calhacks.io if you have any more questions. We can’t wait to see what you build at Cal Hacks 5.0!</p></li>
+              <li><p>P.S. Post about why you are excited to come out to Cal Hacks 5.0 with #whyihack #ch5 and you could potentially win a (giant) stuffed bear!</p></li>
+            </ul>
           </div>
         <% break; %>
 
         <% case 'accepted_berkeley_wave2a': %>
           <div>
             <p>Accepted Berkeley wave 2a </p>
+
+            <p>Hey <%= user.firstname %>, <br /> <br />
+
+
+            <b>Congratulations!!</b> We’d like to offer you the opportunity to be a hacker at Cal Hack’s fifth year anniversary!
+            Our team was impressed by your application and would love to see you make this our best hackathon yet!</p>
+
+            <h1>Some quick logistics:</h1>
+            <ul>
+              <li><p>Cal Hack 5.0 will take place at <b>Cal Memorial Stadium at UC Berkeley</b>, starting at 6pm Nov. 2 to 3pm Nov. 4, 2018</p></li>
+              <li><p>Watch out in the coming weeks as we'll be posting updates here and on our social media!</p></li>
+              <li><p>Don’t hesitate to send us an email at team@calhacks.io if you have any more questions. We can’t wait to see what you build at Cal Hacks 5.0!</p></li>
+              <li><p>P.S. Post about why you are excited to come out to Cal Hacks 5.0 with #whyihack #ch5 and you could potentially win a (giant) stuffed bear!</p></li>
+            </ul>
           </div>
         <% break; %>
 
         <% case 'accepted_berkeley_wave2b': %>
           <div>
             <p>Accepted Berkeley wave 2b </p>
+
+            <p>Hey <%= user.firstname %>, <br /> <br />
+
+            <b>Congratulations!!</b> We’d like to offer you the opportunity to be a hacker at Cal Hack’s fifth year anniversary!
+            Our team was impressed by your application and would love to see you make this our best hackathon yet!</p>
+            <h1>Some quick logistics:</h1>
+            <ul>
+              <li><p>Cal Hack 5.0 will take place at <b>Cal Memorial Stadium at UC Berkeley</b>, starting at 6pm Nov. 2 to 3pm Nov. 4, 2018</p></li>
+              <li><p>Watch out in the coming weeks as we'll be posting updates here and on our social media!</p></li>
+              <li><p>Don’t hesitate to send us an email at team@calhacks.io if you have any more questions. We can’t wait to see what you build at Cal Hacks 5.0!</p></li>
+              <li><p>P.S. Post about why you are excited to come out to Cal Hacks 5.0 with #whyihack #ch5 and you could potentially win a (giant) stuffed bear!</p></li>
+            </ul>
           </div>
         <% break; %>
 
