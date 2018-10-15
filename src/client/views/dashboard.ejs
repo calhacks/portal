@@ -144,11 +144,13 @@
     </div>
 
     <div id="travel-tab" class="tab">
-      <form action="/travel" id="travel" method="post">
-        <input type='file' onchange="travel_upload()" name='travel' id='travel'/>
-        <label for="travel" id="travel_button">
+      <form action="/travel" id="travel_form" method="post">
+        <input type='file' onchange="javascript:travel_upload()" name='travel' id='travel_input'/>
+        <label for="travel_input" id="travel_button">
           <%= user.travel_receipt || 'Upload' %>
         </label>
+        <br>
+        <input type="submit" value="Submit" />
         <p class="form-error" id="travel-error"></p>
       </form>
     </div>
