@@ -548,6 +548,10 @@ body {
         grid-row-gap: 20px;
         padding: 0 20px;
     }
+    body .ford-sdl {
+        display:inline-block;
+    }
+    body
       body .logo-grid img {
           width: 100%;
           height: auto;
@@ -564,6 +568,7 @@ body {
       body .flex-grid-3 .flex-grid-2 {
           justify-self: center;
       }
+
 
       @media (max-width: 500px) {
           body .flex-grid-2 { grid-template-columns: 1fr;
