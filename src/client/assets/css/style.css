@@ -535,7 +535,6 @@ body {
     body .flex-grid-3 {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
-        grid-template-rows: 100% 100% 100%;
         grid-column-gap: 40px;
         grid-row-gap: 30px;
         padding: 0 20px;
@@ -543,7 +542,6 @@ body {
     body .flex-grid-4 {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-template-rows: 100% 100% 100% 100%;
         grid-column-gap: 20px;
         grid-row-gap: 20px;
         padding: 0 20px;
@@ -575,11 +573,9 @@ body {
           grid-template-rows: 100%; margin: 0 0 10px 0; }
           body .flex-grid-3 {
               grid-template-columns: 1fr 1fr;
-              grid-template-rows: 100% 100%;
               margin: 0 0 30px 0; }
           body .flex-grid-4 {
               grid-template-columns: 1fr 1fr;
-              grid-template-rows: 100% 100%;
           }
       }
       body #sponsor .logo-grid, body #faq .logo-grid {
