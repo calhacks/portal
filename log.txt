@@ -4,3 +4,5 @@
 [32m[nodemon] starting `node dist/server.js`[39m
 listening on 8000
 [sass]  [90mskip:[0m [36m/ nothing to do[0m
+[sass]  [90mskip:[0m [36m/ nothing to do[0m
+[sass]  [90mskip:[0m [36m/ nothing to do[0m
