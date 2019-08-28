@@ -1,3 +1,3 @@
 #Start Server
-nodemon dist/server.js > log.txt
+nodemon public/server.js > log.txt
 

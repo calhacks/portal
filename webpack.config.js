@@ -11,7 +11,7 @@ var baseRules = [
         test: /\.jsx?$/,
         loader: 'babel-loader',
         include: /src/,
-        exclude: /node_modules|dist/,
+        exclude: /node_modules|public/,
         resolve: {
             extensions: ['.js', '.jsx', '.sass']
         }
@@ -32,7 +32,7 @@ var devServerConfig = {
         rules: baseRules
     },
     output: {
-        path: path.join(__dirname, 'dist'),
+        path: path.join(__dirname, 'public'),
         filename: 'server.js'
     },
     target: 'node',
@@ -73,7 +73,7 @@ var prodServerConfig = {
         ]
     },
     output: {
-        path: path.join(__dirname, 'dist'),
+        path: path.join(__dirname, 'public'),
         filename: 'server.js'
     },
     target: 'node',

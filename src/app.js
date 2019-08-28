@@ -57,7 +57,7 @@ app.use(cookieParser());
 app.use(flash({ locals: 'flash' }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static('./dist'));
+app.use(express.static('./public'));
 
 // express-formidable is really trash so this is the fix
 app.use((req, res, next) => {
@@ -82,13 +82,13 @@ passportConfig(passport, models.User);
 
 if (process.env.NODE_ENV === 'production') {
     require('./client/assets/css/main.sass');
-    app.use(express.static('dist/assets'));
+    app.use(express.static('public/assets'));
 } else {
-    app.use(express.static('dist/assets'));
+    app.use(express.static('public/assets'));
     app.use(
         sass({
             src: 'src/client/assets',
-            dest: 'dist/assets',
+            dest: 'public/assets',
             indentedSyntax: true,
             debug: true,
             force: true,

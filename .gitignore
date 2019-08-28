@@ -58,6 +58,6 @@ typings/
 .env
 
 # compiled dist
-dist/
+public/
 run*
 log.txt
