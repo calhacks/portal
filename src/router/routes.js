@@ -54,13 +54,13 @@ export default {
     // Submitting an app
     '/application': {
         get: applicationController.appPage,
-        // post: applicationController.submitApp
+        post: applicationController.submitApp
     },
 
     // cubstart application
     '/cubstart': {
         get: cubstartController.cubstart,
-        // post: cubstartController.submitApp
+        post: cubstartController.submitApp
     },
 
     // Submitting a team

@@ -61,7 +61,7 @@ export default {
     postScore: (req, res, next) => {
         ApplicationScore.findOne({
             where: {
-                director: req.user.id,
+                director: req.user.id.toString(10),
                 ApplicationId: req.body.ApplicationId,
             }
         }).then(score => {
@@ -80,7 +80,7 @@ export default {
     getScore: (req, res, next) => {
         ApplicationScore.findOne({
             where: {
-                director: req.user.id,
+                director: req.user.id.toString(),
                 ApplicationId: req.query.appId,
             }
         }).then(score => {
@@ -120,7 +120,6 @@ export default {
         if (!filename) {
             res.send(404);
         } else {
-            console.log(path.extname(filename));
             let type = types[path.extname(filename)];
             if (type === undefined) {
                 type = 'application/octet-stream';
@@ -226,7 +225,7 @@ export default {
     // Get a User's App
     getApp: (req, res, next) => {
         const conditions = [
-            'u.id=a.UserId',
+            'u.id=a."UserId"',
         ];
 
         if (!['oos', 'ooa', 'all', 'berkeley'].includes(req.query.location)) {
@@ -234,48 +233,56 @@ export default {
             return;
         } else if (req.query.location !== 'all') {
             conditions.push(
-                'a.transportation="' + req.query.location + '"',
+                'a.transportation=\'' + req.query.location + '\'',
             );
         }
-
+        console.log(req.query);
         // hot query
         const query =
             'select ' +
 
             'u.id id,' +
-            'a.id appId, ' +
+            'a.id "appId", ' +
             'u.firstname firstname, ' +
             'u.lastname lastname, ' +
             'u.email email, ' +
             'a.gender gender, ' +
-            'a.genderOther genderOther, ' +
+            'a."genderOther" "genderOther", ' +
             'a.school school, ' +
-            'a.year year, ' +
+            'a.year "year", ' +
             'a.bday bday, ' +
             'a.race race, ' +
-            'a.raceOther raceOther, ' +
+            'a."raceOther" "raceOther", ' +
             'a.major major, ' +
             'a.transportation transportation, ' +
             'a.links links, ' +
             'a.hackathons hackathons, ' +
-            'a.hearAbout hearAbout, ' +
+            'a."hearAbout" "hearAbout", ' +
             'a.question1 question1, ' +
             'a.question2 question2, ' +
             'a.question3 question3, ' +
             'a.beginner beginner, ' +
-            'a.createdAt createdAt ' +
+            'a."createdAt" "createdAt", ' +
+            'a.resume resume ' +
 
             'from ' +
-            'Users u, ' +
-            'Applications a ' +
+            '"Users" u, ' +
+            '"Applications" a ' +
 
             'where ' +
             conditions.join(' and ') +
 
             ' order by a.id limit 1 offset ' + req.query.id + ';';
-
         sequelize.query(query).spread((results, meta) => {
             const uid = results[0].id;
+
+            const lst = results[0].resume.split('.');
+            let extension = "";
+            if (lst.length > 1) {
+                extension = '.' + lst[lst.length - 1];
+            }
+            results[0].resume = 'https://' + process.env.DO_BUCKET + '.' + process.env.DO_MAIN_LOC + '/resumes/resume-' + results[0].id + extension
+
             let teammates = [];
             User.findOne({
                 where: { id: uid },
@@ -397,30 +404,30 @@ export default {
                         'select ' +
                         'u.email email, ' +
                         'a.transportation transportation, ' +
-                        'a.id appId, ' +
+                        'a.id "appId", ' +
                         'u.firstname firstname, ' +
                         'u.lastname lastname, ' +
                         'u.email email, ' +
-                        'u.TeamId team, ' +
+                        'u."TeamId" team, ' +
                         'a.gender gender, ' +
-                        'a.genderOther genderOther, ' +
+                        'a."genderOther" "genderOther", ' +
                         'a.school school, ' +
-                        'a.year year, ' +
+                        'a.year "year", ' +
                         'a.bday bday, ' +
                         'a.race race, ' +
-                        'a.raceOther raceOther, ' +
+                        'a."raceOther" "raceOther", ' +
                         'a.major major, ' +
                         'a.transportation transportation, ' +
                         'a.links links, ' +
                         'a.hackathons hackathons, ' +
-                        'a.hearAbout hearAbout, ' +
+                        'a."hearAbout" "hearAbout", ' +
                         'a.question1 question1, ' +
                         'a.question2 question2, ' +
                         'a.question3 question3, ' +
                         'a.beginner beginner, ' +
-                        'a.createdAt createdAt ' +
-                        'from Applications a, Users u ' +
-                        'where u.id=a.UserId and a.id=' + final[i].id + ';'
+                        'a."createdAt" "createdAt" ' +
+                        'from "Applications" a, "Users" u ' +
+                        'where u.id=a."UserId" and a.id=' + final[i].id + ';'
                     ).spread((results, meta) => {
                         resolve({
                             ...results[0],
@@ -441,19 +448,9 @@ export default {
 
     scoringStats: (req, res, next) => {
         sequelize.query(
-            'select u.email, count(*) ' +
-
-            'from ' +
-                'Users u, ' +
-                'ApplicationScores s, ' +
-                'Applications a ' +
-
-            'where ' +
-                'u.id=s.director and ' +
-                'a.transportation="' + req.query.location + '" and ' +
-                's.ApplicationId=a.id ' +
-
-            'group by s.director order by -count(*);'
+            'select u.email, count(*) from "Users" u, "ApplicationScores" s, "Applications" a' +
+            ' where u.id::varchar=s.director and a.transportation=\'' + req.query.location + '\' and s."ApplicationId"=a.id' +
+            ' group by s.director, u.email order by -count(*);'
         ).spread((results, meta) => {
             res.render('scoringStats', { results });
         });
