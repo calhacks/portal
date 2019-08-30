@@ -23,7 +23,7 @@ html, body
     height: 100%
     overflow: hidden
     position: relative
-    background-color: $color-primary
+    background-color: white
 
 #app-container
     width: 100%
@@ -110,20 +110,21 @@ html, body
         position: fixed
         top: 0
         left: 0
+        z-index: 100
 
         .app-box-overlay-top
             height: 30%
             width: 100%
             position: fixed
             top: 0
-            +linearGradient($color-primary, rgba(255,255,255,0))
+            +linearGradient(white, rgba(255,255,255,0))
 
         .app-box-overlay-bottom
             height: 40%
             width: 100%
             position: fixed
             bottom: 0
-            +linearGradient(rgba(255,255,255,0), $color-primary)
+            +linearGradient(rgba(255,255,255,0), white)
 
 #center-large-box-left
     width: 180px
@@ -172,6 +173,7 @@ html, body
     width: 100%
     bottom: 0
     pointer-events: none
+    z-index: 101
 
     img
         position: fixed

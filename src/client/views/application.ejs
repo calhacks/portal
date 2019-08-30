@@ -20,15 +20,15 @@
         if (
           user.Application &&
           user.Application.transportation == "oos" &&
-          Math.round((new Date()).getTime() / 1000) >= 1537858800) {
+          Math.round((new Date()).getTime() / 1000) >= 2065592781) {
           canSubmit = false;
         } else if (
           user.Application &&
           user.Application.transportation == "ooa" &&
-          Math.round((new Date()).getTime() / 1000) >= 1538463600) {
+          Math.round((new Date()).getTime() / 1000) >= 2065592781) {
           canSubmit = false;
         } else if (
-          Math.round((new Date()).getTime() / 1000) >= 1539068400) {
+          Math.round((new Date()).getTime() / 1000) >= 2065592781) {
           // apps are closed!
           canSubmit = false;
         }
@@ -473,11 +473,20 @@ function redisplay() {
   }
 }
 redisplay();
+
+oldSchool = "<%- school %>";
 for (var school of schoolList) {
-  $("#school").append(
-    "<option value='" + school + "'>" + school + "</option>"
-  );
+  if (oldSchool === school) {
+    $("#school").append(
+      "<option value='" + school + "' selected>" + school + "</option>"
+    );
+  } else {
+    $("#school").append(
+      "<option value='" + school + "'>" + school + "</option>"
+    );
+  }
 }
+
 var data = JSON.stringify("<%= data %>")
 data = JSON.parse(data)
 
