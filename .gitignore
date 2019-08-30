@@ -64,3 +64,5 @@ typings/
 public/
 run*
 log.txt
+
+dist/
