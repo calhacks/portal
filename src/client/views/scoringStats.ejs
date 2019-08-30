@@ -22,7 +22,7 @@
   </body>
 
   <script>
-    data = <%- JSON.stringify(results) %>
+    data = <%- JSON.stringify(results) %>;
     loc = "ooa";
 
     $('.loc').click(function() {
@@ -35,12 +35,12 @@
     $('#l-oos').click();
 
     function viewResults() {
-      // $('#list').html('');
-      // for (let i = 0; i < data.length; i++) {
-      //   if (data[i].location == loc) {
-      //     $('#list').append('<li>' + data[i].email + '</li>');
-      //   }
-      // }
+      $('#list').html('');
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].location == loc) {
+          $('#list').append('<li>' + data[i].email + '</li>');
+        }
+      }
       console.log(data);
     }
   </script>

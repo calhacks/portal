@@ -1,6 +1,6 @@
 
 import fs from 'fs-extra';
-import path from 'path';
+import aws from 'aws-sdk';
 import { Application, User } from '../models';
 
 const homedir = require('os').homedir();
@@ -25,8 +25,6 @@ export default {
 
         const resume = req.files.resume;
         const thumbnail = req.files.thumbnail;
-
-        const aws = require('aws-sdk');
         aws.config.update({
             accessKeyId: process.env.DO_ACCESS_KEY,
             secretAccessKey: process.env.DO_SECRET_KEY,
@@ -68,8 +66,6 @@ export default {
                 if (extension in types) {
                     contentType = types[extension];
                 }
-
-                console.log(user.Application);
                 
                 if (user.Application !== null && user.Application.resume !== null) {
                     const split = user.Application.resume.split('.');
@@ -80,7 +76,6 @@ export default {
                                 Bucket: process.env.DO_BUCKET,
                                 Key: `resumes/resume-${req.user.id}.${oldExtension}`
                             };
-                            console.log(params);
                             s3.deleteObject(params, function(err, data) {
                                 if (err) console.log(err, err.stack);  // error
                                 else     console.log();                 // deleted
@@ -96,13 +91,8 @@ export default {
                     ACL: 'public-read',
                     ContentType: contentType
                 };
-                console.log("created params");
-                console.log(params);
                 s3.upload(params, options, function (err, data) {
                     if (!err) {
-                        console.log("upload complete");
-                        console.log(data); // successful response
-                        console.log(data.Location);
                         resumeLink = data.Location;
                         uploadThumbnail(user);
                     } else {
@@ -143,22 +133,15 @@ export default {
                         }
                     }
                 }
-
-                console.log('reached2');
                 const params = {
                     Bucket: process.env.DO_BUCKET,
                     Key: 'thumbnails/' + newFilename,
                     Body: fs.createReadStream(oldPath),
                     ACL: 'public-read'
                 };
-                console.log("created params2");
-                console.log(params);
                 s3.upload(params, options, function (err, data) {
                     if (!err) {
-                        console.log(data); // successful response
-                        console.log(data.Location);
                         thumbnailLink = data.Location;
-                        console.log("upload complete2");
                         completeUpload(user);
                     } else {
                         console.log(err);
@@ -183,8 +166,6 @@ export default {
         const completeUpload = (user) => {
             if (user.Application === null) {
                 var data = req.body;
-                console.log("resume");
-                console.log(result.length);
                 data['resume'] = resume.name;
                 data['thumbnail'] = thumbnail.name;
                 Application.create({
@@ -192,10 +173,7 @@ export default {
                     UserId: req.user.id
                 });
             } else {
-                console.log(req.files.resume.name);
                 var data = req.body;
-                console.log("resume");
-                console.log(result[0]);
                 data['resume'] = resume.name;
                 data['thumbnail'] = thumbnail.name;
                 user.Application.updateAttributes(data);

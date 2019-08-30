@@ -7,8 +7,8 @@ export default {
         host: process.env.DB_HOST,
         port: process.env.DB_PORT,
         dialect: 'postgres',
-        ssl: true,
-        dialectOptions: { ssl: {require:true }}
+        // ssl: true,
+        // dialectOptions: { ssl: {require:true }}
     },
     production: {
         username: process.env.DB_USER,

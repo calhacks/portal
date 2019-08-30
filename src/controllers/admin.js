@@ -449,7 +449,7 @@ export default {
     scoringStats: (req, res, next) => {
         sequelize.query(
             'select u.email, count(*) from "Users" u, "ApplicationScores" s, "Applications" a' +
-            ' where u.id::varchar=s.director and a.transportation=\'undefined\' and s."ApplicationId"=a.id' +
+            ' where u.id::varchar=s.director and a.transportation=\'' + req.query.location + '\' and s."ApplicationId"=a.id' +
             ' group by s.director, u.email order by -count(*);'
         ).spread((results, meta) => {
             res.render('scoringStats', { results });
