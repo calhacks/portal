@@ -7,7 +7,7 @@ const homedir = require('os').homedir();
 
 export default {
 
-    types = {
+    types: {
         'pdf': 'application/pdf',
         'rtf': 'application/rtf',
         'jpg': 'image/jpeg',
