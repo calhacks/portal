@@ -4,15 +4,15 @@
 <div class="app-box-scroll-wrapper">
   <div class="app-box">
     <div class="app-box-content">
-      <div class="app-box-overlay">
+      <!-- <div class="app-box-overlay">
         <div class="app-box-overlay-bottom">
         </div>
-      </div>
+      </div> -->
       <a href="/dashboard#application" class="a-back">
         <i class="material-icons" style="font-size:12px">arrow_back_ios</i>
         Back
       </a>
-      <h1>Cal Hacks 5.0 Application</h1>
+      <h1>Cal Hacks 6.0 Application</h1>
 
       <%
         var canSubmit = true;
@@ -176,6 +176,8 @@
             var val = data.transportation || '';
             transportationOpts = {
               '': 'Select one',
+              'oos': 'Out of state',
+              'ooa': 'Out of area (California)',
               'berkeley': 'I\'m a Cal student'
             };
 
@@ -353,7 +355,7 @@
         </label>
         <p class="form-error" id="thumbnail-error"></p>
 
-        <h2>Part 3: Essays</h2>
+        <h2>Part 3: Short Answer Questions</h2>
 
         <!-- For all non-cubstart people -->
         <span id="regular-questions">
@@ -605,10 +607,22 @@ function validate() {
     }
   } else {
     // If user uploads a resume, still have to make sure its under 10mb
-    if (file.size > 10 * 1024 * 1024) {
+    if (file.size > 5 * 1024 * 1024) {
       result.push({
         field: '#resume',
-        reason: 'Your resume must be under 10MB.'
+        reason: 'Your resume must be under 5MB.'
+      });
+    }
+  }
+
+  var input = $("#thumbnail")[0];
+  var file = input.files[0];
+  if (file) {
+    // If user uploads a resume, still have to make sure its under 10mb
+    if (file.size > 5 * 1024 * 1024) {
+      result.push({
+        field: '#thumbnail',
+        reason: 'Your thumbnailmust be under 5MB.'
       });
     }
   }

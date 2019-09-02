@@ -6,21 +6,20 @@ import { Application, User } from '../models';
 const homedir = require('os').homedir();
 
 export default {
-
-    types: {
-        'pdf': 'application/pdf',
-        'rtf': 'application/rtf',
-        'jpg': 'image/jpeg',
-        'png': 'image/png',
-        'txt': 'text/plain',
-        'rtf': 'application/rtf',
-        'doc': 'application/msword',
-        'dot': 'application/msword',
-        'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-    },
-
     submitApp: (req, res, next) => {
         // TODO: Add field validation
+
+        const types = {
+            'pdf': 'application/pdf',
+            'rtf': 'application/rtf',
+            'jpg': 'image/jpeg',
+            'png': 'image/png',
+            'txt': 'text/plain',
+            'rtf': 'application/rtf',
+            'doc': 'application/msword',
+            'dot': 'application/msword',
+            'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        };
 
         const resume = req.files.resume;
         const thumbnail = req.files.thumbnail;
@@ -45,7 +44,7 @@ export default {
         let thumbnailLink;
 
         const uploadResume = (user) => {
-            if (resume.size !== 0) {
+            if (resume.size !== 0 && resume.size < 5 * 1024 * 1024) {
                 console.log('detected resume');
                 const lst = resume.name.split('.');
 
@@ -99,12 +98,14 @@ export default {
                     }
                 });
             } else {
-                uploadThumbnail(user);
+                if (resume.size < 5 * 1024 * 1024) {
+                    uploadThumbnail(user);
+                }
             }
         }
 
         const uploadThumbnail = (user) => {
-            if (thumbnail.size !== 0) {
+            if (thumbnail.size !== 0 && thumbnail.size < 5000000) {
                 console.log('detected thumb');
                 const lst = thumbnail.name.split('.');
                 let newFilename;
@@ -147,7 +148,9 @@ export default {
                     }
                 });
             } else {
-                completeUpload(user);
+                if (thumbnail.size < 5000000) {
+                    completeUpload(user);
+                }
             }
         }
 
@@ -190,7 +193,11 @@ export default {
             ]
         }).then(user => {
             //school required because the school doesn't autofill, because it pulls them from a separate file in the frontend. would use user.Application.school there but ejs is erroring.
-            res.render('application', { user: user.toJSON() , school: user.Application.school })
+            if (user.Application !== null) {
+                res.render('application', { user: user.toJSON() , school: user.Application.school });
+            } else {
+                res.render('application', { user: user.toJSON() , school: null });
+            }
         });
     }
 }
