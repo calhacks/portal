@@ -2,25 +2,26 @@
 <div class="app-box-scroll-wrapper">
   <div class="app-box">
     <div class="app-box-content">
-      <div class="app-box-overlay">
+      <!-- <div class="app-box-overlay">
         <div class="app-box-overlay-bottom">
         </div>
-      </div>
+      </div> -->
       <a href="/dashboard#cubstart" class="a-back">
         <i class="material-icons" style="font-size:12px">arrow_back_ios</i>
         Back
       </a>
-      <h1>Cal Hacks 5.0 Cubstart Application</h1>
+      <h1>Cal Hacks 6.0 Cubstart Application</h1>
       <% if (user.email.toLowerCase().endsWith('@berkeley.edu')) { %>
         <form action="/cubstart" id="cubstart" method="post" encType='multipart/form-data'>
           <%
+            var canSubmit = true;
             var data = {};
             if (user.CubStart) {
               data = user.CubStart;
             }
 
             if (
-              Math.round((new Date()).getTime() / 1000) >= 1539068400) {
+              Math.round((new Date()).getTime() / 1000) >= 2065592781) {
               // apps are closed!
               canSubmit = false;
             }
@@ -40,56 +41,64 @@
 
           <!-- For cubstart only -->
           <span id="cubstart-questions">
-            <h3>Tell us the story of how you discovered computer science, design, or your special area of interest.  How do your individual perspectives and identity contribute to what "hacking" means to you? <span class="required">*</span></h3>
+            <h3> We each have our own unique experiences and stories to tell. How did your journey lead you to apply to CubStart? <span class="required">*</span></h3>
             <textarea id="cubstart1" name="cubstart1" rows="5"><%= data.cubstart1 || '' %></textarea>
             <p class="word-count" id="cubstart1-word-count"></p>
             <p class="form-error" id="cubstart1-error"></p>
 
-            <h3>Describe something that you created (technical or non-technical, it doesn’t matter!), and elaborate on how you made it.  What did you learn?  Why did you love building it? <span class="required">*</span></h3>
+            <h3>Describe your proudest achievement (technical or non-technical!). What challenges did you face along the way, and why is it meaningful to you?<span class="required">*</span></h3>
             <textarea id="cubstart2" name="cubstart2" rows="5"><%= data.cubstart2 || '' %></textarea>
             <p class="word-count" id="cubstart2-word-count"></p>
             <p class="form-error" id="cubstart2-error"></p>
 
-            <h3>What’s the dream innovation you hope to create within your lifetime?  If you had to bring it into effect somehow, what are some of the roadblocks you would expect and how would you account for them? <span class="required">*</span></h3>
+            <h3>Describe a time when you had to think “outside the box,” and how did you go about it? <span class="required">*</span></h3>
             <textarea id="cubstart3" name="cubstart3" rows="5"><%= data.cubstart3 || '' %></textarea>
             <p class="word-count" id="cubstart3-word-count"></p>
             <p class="form-error" id="cubstart3-error"></p>
 
-            <h3>What programming experience do you have (if any)? <span class="required">*</span></h3>
+            <h3>What programming or engineering experience do you have (if any)? <span class="required">*</span></h3>
             <textarea id="cubstart4" name="cubstart4" rows="5"><%= data.cubstart4 || '' %></textarea>
             <p class="word-count" id="cubstart4-word-count"></p>
             <p class="form-error" id="cubstart4-error"></p>
 
-
-            <h3>(Optional) Is there anything in particular that you want to learn during CubStart (e.g. iOS development, web development, data science, etc.)?</h3>
-            <textarea id="cubstart5" name="cubstart5" rows="5"><%= data.cubstart5 || '' %></textarea>
-            <p class="word-count" id="cubstart5-word-count"></p>
-            <p class="form-error" id="cubstart5-error"></p>
-
-            <h3>As attendance is mandatory for CubStart, are you available for all the following dates and times: 10/13, 10/20, and 10/27 from 2-4 pm?<span class="required">*</span></h3>
-            <select id="cubstart6" name="cubstart6">
+            <h3>How did you hear about CubStart? (Select all that apply)<span class="required">*</span></h3>
+            <div id="cubstart5" style="display:flexbox">
               <%
-                var val = data.cubstart6 || '';
-                cubstart6Opts = {
-                  '': 'Select one',
-                  'yes': 'Yes',
-                  'no': 'No',
+                var val = data.cubstart5 || [];
+                cubstart5pts = {
+                  'Cal Hacks Website': 'Website',
+                  'Facebook': 'Facebook',
+                  'Instagram': 'Instagram',
+                  'LinkedIn': 'LinkedIn',
+                  'Twitter': 'Twitter',
+                  'Piazza': 'Piazza',
+                  'In-class announcement': 'IC-Announcement',
+                  'A friend told me about it': 'Friend'
                 };
 
-                for (var key of Object.keys(cubstart6Opts)) {
-                  if (val == key) { %>
-
-                    <option value="<%= key %>" selected><%= cubstart6Opts[key] %></option>
-
-                  <% } else { %>
-
-                    <option value="<%= key %>"><%= cubstart6Opts[key] %></option>
-
-                  <% }
+                for (var key of Object.keys(cubstart5pts)) { 
+                  if (data.cubstart5 !== null && data.cubstart5 !== undefined && data.cubstart5.includes(cubstart5pts[key])) {%>
+                  <input class="checkbox" type="checkbox" name="cubstart5-<%= cubstart5pts[key] %>" value="<%= cubstart5pts[key] %>" id="cubstart5-<%= cubstart5pts[key] %>" checked> </input>
+                  <label for="cubstart5-<%= cubstart5pts[key] %>"> <%= key %> </label>
+                <% }
+                  else { %>
+                    <input class="checkbox" type="checkbox" name="cubstart5-<%= cubstart5pts[key] %>" value="<%= cubstart5pts[key] %>" id="cubstart5-<%= cubstart5pts[key] %>"> </input>
+                    <label for="cubstart5-<%= cubstart5pts[key] %>"> <%= key %> </label>
+                  <%}
                 }
               %>
-            </select>
-            <p class="form-error" id="cubstart6-error"></p>
+              <%
+                if (data.cubstart5Other !== null && data.cubstart5Other !== undefined) { %>
+                <input class="checkbox" type="checkbox" name="cubstart5-other" value="other" id="cubstart5-other" checked> </input>
+                <label for="cubstart5-other"> Other </label>
+                <% } else { %>
+                <input class="checkbox" type="checkbox" name="cubstart5-other" value="other" id="cubstart5-other" > </input>
+                <label for="cubstart5-other"> Other </label>
+                <%}%>
+              <input id="cubstart5-other-text" placeholder="Please specify" name="cubstart5-other-text" type="text" value="<%= data.cubstart5Other || '' %>" />
+              <p class="form-error" id="cubstart5-other-error"></p>
+            </div>
+            <p class="form-error" id="cubstart5-error"></p>
           </span>
 
           <%
@@ -120,7 +129,7 @@ function validate() {
     'cubstart1': 200,
     'cubstart2': 200,
     'cubstart3': 200,
-    'cubstart4': 50
+    'cubstart4': 100
   };
 
   for (var cubstartField in requiredCubstartFields) {
@@ -144,6 +153,40 @@ function validate() {
       });
     }
   }
+
+  checkboxfields = [
+    'Website',
+    'Facebook',
+    'Instagram',
+    'LinkedIn',
+    'Twitter',
+    'Piazza',
+    'IC-Announcement',
+    'Friend',
+    'other'
+  ];
+
+  var valid = false;
+  checkboxfields.forEach((checkboxfield) => {
+    console.log('cubstart5-' + checkboxfield);
+    if (document.getElementById('cubstart5-' + checkboxfield).checked) {
+      valid = true;
+    }
+  });
+  if (!valid) {
+    result.push({
+        field: "#cubstart5",
+        reason: "You must select one."
+      });
+  }
+  
+  if (document.getElementById('cubstart5-other').checked && document.getElementById('cubstart5-other-text').value == '') {
+    result.push({
+        field: "#cubstart5-other",
+        reason: "Cannot be null if 'other' is selected."
+      });
+  }
+
   return result;
 }
 
@@ -159,8 +202,7 @@ function updateWc() {
     'cubstart1': 200,
     'cubstart2': 200,
     'cubstart3': 200,
-    'cubstart4': 50,
-    'cubstart5': 200
+    'cubstart4': 100,
   };
 
   for (field in fields) {
@@ -176,6 +218,13 @@ $("#cubstart1, #cubstart2, #cubstart3, #cubstart4, #cubstart5").on('keyup', upda
 
 function redisplay() {
 
+  if (document.getElementById('cubstart5-other').checked) {
+    console.log("done");
+    $("#cubstart5-other-text").css("display", "block");
+  } else {
+    $("#cubstart5-other-text").css("display", "none");
+  }
+
   $(".form-error").css("display", "none");
   for (var error of validationErrors) {
     $(error.field + "-error").css("display", "block");
@@ -183,6 +232,8 @@ function redisplay() {
   }
 }
 redisplay();
+
+$("#cubstart5-other").on("change", redisplay);
 
 $("#cubstart").on("submit", function(e) {
   validationErrors = validate();

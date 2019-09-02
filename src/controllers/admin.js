@@ -301,6 +301,35 @@ export default {
             });
         });
     },
+    
+    // Get a User's Cubstart App
+    getCubstart: (req, res, next) => {
+        const conditions = [
+            'u.id=c."UserId"',
+        ];
+        const query =
+            'select ' +
+
+            'u.id id,' +
+            'c.cubstart1 cubstart1,' +
+            'c.cubstart2 cubstart2,' +
+            'c.cubstart3 cubstart3' +
+            'c.cubstart4 cubstart4' + 
+            'c.cubstart5 cubstart5' +
+            'c.cubstart5Other cubstart5Other' +
+
+            'from ' +
+            '"Users" u, ' +
+            '"CubStart" c ' +
+
+            'where ' +
+            conditions.join(' and ') +
+
+            ' order by a.id limit 1 offset ' + req.query.id + ';';
+        sequelize.query(query).spread((results, meta) => {
+           res.json({ ...results[0]});
+        });
+    },
 
     accumulate: (req, res, next) => {
         ApplicationScore.findAll({}).then(scores => {
