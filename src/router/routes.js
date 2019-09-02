@@ -10,12 +10,12 @@ import adminController from '../controllers/admin';
 export default {
     // Home route
     '/': {
-        get: homeController.home
+        get: authController.signIn
     },
     // Home -> CH Code of Conduct
-    '/code-of-conduct': {
-        get: homeController.codeOfConduct,
-    },
+    // '/code-of-conduct': {
+    //     get: homeController.codeOfConduct,
+    // },
 
     // Auth routes
     '/login': {
