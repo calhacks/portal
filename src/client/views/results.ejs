@@ -13,7 +13,7 @@
     <div id="app-container" style="padding:100px">
       <a href="/dashboard#scoring">&lt;&lt; Back </a><br/><br/>
       <a class="loc" id="l-oos" href="#oos">Out of state</a>
-      / <a class="loc" id="l-ooa" href="#ooa">Out of area</a>
+      / <a class="loc" id="l-california" href="#california">In California</a>
       / <a class="loc" id="l-berkeley" href="#berkeley">Berkeley</a>
       <br/><br/>
       <ol id="list">
@@ -23,7 +23,7 @@
 
   <script>
     data = <%- JSON.stringify(results) %>
-    loc = "ooa";
+    loc = "california";
 
     $('.loc').click(function() {
       loc = $(this).attr('id').slice(2);
