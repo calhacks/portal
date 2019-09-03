@@ -13,9 +13,9 @@ export default {
         get: authController.signIn
     },
     // Home -> CH Code of Conduct
-    // '/code-of-conduct': {
-    //     get: homeController.codeOfConduct,
-    // },
+    '/code-of-conduct': {
+        get: homeController.codeOfConduct,
+    },
 
     // Auth routes
     '/login': {
