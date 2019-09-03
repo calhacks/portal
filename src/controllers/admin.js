@@ -184,7 +184,7 @@ export default {
             }
             if (
                 components[0] == 'oos' ||
-                components[0] == 'ooa' ||
+                components[0] == 'california' ||
                 components[0] == 'berkeley'
             ) {
                 // oos app
@@ -228,7 +228,7 @@ export default {
             'u.id=a."UserId"',
         ];
 
-        if (!['oos', 'ooa', 'all', 'berkeley'].includes(req.query.location)) {
+        if (!['oos', 'california', 'all', 'berkeley'].includes(req.query.location)) {
             res.json({});
             return;
         } else if (req.query.location !== 'all') {

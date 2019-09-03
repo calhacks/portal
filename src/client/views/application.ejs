@@ -24,7 +24,7 @@
           canSubmit = false;
         } else if (
           user.Application &&
-          user.Application.transportation == "ooa" &&
+          user.Application.transportation == "california" &&
           Math.round((new Date()).getTime() / 1000) >= 2065592781) {
           canSubmit = false;
         } else if (
@@ -177,8 +177,8 @@
             transportationOpts = {
               '': 'Select one',
               'oos': 'Out of state',
-              'ooa': 'Out of area (California)',
-              'berkeley': 'I\'m a Cal student'
+              'california': 'In California',
+              'berkeley': 'I\'m a Berkeley student'
             };
 
             for (var key of Object.keys(transportationOpts)) {
