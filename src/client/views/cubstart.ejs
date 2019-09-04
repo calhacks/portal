@@ -146,7 +146,7 @@ function validate() {
         field: "#" + cubstartField,
         reason: "Response must not exceed " + maxWc + " words."
       });
-    } else if (val.length > maxWC * 10) {
+    } else if (val.length > maxWc * 10) {
       result.push({
         field: "#" + cubstartField,
         reason: "Response must not exceed " + (maxWc * 10) + " characters."
