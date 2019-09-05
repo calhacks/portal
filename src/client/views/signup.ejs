@@ -28,11 +28,18 @@
             type="email"
             placeholder="email" />
 
-        <input
+        <input id="password"
             class="small"
             name="password"
             type="password"
             placeholder="password" />
+
+        <input id="confirm-password"
+            class="small"
+            type="password"
+            placeholder="confirm password" />
+
+        <p class="form-error" id="password-error" style="color: red"></p>
 
         <div
             class="button-container">
@@ -51,3 +58,16 @@
         <% } %>
     </form>
 </div>
+<script>
+$("#signup").on("submit", function(e) {
+    if ($('#password').val() !== $('#confirm-password').val()){
+      $("#password-error").css("display", "block");
+      $("#password-error").text("Confirm password does not match.");
+      e.preventDefault();
+      return false;
+    } else {
+      $("#password-error").css("display", "none");
+      return true;
+    }
+  });
+  </script>
