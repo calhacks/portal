@@ -23,7 +23,6 @@ export default {
         };
 
         const resume = req.files.resume;
-        const thumbnail = req.files.thumbnail;
         aws.config.update({
             accessKeyId: process.env.DO_ACCESS_KEY,
             secretAccessKey: process.env.DO_SECRET_KEY,
@@ -42,7 +41,6 @@ export default {
         };
         
         let resumeLink;
-        let thumbnailLink;
 
         const uploadResume = (user) => {
             if (resume.size !== 0 && resume.size < 5 * 1024 * 1024) {
@@ -93,63 +91,13 @@ export default {
                 s3.upload(params, options, function (err, data) {
                     if (!err) {
                         resumeLink = data.Location;
-                        uploadThumbnail(user);
+                        completeUpload(user);
                     } else {
                         console.log(err); // an error occurred
                     }
                 });
             } else {
                 if (resume.size < 5 * 1024 * 1024) {
-                    uploadThumbnail(user);
-                }
-            }
-        }
-
-        const uploadThumbnail = (user) => {
-            if (thumbnail.size !== 0 && thumbnail.size < 5000000) {
-                console.log('detected thumb');
-                const lst = thumbnail.name.split('.');
-                let newFilename;
-                if (lst.length > 1) {
-                    newFilename = `pic-${req.user.id}.${lst[lst.length - 1]}`;
-                } else {
-                    newFilename = `pic-${req.user.id}`;
-                }
-
-                const oldPath = thumbnail.path;
-
-                if (user.Application !== null && user.Application.thumbnail !== null) {
-                    const split = user.Application.thumbnail.split('.');
-                    if (split.length > 1) {
-                        const oldExtension = split[split.length - 1];
-                        if (oldExtension !== extension) {
-                            const params = {
-                                Bucket: process.env.DO_BUCKET,
-                                Key: `thumbnails/thumbnail-${req.user.id}.${oldExtension}`
-                            };
-                            s3.deleteObject(params, function(err, data) {
-                                if (err) console.log(err, err.stack);  // error
-                                else     console.log();                 // deleted
-                            });
-                        }
-                    }
-                }
-                const params = {
-                    Bucket: process.env.DO_BUCKET,
-                    Key: 'thumbnails/' + newFilename,
-                    Body: fs.createReadStream(oldPath),
-                    ACL: 'public-read'
-                };
-                s3.upload(params, options, function (err, data) {
-                    if (!err) {
-                        thumbnailLink = data.Location;
-                        completeUpload(user);
-                    } else {
-                        console.log(err);
-                    }
-                });
-            } else {
-                if (thumbnail.size < 5000000) {
                     completeUpload(user);
                 }
             }
@@ -181,7 +129,6 @@ export default {
             if (user.Application === null) {
                 var data = req.body;
                 data['resume'] = resume.name;
-                data['thumbnail'] = thumbnail.name;
                 data['hearAbout'] = [];
                 for (var key in hearAboutpts) {
                     if (!isNullOrUndefined(data['hearAbout-' + hearAboutpts[key]])) {
@@ -200,7 +147,6 @@ export default {
             } else {
                 var data = req.body;
                 data['resume'] = resume.name;
-                data['thumbnail'] = thumbnail.name;
                 data['hearAbout'] = [];
                 for (var key in hearAboutpts) {
                     if (!isNullOrUndefined(data['hearAbout-' + hearAboutpts[key]])) {

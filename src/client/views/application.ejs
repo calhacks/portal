@@ -377,18 +377,6 @@
             <p class="form-error" id="hearAbout-other-error"></p>
           </div>
           <p class="form-error" id="hearAbout-error"></p>
-              
-
-        <h3>If you are interested in being featured on our Facebook page as a hacker spotlight, please upload a photo of yourself and a quick blurb about you and your hackathon experience! :)</h3>
-        <textarea id="spotlight" name="spotlightBlurb" rows="5"><%= data.spotlightBlurb || '' %></textarea>
-        <p class="word-count" id="spotlight-word-count"></p>
-        <p class="form-error" id="spotlight-error"></p>
-
-        <input type='file' onchange="thumbnail_upload()" name='thumbnail' id='thumbnail' />
-        <label for="thumbnail" id="thumbnail_button">
-          <%= data.thumbnail || 'Upload a photo' %>
-        </label>
-        <p class="form-error" id="thumbnail-error"></p>
 
         <h2>Part 3: Short Answer Questions</h2>
 
@@ -460,10 +448,6 @@ validationErrors = [];
 
 function resume_upload() {
   $('#resume_button').text("File Uploaded!");
-}
-
-function thumbnail_upload() {
-  $('#thumbnail_button').text("Photo Uploaded!");
 }
 
 function redisplay() {
@@ -657,18 +641,6 @@ function validate() {
     }
   }
 
-  var input = $("#thumbnail")[0];
-  var file = input.files[0];
-  if (file) {
-    // If user uploads a resume, still have to make sure its under 10mb
-    if (file.size > 5 * 1024 * 1024) {
-      result.push({
-        field: '#thumbnail',
-        reason: 'Your thumbnailmust be under 5MB.'
-      });
-    }
-  }
-
   // If cubstart isn't selected, the other questions
   // need to be filled in.
   requiredRegularFields = {
@@ -754,18 +726,6 @@ function validate() {
     }
   }
 
-  if (wordCount($("#spotlight").val()) > 100) {
-    result.push({
-      field: "#spotlight",
-      reason: "Response must not exceed 100 words."
-    });
-  } else if ($("#spotlight").val().length > 1000) {
-    result.push({
-      field: "#spotlight",
-      reason: "Response must not exceed 1000 characters."
-    });
-  }
-
   requiredReading = [
     'mlhAffiliation',
     'mlhCodeOfConduct',
@@ -830,8 +790,7 @@ function updateWc() {
   fields = {
     'question1': 300,
     'question2': 200,
-    'question3': 50,
-    'spotlight': 100,
+    'question3': 50
   };
 
   for (field in fields) {
@@ -845,7 +804,7 @@ function updateWc() {
 redisplay();
 updateWc();
 
-$("#question1, #question2, #question3, #spotlight").on('keyup', updateWc);
+$("#question1, #question2, #question3").on('keyup', updateWc);
 
 $("#school").select2({
   placeholder: 'Select an option'
