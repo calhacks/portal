@@ -101,9 +101,15 @@ export default (sequelize, DataTypes) => {
             }
         },
         hearAbout: {
-            type: DataTypes.TEXT,
+            type: DataTypes.ARRAY(DataTypes.TEXT),
             validate: {
                 notEmpty: true
+            }
+        },
+        hearAboutOther: {
+            type: DataTypes.TEXT,
+            validate: {
+                notEmpty: false
             }
         },
         spotlightBlurb: {

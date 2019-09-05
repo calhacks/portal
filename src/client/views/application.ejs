@@ -340,9 +340,44 @@
         <input id="hackathons" name="hackathons" type="text" value="<%= data.hackathons || '' %>" />
         <p class="form-error" id="hackathons-error"></p>
 
-        <h3>How did you hear about Cal Hacks? <span class="required">*</span></h3>
-        <input id="hearAbout" name="hearAbout" type="text" value="<%= data.hearAbout || '' %>" />
-        <p class="form-error" id="hearAbout-error"></p>
+        <h3>How did you hear about Cal Hacks? (Select all that apply)<span class="required">*</span></h3>
+          <div id="hearAbout" style="display:flexbox">
+            <%
+              hearAbout = {
+                'Cal Hacks Website': 'Website',
+                'Facebook': 'Facebook',
+                'Instagram': 'Instagram',
+                'LinkedIn': 'LinkedIn',
+                'Twitter': 'Twitter',
+                'Piazza': 'Piazza',
+                'In-class announcement': 'IC-Announcement',
+                'A friend told me about it': 'Friend'
+              };
+
+              for (var key of Object.keys(hearAbout)) { 
+                if (data.hearAbout !== null && data.hearAbout !== undefined && data.hearAbout.includes(hearAbout[key])) {%>
+                <input class="checkbox" type="checkbox" name="hearAbout-<%= hearAbout[key] %>" value="<%= hearAbout[key] %>" id="hearAbout-<%= hearAbout[key] %>" checked> </input>
+                <label for="hearAbout-<%= hearAbout[key] %>"> <%= key %> </label>
+              <% }
+                else { %>
+                <input class="checkbox" type="checkbox" name="hearAbout-<%= hearAbout[key] %>" value="<%= hearAbout[key] %>" id="hearAbout-<%= hearAbout[key] %>"> </input>
+                <label for="hearAbout-<%= hearAbout[key] %>"> <%= key %> </label>
+                <%}
+              }
+            %>
+            <%
+              if (data.hearAboutOther !== null && data.hearAboutOther !== undefined) { %>
+              <input class="checkbox" type="checkbox" name="hearAbout-other" value="other" id="hearAbout-other" checked> </input>
+              <label for="hearAbout-other"> Other </label>
+              <% } else { %>
+              <input class="checkbox" type="checkbox" name="hearAbout-other" value="other" id="hearAbout-other" > </input>
+              <label for="hearAbout-other"> Other </label>
+              <%}%>
+            <input id="hearAbout-other-text" placeholder="Please specify" name="hearAbout-other-text" type="text" value="<%= data.hearAboutOther || '' %>" > </input>
+            <p class="form-error" id="hearAbout-other-error"></p>
+          </div>
+          <p class="form-error" id="hearAbout-error"></p>
+              
 
         <h3>If you are interested in being featured on our Facebook page as a hacker spotlight, please upload a photo of yourself and a quick blurb about you and your hackathon experience! :)</h3>
         <textarea id="spotlight" name="spotlightBlurb" rows="5"><%= data.spotlightBlurb || '' %></textarea>
@@ -473,6 +508,12 @@ function redisplay() {
   } else {
     $("#all-error").css("display", "none");
   }
+
+  if (document.getElementById('hearAbout-other').checked) {
+    $("#hearAbout-other-text").css("display", "block");
+  } else {
+    $("#hearAbout-other-text").css("display", "none");
+  }
 }
 redisplay();
 
@@ -488,6 +529,8 @@ for (var school of schoolList) {
     );
   }
 }
+
+$("#hearAbout-other").on("change", redisplay);
 
 var data = JSON.stringify("<%= data %>")
 data = JSON.parse(data)
@@ -537,7 +580,6 @@ function validate() {
     'transportation',
     'shirt',
     'hackathons',
-    'hearAbout',
     'requireTransportation'
   ]
 
@@ -656,6 +698,39 @@ function validate() {
         reason: "Response must not exceed " + (10 * maxWc) + " characters."
       });
     }
+  }
+
+  checkboxfields = [
+    'Website',
+    'Facebook',
+    'Instagram',
+    'LinkedIn',
+    'Twitter',
+    'Piazza',
+    'IC-Announcement',
+    'Friend',
+    'other'
+  ];
+
+  var valid = false;
+  checkboxfields.forEach((checkboxfield) => {
+    console.log('hearAbout-' + checkboxfield);
+    if (document.getElementById('hearAbout-' + checkboxfield).checked) {
+      valid = true;
+    }
+  });
+  if (!valid) {
+    result.push({
+        field: "#hearAbout",
+        reason: "You must select one."
+      });
+  }
+  
+  if (document.getElementById('hearAbout-other').checked && document.getElementById('hearAbout-other-text').value == '') {
+    result.push({
+        field: "#hearAbout-other",
+        reason: "Cannot be null if 'other' is selected."
+      });
   }
 
   // Lastly, if the beginner box is 'yes', the

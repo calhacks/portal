@@ -2,6 +2,7 @@
 import fs from 'fs-extra';
 import aws from 'aws-sdk';
 import { Application, User } from '../models';
+import { isNullOrUndefined } from 'util';
 
 const homedir = require('os').homedir();
 
@@ -166,10 +167,32 @@ export default {
         }
 
         const completeUpload = (user) => {
+            const hearAboutpts = {
+                'Cal Hacks Website': 'Website',
+                'Facebook': 'Facebook',
+                'Instagram': 'Instagram',
+                'LinkedIn': 'LinkedIn',
+                'Twitter': 'Twitter',
+                'Piazza': 'Piazza',
+                'In-class announcement': 'IC Announcement',
+                'A friend told me about it': 'Friend',
+                'Other': 'other'
+            };
             if (user.Application === null) {
                 var data = req.body;
                 data['resume'] = resume.name;
                 data['thumbnail'] = thumbnail.name;
+                data['hearAbout'] = [];
+                for (var key in hearAboutpts) {
+                    if (!isNullOrUndefined(data['hearAbout-' + hearAboutpts[key]])) {
+                        data['hearAbout'].push(data['hearAbout-' + hearAboutpts[key]]);
+                    }
+                }
+                if (!isNullOrUndefined(data['hearAbout-other'])) {
+                    data['hearAboutOther'] = data['hearAbout-other-text'];
+                } else {
+                    data['hearAboutOther'] = null;
+                }
                 Application.create({
                     ...data,
                     UserId: req.user.id
@@ -178,6 +201,17 @@ export default {
                 var data = req.body;
                 data['resume'] = resume.name;
                 data['thumbnail'] = thumbnail.name;
+                data['hearAbout'] = [];
+                for (var key in hearAboutpts) {
+                    if (!isNullOrUndefined(data['hearAbout-' + hearAboutpts[key]])) {
+                        data['hearAbout'].push(data['hearAbout-' + hearAboutpts[key]]);
+                    }
+                }
+                if (!isNullOrUndefined(data['hearAbout-other'])) {
+                    data['hearAboutOther'] = data['hearAbout-other-text'];
+                } else {
+                    data['hearAboutOther'] = null;
+                }
                 user.Application.updateAttributes(data);
             }
             res.redirect('/dashboard');
