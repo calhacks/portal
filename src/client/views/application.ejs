@@ -1,5 +1,6 @@
 <% layout('layout') -%>
 <script src="assets/js/schools.js"></script>
+<script src="assets/js/libphonenumber.js"></script>
 
 <div class="app-box-scroll-wrapper">
   <div class="app-box">
@@ -57,12 +58,12 @@
 
         <h2>Part 1: Demographic Questions</h2>
 
-        <h3>What's your phone number? <span class="required">*</span></h3>
+        <h3>What's your phone number? Please include country code (e.g. +1)<span class="required">*</span></h3>
         <input
           type="text"
           name="phone"
           id="phone"
-          value="<%= data.phone || '' %>"
+          value="<%= data.phone || '+1' %>"
           />
         <p class="form-error" id="phone-error"></p>
 
@@ -594,8 +595,16 @@ function validate() {
     });
   }
 
-  var phoneMatch = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
-  if (!$("#phone").val().trim().match(phoneMatch)) {
+  // var phoneMatch = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
+  // if (!$("#phone").val().trim().match(phoneMatch)) {
+
+  let phoneInput = $("#phone").val().trim()
+  if (libphonenumber.isValidNumber(phoneInput)) {
+    // parse input
+    let parsedPhoneInput = libphonenumber.parsePhoneNumber(phoneInput)
+    $("#phone").val(parsedPhoneInput.number)
+  } else {
+    // not a valid phone number
     result.push({
       field: "#phone",
       reason: "You must provide a valid phone number."
