@@ -1,39 +1,30 @@
 <% layout('layout') -%>
 <div class="center-small-box">
-    <div class="logo-container">
-        <img src="./img/text-logo.png" />
-    </div>
-    <form id="signin" name="signin" method="post" action="/login">
-        <h1>Log in</h1>
+	<div class="logo-container">
+		<img src="./img/text-logo.png" />
+	</div>
+	<form id="signin" name="signin" method="post" action="/login">
+		<h1>Log in</h1>
 
-        <input
-            class="small"
-            name="email"
-            type="text"
-            placeholder="email" />
+		<input class="small" name="email" type="text" placeholder="email" />
 
-        <input
-            class="small"
-            name="password"
-            type="password"
-            placeholder="password" />
+		<input
+			class="small"
+			name="password"
+			type="password"
+			placeholder="password"
+		/>
 
-        <div
-            class="button-container">
+		<div class="button-container">
+			<a href="./signup" class="flex-start">Don't have an account?</a>
+			<a href="./reset_password" class="flex-start">Forgot your password?</a>
+			<input class="small" type="submit" value="Log in" />
+		</div>
 
-            <a href="./signup" class="flex-start">Don't have an account?</a>
-            <a href="./reset_password" class="flex-start">Forgot your password?</a>
-            <input
-                class="small"
-                type="submit"
-                value="Log in" />
-        </div>
-
-        <% if (flash.error) { %>
-            <div
-                class="flash-container">
-                <%= flash.error %>
-            </div>
-        <% } %>
-    </form>
+		<% if (flash.error) { %>
+		<div class="flash-container">
+			<%= flash.error %>
+		</div>
+		<% } %>
+	</form>
 </div>
