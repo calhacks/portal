@@ -1,5 +1,6 @@
 <% layout('layout') -%>
 <script src="assets/js/schools.js"></script>
+<script src="assets/js/majors.js"></script>
 
 <div class="app-box-scroll-wrapper">
   <div class="app-box">
@@ -171,7 +172,10 @@
         <p class="form-error" id="bday-error"></p>
 
         <h3>What are you studying? Include minors if necessary. <span class="required">*</span></h3>
-        <input id="major" name="major" type="text" value="<%= data.major || '' %>" />
+        <!-- <input id="major" name="major" type="text" value="<%= data.major || '' %>" /> -->
+        <select name="major" id="major" class="datalist">
+        </select>
+        
         <p class="form-error" id="major-error"></p>
 
         <h3>Where are you traveling from? <span class="required">*</span></h3>
@@ -515,6 +519,19 @@ for (var school of schoolList) {
   } else {
     $("#school").append(
       "<option value='" + school + "'>" + school + "</option>"
+    );
+  }
+}
+
+oldMajor = "<%- major %>";
+for (var major of majorsList) {
+  if (oldMajor === major) {
+    $("#major").append(
+      "<option value='" + major + "' selected>" + major + "</option>"
+    );
+  } else {
+    $("#major").append(
+      "<option value='" + major + "'>" + major + "</option>"
     );
   }
 }
