@@ -102,22 +102,25 @@ if (process.env.NODE_ENV === 'production') {
 app.use('/', router)
 
 if (process.env.NODE_ENV === 'production') {
-	if (process.env.TARGET === 'aws') {
-		app.listen(5000, () => {
-			console.log('PRODUCTION listening on 5000')
-		})
-	} else {
-		fs.unlink(process.env.PORT, () => {
-			console.log('cleared old socket')
-
-			app.listen(process.env.PORT, () => {
-				console.log('listening on unix socket')
-
-				fs.chmodSync(process.env.PORT, '777')
-				console.log('set permissions of socket to 777')
-			})
-		})
-	}
+	// if (process.env.TARGET === 'aws') {
+	// 	app.listen(5000, () => {
+	// 		console.log('PRODUCTION listening on 5000')
+	// 	})
+	// } else {
+	// 	console.log(process.env.PORT)
+	// 	fs.unlink(process.env.PORT, () => {
+	// 		console.log('cleared old socket')
+	// 		app.listen(process.env.PORT, () => {
+	// 			console.log('listening on unix socket')
+	// 			fs.chmodSync(process.env.PORT, '777')
+	// 			console.log('set permissions of socket to 777')
+	// 		})
+	// 	})
+	// }
+	app.listen(process.env.PORT, () => {
+		// TODO: this was a hasty fix, figure out why we needed the fs. unlink and chmodSync above
+		console.log('PRODUCTION listening on', process.env.PORT)
+	})
 } else {
 	app.listen(8000, () => {
 		console.log('DEVELOPMENT listening on 8000')
