@@ -103,8 +103,8 @@ app.use('/', router)
 
 if (process.env.NODE_ENV === 'production') {
 	if (process.env.TARGET === 'aws') {
-		app.listen(8000, () => {
-			console.log('Serving on 80')
+		app.listen(5000, () => {
+			console.log('PRODUCTION listening on 5000')
 		})
 	} else {
 		fs.unlink(process.env.PORT, () => {
@@ -120,6 +120,6 @@ if (process.env.NODE_ENV === 'production') {
 	}
 } else {
 	app.listen(8000, () => {
-		console.log('listening on 8000')
+		console.log('DEVELOPMENT listening on 8000')
 	})
 }
