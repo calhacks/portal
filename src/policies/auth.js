@@ -1,4 +1,3 @@
-
 import { User } from '../models/index'
 
 // As a general rule, don't update req.page or req.pageData in the policies.
@@ -8,18 +7,18 @@ import { User } from '../models/index'
 // specify particular roles later on, so make this
 // extensible...
 export const authenticateUser = roles => (req, res, next) => {
-    if (req.user === undefined || !roles.includes(req.user.role)) {
-        res.redirect('/login');
-    } else {
-        next();
-    }
+	if (req.user === undefined || !roles.includes(req.user.role)) {
+		res.redirect('/login')
+	} else {
+		next()
+	}
 }
 
 // Send info about whether user's email is verified yet.
 export const emailVerify = (req, res, next) => {
-    if (req.user.emailValidated) {
-        next();
-    } else {
-        res.redirect('/inform_verify');
-    }
+	if (req.user.emailValidated) {
+		next()
+	} else {
+		res.redirect('/inform_verify')
+	}
 }
