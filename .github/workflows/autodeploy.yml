@@ -17,7 +17,4 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
         with:
-          user: "actions"
-          --user: "actions"
-          script: "'mkdir test1'"
-          --script: "'mkdir test2'"
+          args: --script "'./autodeploy.sh'"
