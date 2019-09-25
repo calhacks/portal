@@ -16,6 +16,6 @@ jobs:
           HOST: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
           # PASSWORD: ${{ secrets.PASSWORD }}
-          PASSWORD: incorrect
+          PASSWORD: 'incorrect'
         with:
           --script: 'touch test'
