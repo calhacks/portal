@@ -15,7 +15,6 @@ jobs:
         env:
           HOST: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
-          # PASSWORD: ${{ secrets.PASSWORD }}
-          PASSWORD: 'incorrect'
+          PASSWORD: ${{ secrets.PASSWORD }}
         with:
           --script: 'whoami'
