@@ -13,15 +13,21 @@ export default {
 			if (user.role === 'hacker') {
 				res.render('dashboard', { user: user.toJSON() })
 			} else if (user.role === 'admin') {
-				Application.count().then(count => {
-					Application.count({
-						where: { school: 'The University of California, Berkeley' }
-					}).then(berkeleyCount => {
-						res.render('adminDashboard', {
-							user: user.toJSON(),
-							count,
-							berkeleyCount
-						})
+				Application.findAll().then(apps => {
+					let count = apps.length
+					let berkeleyCount = apps.filter(a => a.transportation === 'berkeley')
+						.length
+					let californiaCount = apps.filter(
+						a => a.transportation === 'california'
+					).length
+					let oosCount = apps.filter(a => a.transportation === 'oos').length
+
+					res.render('adminDashboard', {
+						user: user.toJSON(),
+						count,
+						berkeleyCount,
+						californiaCount,
+						oosCount
 					})
 				})
 			}
