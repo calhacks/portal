@@ -13,8 +13,9 @@ jobs:
       - name: Deploy on server
         uses: appleboy/ssh-action@master
         env:
+          HOST: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
         with:
-          --user: "team"
-          --host: "104.248.216.164"
-          --script: "mkdir test"
+          script: "mkdir test1"
+          --script: "mkdir test2"
