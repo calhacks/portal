@@ -3,7 +3,7 @@ name: Autodeploy
 on:
   push:
     branches:
-      - github-actions
+      - master
 
 jobs:
   build:
@@ -15,8 +15,7 @@ jobs:
         env:
           HOST: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
-#           PASSWORD: ${{ secrets.PASSWORD }}
-          PASSWORD: incorrect
+          PASSWORD: ${{ secrets.PASSWORD }}
         with:
           args: --script "'./autodeploy.sh'"
       - name: Slack Notification - Deployment Failed
@@ -25,8 +24,6 @@ jobs:
         with:
           type: fail
           job_name: 'Autodeploy'
-          mention: 'techteam'
-          mention_if: 'failure'
           channel: '#production'
           url: ${{ secrets.SLACK_WEBHOOK }}
       - name: Slack Notification - Deployment Succeeded
