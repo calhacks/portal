@@ -1,73 +1,66 @@
 <% layout('layout') -%>
 <div class="center-small-box">
-    <div class="logo-container">
-        <img src="./img/text-logo.png" />
-    </div>
-    <form id="signup" name="signup" method="post" action="/signup">
-        <h1>Sign up</h1>
+	<div class="logo-container">
+		<img src="./img/text-logo.png" />
+	</div>
+	<form id="signup" name="signup" method="post" action="/signup">
+		<h1>Sign up</h1>
 
-        <h4>If You're a Berkeley Student, Please Use Your Berkeley Email</h4> <br>
+		<h4>If You're a Berkeley Student, Please Use Your Berkeley Email</h4>
+		<br />
 
-        <div class="small horizontal-container">
-            <input
-                class="half"
-                name="firstname"
-                type="text"
-                placeholder="first name" />
+		<div class="small horizontal-container">
+			<input
+				class="half"
+				name="firstname"
+				type="text"
+				placeholder="first name"
+			/>
 
-            <input
-                class="half"
-                name="lastname"
-                type="text"
-                placeholder="last name" />
-        </div>
+			<input class="half" name="lastname" type="text" placeholder="last name" />
+		</div>
 
-        <input
-            class="small"
-            name="email"
-            type="email"
-            placeholder="email" />
+		<input class="small" name="email" type="email" placeholder="email" />
 
-        <input id="password"
-            class="small"
-            name="password"
-            type="password"
-            placeholder="password" />
+		<input
+			id="password"
+			class="small"
+			name="password"
+			type="password"
+			placeholder="password"
+		/>
 
-        <input id="confirm-password"
-            class="small"
-            type="password"
-            placeholder="confirm password" />
+		<input
+			id="confirm-password"
+			class="small"
+			type="password"
+			placeholder="confirm password"
+		/>
 
-        <p class="form-error" id="password-error" style="color: red"></p>
+		<p class="form-error" id="password-error" style="color: red"></p>
 
-        <div
-            class="button-container">
+		<div class="button-container">
+			<a href="./login">Have an account?</a>
+			<input type="submit" value="Sign up" />
+		</div>
 
-            <a href="./login">Have an account?</a>
-            <input
-                type="submit"
-                value="Sign up" />
-        </div>
-
-        <% if (flash.error) { %>
-            <div
-                class="flash-container">
-                <%= flash.error %>
-            </div>
-        <% } %>
-    </form>
+		<% if (flash.error) { %>
+		<div class="flash-container">
+			<%= flash.error %>
+		</div>
+		<% } %>
+	</form>
 </div>
 <script>
-$("#signup").on("submit", function(e) {
-    if ($('#password').val() !== $('#confirm-password').val()){
-      $("#password-error").css("display", "block");
-      $("#password-error").text("Confirm password does not match.");
-      e.preventDefault();
-      return false;
-    } else {
-      $("#password-error").css("display", "none");
-      return true;
-    }
-  });
-  </script>
+	$('#signup').on('submit', function(e) {
+		if ($('#password').val() !== $('#confirm-password').val()) {
+			$('#password-error').css('display', 'block')
+			$('#password-error').text('Confirm password does not match.')
+			e.preventDefault()
+			return false
+		} else {
+			$('#password-error').css('display', 'none')
+			return true
+		}
+	})
+</script>

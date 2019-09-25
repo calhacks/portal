@@ -3,6 +3,7 @@ import sendgrid from '@sendgrid/mail'
 import { User } from '../models/index'
 import reset from '../emails/reset'
 import bcrypt from 'bcrypt-nodejs'
+import verify from '../emails/verify'
 var Sequelize = require('sequelize')
 
 const genUUID = () => {
@@ -103,7 +104,23 @@ export default {
 		})
 	},
 
+	resendVerify: (req, res, next) => {
+		sendgrid.send({
+			to: req.user.email,
+			from: 'team@calhacks.io',
+			subject: 'Verify your email with Cal Hacks',
+			html: verify(
+				req.user.firstname + ' ' + req.user.lastname,
+				req.user.emailCode
+			)
+		})
+		return res.redirect('/inform_verify')
+	},
+
 	informVerify: (req, res, next) => {
+		if (req.user.emailValidated) {
+			return res.redirect('/dashboard')
+		}
 		return res.render('informVerify', { user: req.user })
 	},
 
