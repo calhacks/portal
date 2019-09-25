@@ -1,144 +1,171 @@
-
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Cal Hacks 6.0</title>
+	<head>
+		<meta charset="utf-8" />
+		<title>Cal Hacks 6.0</title>
 
-    <link rel="stylesheet" href="/css/main.css" />
-    <link rel="icon" href="assets/favicon.ico" type="image/x-icon"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  </head>
-  <body>
-    <div id="app-container">
-      <div class="center-large-box">
-        <h1>God Mode</h1>
-        <div id="center-large-box-left">
-          <div id="home-tab-item" class="left-tab selected">
-            Home
-          </div>
-          <div id="stats-tab-item" class="left-tab selected">
-            Stats
-          </div>
-          <div id="roster-tab-item" class="left-tab selected">
-            Roster
-          </div>
-          <div id="scoring-tab-item" class="left-tab selected">
-            Scoring
-          </div>
-          <div id="logout-tab-item" class="left-tab selected" onclick="location.href='/logout'">
-            Logout
-          </div>
-        </div>
+		<link rel="stylesheet" href="/css/main.css" />
+		<link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<div id="app-container">
+			<div class="center-large-box">
+				<h1>God Mode</h1>
+				<div id="center-large-box-left">
+					<div id="home-tab-item" class="left-tab selected">
+						Home
+					</div>
+					<div id="stats-tab-item" class="left-tab selected">
+						Stats
+					</div>
+					<div id="roster-tab-item" class="left-tab selected">
+						Roster
+					</div>
+					<div id="scoring-tab-item" class="left-tab selected">
+						Scoring
+					</div>
+					<div
+						id="logout-tab-item"
+						class="left-tab selected"
+						onclick="location.href='/logout'"
+					>
+						Logout
+					</div>
+				</div>
 
-        <div id="center-large-box-right">
+				<div id="center-large-box-right">
+					<div id="home-tab" class="tab tab-visible">
+						<p><b>Welcome to God Mode.</b></p>
+					</div>
 
-          <div id="home-tab" class="tab tab-visible">
-            <p><b>Welcome to God Mode.</b></p>
-          </div>
+					<div id="stats-tab" class="tab tab-visible">
+						<p><b>Stats</b></p>
+						<div id="stats-container">
+							<table style="width: 100%; text-align: left;">
+								<thead>
+									<tr>
+										<th>Berkeley</th>
+										<th>In California</th>
+										<th>Out of State</th>
+										<th>Total</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><%- berkeleyCount %></td>
+										<td>?</td>
+										<td>?</td>
+										<td><%- count %></td>
+									</tr>
+								</tbody>
+							</table>
+							<!-- <p>Total Application Count: <b></b></p>
+							<p>Berkeley Application Count: <b><%- berkeleyCount %></b></p> -->
+						</div>
+					</div>
 
-          <div id="stats-tab" class="tab tab-visible">
-            <p><b>Stats</b></p>
-            <div id="stats-container">
-            </div>
-          </div>
+					<div id="scoring-tab" class="tab tab-visible">
+						<p><b>Scoring</b></p>
+						<div id="scoring-container">
+							<div class="button-justified">
+								<button onclick="location.href='/scoring';">
+									Start Scoring
+								</button>
+							</div>
+							<div class="button-justified">
+								<button onclick="location.href='/accumulate';">
+									View Results
+								</button>
+							</div>
+							<div class="button-justified">
+								<button onclick="location.href='/scoringStats#california';">
+									Scoring Stats
+								</button>
+							</div>
+						</div>
+					</div>
 
-          <div id="scoring-tab" class="tab tab-visible">
-            <p><b>Scoring</b></p>
-            <div id="scoring-container">
-              <div class="button-justified"> 
-                <button onclick="location.href='/scoring';">Start Scoring</button>
-              </div>
-              <div class="button-justified"> 
-                <button onclick="location.href='/accumulate';">View Results</button>
-              </div>
-              <div class="button-justified"> 
-                <button onclick="location.href='/scoringStats#california';">Scoring Stats</button>
-              </div>
-            </div>
-          </div>
-
-          <div id="roster-tab" class="tab tab-visible">
-            <p><b>Roster</b></p>
-            <div id="roster-container">
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </div>
-    <script src="assets/js/datalist-polyfill.min.js"></script>
-  </body>
+					<div id="roster-tab" class="tab tab-visible">
+						<p><b>Roster</b></p>
+						<div id="roster-container"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="assets/js/datalist-polyfill.min.js"></script>
+	</body>
 </html>
 
 <script>
-var tabNames = ['home', 'stats', 'roster'];
-var currentTab = window.location.hash;
+	var tabNames = ['home', 'stats', 'roster']
+	var currentTab = window.location.hash
 
-function setTab(tabName) {
-  $(".left-tab").attr("class", "left-tab");
-  $("#" + tabName + "-tab-item").addClass("selected")
-  $(".tab").attr("class", "tab");
-  $("#" + tabName + "-tab").addClass("tab-visible");
-  window.location.hash = tabName;
+	function setTab(tabName) {
+		$('.left-tab').attr('class', 'left-tab')
+		$('#' + tabName + '-tab-item').addClass('selected')
+		$('.tab').attr('class', 'tab')
+		$('#' + tabName + '-tab').addClass('tab-visible')
+		window.location.hash = tabName
 
-  currentTab = tabName;
-  redisplay();
-}
+		currentTab = tabName
+		redisplay()
+	}
 
-function fetchStats() {
-  return new Promise(function(resolve) {
-    $.getJSON('/stats').done(resolve);
-  });
-}
+	function fetchStats() {
+		return new Promise(function(resolve) {
+			$.getJSON('/stats').done(resolve)
+		})
+	}
 
-function fetchRoster() {
-  return new Promise(function(resolve) {
-    $.getJSON('/roster').done(resolve);
-  });
-}
+	function fetchRoster() {
+		return new Promise(function(resolve) {
+			$.getJSON('/roster').done(resolve)
+		})
+	}
 
-function redisplay() {
-  if (currentTab == 'stats') {
-    fetchStats().then(function(data) {
-      $("#stats-container").html("");
-      for (var obj of data) {
-        var field = Object.keys(obj)[0];
-        var value = obj[field];
+	function redisplay() {
+		if (currentTab == 'stats') {
+			fetchStats().then(function(data) {
+				$('#stats-container').html('')
+				for (var obj of data) {
+					var field = Object.keys(obj)[0]
+					var value = obj[field]
 
-        var newElement = "<p><b>" + field + "</b>";
-        newElement += " " + JSON.stringify(value) + "</p>";
+					var newElement = '<p><b>' + field + '</b>'
+					newElement += ' ' + JSON.stringify(value) + '</p>'
 
-        $("#stats-container").append(newElement);
-      }
-    });
-  } else if (currentTab == 'roster') {
-    fetchRoster().then(function(data) {
-      $("#roster-container").html("");
-      for (var obj of data) {
-        var fname = obj.firstname;
-        var lname = obj.lastname;
-        var email = obj.email;
+					$('#stats-container').append(newElement)
+				}
+			})
+		} else if (currentTab == 'roster') {
+			fetchRoster().then(function(data) {
+				$('#roster-container').html('')
+				for (var obj of data) {
+					var fname = obj.firstname
+					var lname = obj.lastname
+					var email = obj.email
 
-        var newElement = "<p><b>" + fname + " " + lname + "</b>";
-        newElement += " (" + email + ")</p>";
+					var newElement = '<p><b>' + fname + ' ' + lname + '</b>'
+					newElement += ' (' + email + ')</p>'
 
-        $("#roster-container").append(newElement);
-      }
-    });
-  }
-}
+					$('#roster-container').append(newElement)
+				}
+			})
+		}
+	}
 
-$(".left-tab").on("click", function() {
-  var tabName = $(this).attr("id").split("-")[0];
-  setTab(tabName);
-});
+	$('.left-tab').on('click', function() {
+		var tabName = $(this)
+			.attr('id')
+			.split('-')[0]
+		setTab(tabName)
+	})
 
-var hash = window.location.hash.substr(1);
-if (tabNames.indexOf(hash) !== -1) {
-  setTab(hash);
-} else {
-  setTab(tabNames[0]);
-}
+	var hash = window.location.hash.substr(1)
+	if (tabNames.indexOf(hash) !== -1) {
+		setTab(hash)
+	} else {
+		setTab(tabNames[0])
+	}
 </script>
