@@ -8,5 +8,7 @@ addons:
       - sshpass
   ssh_known_hosts: 104.248.216.164
 deploy:
-  - sshpass -p $DOPASS ssh team@104.248.216.164
-  - ./autodeploy.sh
+  skip_cleanup: true
+  script:
+    - sshpass -p $DOPASS ssh team@104.248.216.164
+    - ./autodeploy.sh
