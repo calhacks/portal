@@ -1,0 +1,27 @@
+name: TestConfiguration
+
+on: 
+  push:
+    branches:
+      - github-actions
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run a one-line script
+      run: echo Hello, world!
+    - name: ssh
+      run: action "Executing remote ssh commands" {
+        uses = "appleboy/ssh-action@master"
+        secrets = [
+          "HOST",
+          "PASSWORD",
+        ]
+        args = [
+          "--user", "actions",
+          "--script", "whoami",
+        ]
+      }
