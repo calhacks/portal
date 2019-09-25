@@ -5,11 +5,11 @@
 		<div id="application-tab-item" class="left-tab selected">
 			Application
 		</div>
-		<% if (user.email.toLowerCase().endsWith('@berkeley.edu')) { %>
+		<!-- <% if (user.email.toLowerCase().endsWith('@berkeley.edu')) { %>
 		<div id="cubstart-tab-item" class="left-tab">
 			CubStart
 		</div>
-		<% } %>
+		<% } %> -->
 		<div id="team-tab-item" class="left-tab">
 			Team
 		</div>
@@ -23,7 +23,7 @@
 	</div>
 	<div id="center-large-box-right">
 		<div id="application-tab" class="tab tab-visible">
-			<% var app = user.Application if (app) { %>
+			<% var app = user.Application; if (app) { %>
 			<p>
 				<b>Your application to Cal Hacks 6.0 is all set!</b> If you want to make
 				changes, you can still edit your application before the deadline,
