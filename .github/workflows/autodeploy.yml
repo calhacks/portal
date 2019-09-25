@@ -1,4 +1,4 @@
-name: TestConfiguration
+name: Autodeploy
 
 on:
   push:
@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Run a one-line script
-        run: echo Hello, world!
-      - name: ssh
+      - name: Deploy on server
         uses: appleboy/ssh-action@master
         env:
           HOST: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
+        with:
+          --script: './autodeploy.sh'
