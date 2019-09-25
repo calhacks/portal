@@ -19,20 +19,20 @@ jobs:
         with:
           args: --script "'./autodeploy.sh'"
       - name: Slack Notification - Deployment Failed
-          uses: homoluctus/slatify@master
-          if: failure()
-          with:
-            type: fail
-            job_name: 'Autodeploy'
-            mention: 'techteam'
-            mention_if: 'failure'
-            channel: '#production'
-            url: ${{ secrets.SLACK_WEBHOOK }}
+        uses: homoluctus/slatify@master
+        if: failure()
+        with:
+          type: fail
+          job_name: 'Autodeploy'
+          mention: 'techteam'
+          mention_if: 'failure'
+          channel: '#production'
+          url: ${{ secrets.SLACK_WEBHOOK }}
       - name: Slack Notification - Deployment Succeeded
-          uses: homoluctus/slatify@master
-          if: success()
-          with:
-            type: success
-            job_name: 'Autodeploy'
-            channel: '#production'
-            url: ${{ secrets.SLACK_WEBHOOK }}
+        uses: homoluctus/slatify@master
+        if: success()
+        with:
+          type: success
+          job_name: 'Autodeploy'
+          channel: '#production'
+          url: ${{ secrets.SLACK_WEBHOOK }}
