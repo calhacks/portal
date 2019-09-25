@@ -17,4 +17,4 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
         with:
-          --script: './autodeploy.sh'
+          --script: 'touch test'
