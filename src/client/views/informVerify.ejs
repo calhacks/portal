@@ -1,11 +1,23 @@
 <% layout('layout') -%>
 <div class="center-small-box">
-    <div class="logo-container">
-        <img src="./img/text-logo.png" />
-    </div>
+	<div class="logo-container">
+		<img src="./img/text-logo.png" />
+	</div>
 
-    <p>You still need to verify your email address. We've
-    sent you an email at <%- user.email %>. If you don't see it
-    in your inbox, please wait a few minutes and be sure to
-    check your spam box as well.</p>
+	<p>
+		You still need to verify your email address. We've sent you an email at <%-
+		user.email %>. If you don't see it in your inbox, please wait a few minutes
+		and be sure to check your spam box as well.
+	</p>
+
+	<form
+		id="resendVerify"
+		name="resendVerify"
+		method="post"
+		action="/resendVerify"
+	>
+		<div class="button-container">
+			<input class="small" type="submit" value="Resend" />
+		</div>
+	</form>
 </div>
