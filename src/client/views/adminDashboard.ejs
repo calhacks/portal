@@ -37,30 +37,29 @@
 				<div id="center-large-box-right">
 					<div id="home-tab" class="tab tab-visible">
 						<p><b>Welcome to God Mode.</b></p>
+						<table style="width: 100%; text-align: left;">
+							<thead>
+								<tr>
+									<th>Berkeley</th>
+									<th>In California</th>
+									<th>Out of State</th>
+									<th>Total</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><%- berkeleyCount %></td>
+									<td><%- californiaCount %></td>
+									<td><%- oosCount %></td>
+									<td><%- count %></td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 
 					<div id="stats-tab" class="tab tab-visible">
 						<p><b>Stats</b></p>
-						<div id="stats-container">
-							<table style="width: 100%; text-align: left;">
-								<thead>
-									<tr>
-										<th>Berkeley</th>
-										<th>In California</th>
-										<th>Out of State</th>
-										<th>Total</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td><%- berkeleyCount %></td>
-										<td><%- californiaCount %></td>
-										<td><%- oosCount %></td>
-										<td><%- count %></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
+						<div id="stats-container"></div>
 					</div>
 
 					<div id="scoring-tab" class="tab tab-visible">
@@ -128,7 +127,8 @@
 				$('#stats-container').html('')
 				for (var obj of data) {
 					var field = Object.keys(obj)[0]
-					var value = obj[field]
+					var value = Number(obj[field].count)
+					field = field.slice(3)
 
 					var newElement = '<p><b>' + field + '</b>'
 					newElement += ' ' + JSON.stringify(value) + '</p>'
