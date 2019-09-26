@@ -18,10 +18,10 @@ const homedir = require('os').homedir();
 export default {
     stats: (req, res, next) => {
         const queries = {
-            numUsers: 'SELECT COUNT(*) FROM Users',
-            numTeams: 'SELECT COUNT(*) FROM Teams',
-            numCubStart: 'SELECT COUNT(*) FROM CubStarts',
-            numApps: 'SELECT COUNT(*) FROM Applications',
+            numUsers: 'SELECT COUNT(*) FROM "Users"',
+            numTeams: 'SELECT COUNT(*) FROM "Teams"',
+            numCubStart: 'SELECT COUNT(*) FROM "CubStarts"',
+            numApps: 'SELECT COUNT(*) FROM "Applications"',
         }
 
         // executes all queries and puts them in a promise
