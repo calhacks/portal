@@ -125,6 +125,7 @@ export default {
 				LinkedIn: 'LinkedIn',
 				Twitter: 'Twitter',
 				Piazza: 'Piazza',
+				Flyer: 'Flyer',
 				'In-class announcement': 'IC Announcement',
 				'A friend told me about it': 'Friend',
 				Other: 'other'
