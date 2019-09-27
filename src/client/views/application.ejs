@@ -70,12 +70,18 @@
         <h3>What is your gender? <span class="required">*</span></h3>
         <select id="gender" name="gender">
           <%
-            var val = data.gender || ''
+            var rawGender = data.gender
+            var gender = rawGender
+            var trans = false
+            if (rawGender && rawGender.includes('(trans)')) {
+              gender = gender.slice(0, rawGender.length - 8)
+              trans = true
+            }
+            var val = gender || ''
             genderOpts = {
               '': 'Select one',
               'male': 'Male',
               'female': 'Female',
-              'transgender': 'Transgender',
               'nonbinary': 'Non-binary',
               'nonconforming': 'Gender Non-conforming',
               'other': 'Other (please specify)',
@@ -96,6 +102,15 @@
           %>
         </select>
         <input id="genderOther" placeholder="Specify gender..." name="genderOther" type="text" value="<%= data.genderOther || '' %>" />
+        <%
+          if (trans) {%>
+            <input type="checkbox" name="trans" value="trans" id="trans" checked> </input>
+            <label for="trans"> Transgender </label>
+          <% } else {%>
+            <input type="checkbox" name="trans" value="trans" id="trans"> </input>
+            <label for="trans"> Transgender </label>
+          <%}
+        %>
         <p class="form-error" id="gender-error"></p>
 
         <h3>What is your race/ethnicity? <span class="required">*</span></h3>
