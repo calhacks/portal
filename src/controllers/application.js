@@ -151,9 +151,6 @@ export default {
 				var data = req.body
 				data['resume'] = resume.name
 				data['hearAbout'] = []
-				if (data['trans']) {
-					data['gender'] += ' (trans)'
-				}
 				for (var key in hearAboutpts) {
 					if (!isNullOrUndefined(data['hearAbout-' + hearAboutpts[key]])) {
 						data['hearAbout'].push(data['hearAbout-' + hearAboutpts[key]])
