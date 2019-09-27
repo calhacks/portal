@@ -17,6 +17,12 @@ export default (sequelize, DataTypes) => {
 			genderOther: {
 				type: DataTypes.TEXT
 			},
+			transgender: {
+				type: DataTypes.TEXT,
+				validate: {
+					notEmpty: true
+				}
+			},
 			school: {
 				type: DataTypes.TEXT,
 				validate: {

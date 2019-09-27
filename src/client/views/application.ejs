@@ -75,7 +75,6 @@
               '': 'Select one',
               'male': 'Male',
               'female': 'Female',
-              'transgender': 'Transgender',
               'nonbinary': 'Non-binary',
               'nonconforming': 'Gender Non-conforming',
               'other': 'Other (please specify)',
@@ -97,6 +96,28 @@
         </select>
         <input id="genderOther" placeholder="Specify gender..." name="genderOther" type="text" value="<%= data.genderOther || '' %>" />
         <p class="form-error" id="gender-error"></p>
+
+        <h3>Do you identify as transgender? <span class="required">*</span></h3>
+        <select id="transgender" name="transgender">
+          <%
+            var val = data.transgender || ''
+            transgenderOpts = {
+              '': 'Select one',
+              'yes': 'Yes',
+              'no': 'No',
+              'none': 'Prefer not to disclose',
+            }
+
+            for (var key of Object.keys(transgenderOpts)) {
+              if (val == key) { %>
+                <option value="<%= key %>" selected><%= transgenderOpts[key] %></option>
+              <% } else { %>
+                <option value="<%= key %>"><%= transgenderOpts[key] %></option>
+              <% }
+            }
+          %>
+        </select>
+        <p class="form-error" id="transgender-error"></p>
 
         <h3>What is your race/ethnicity? <span class="required">*</span></h3>
         <select id="race" name="race">
@@ -566,6 +587,7 @@ function validate() {
   var requiredFields = [
     'phone',
     'gender',
+    'transgender',
     'school',
     'year',
     'major',
