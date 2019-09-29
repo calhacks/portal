@@ -62,6 +62,15 @@ export default {
 	},
 
 	submitSignup: (req, res, next) => {
+		if (
+			!req.body.firstname ||
+			req.body.firstname.trim() === '' ||
+			!req.body.lastname ||
+			req.body.lastname.trim() === ''
+		) {
+			req.flash('error', 'First and last names cannot be empty')
+			return res.redirect('/signup')
+		}
 		passport.authenticate('local-signup', (err, user, info) => {
 			if (err !== null) {
 				// Something went wrong.
