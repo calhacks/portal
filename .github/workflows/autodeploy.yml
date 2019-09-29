@@ -36,6 +36,7 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
         with:
+          port: 22
           args: --script "'./autodeploy.sh'"
       - name: Slack Notification - Deployment Failed
         uses: homoluctus/slatify@master
