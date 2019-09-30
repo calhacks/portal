@@ -132,7 +132,10 @@ export default {
 			}
 			if (user.Application === null) {
 				var data = req.body
-				data['resume'] = resume.name
+				if (resume.size !== 0 && resume.size < 5 * 1024 * 1024) {
+					data['resume'] = resume.name
+				}
+
 				data['hearAbout'] = []
 				for (var key in hearAboutpts) {
 					if (!isNullOrUndefined(data['hearAbout-' + hearAboutpts[key]])) {
@@ -150,7 +153,10 @@ export default {
 				})
 			} else {
 				var data = req.body
-				data['resume'] = resume.name
+				if (resume.size !== 0 && resume.size < 5 * 1024 * 1024) {
+					data['resume'] = resume.name
+				}
+
 				data['hearAbout'] = []
 				for (var key in hearAboutpts) {
 					if (!isNullOrUndefined(data['hearAbout-' + hearAboutpts[key]])) {
