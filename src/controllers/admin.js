@@ -153,7 +153,7 @@ export default {
                 }).then(app => {
                     if (app) {
                         sequelize.query(
-                            'select * from Applications ' +
+                            'select * from "Applications" ' +
                             'where transportation="' + app.transportation + '" ' +
                             'order by id;'
                         ).spread((results, meta) => {
