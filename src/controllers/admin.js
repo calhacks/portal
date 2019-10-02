@@ -59,6 +59,9 @@ export default {
     },
 
     postScore: (req, res, next) => {
+      for (let cat = 1; cat <= 3; cat++) {
+        if (req.body[`category${cat}`] === null || req.body[`category${cat}`] === undefined) return res.status(400)
+      }
         ApplicationScore.findOne({
             where: {
                 director: req.user.id.toString(10),
