@@ -1,46 +1,59 @@
-
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Cal Hacks 6.0</title>
+	<head>
+		<meta charset="utf-8" />
+		<title>Cal Hacks 6.0</title>
 
-    <link rel="stylesheet" href="/css/main.css" />
-    <link rel="icon" href="assets/favicon.ico" type="image/x-icon"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  </head>
-  <body>
-    <div id="app-container" style="padding:100px">
-      <a href="/dashboard#scoring">&lt;&lt; Back </a><br/><br/>
-      <a class="loc" id="l-oos" href="#oos">Out of state</a>
-      / <a class="loc" id="l-california" href="#california">In California</a>
-      / <a class="loc" id="l-berkeley" href="#berkeley">Berkeley</a>
-      <br/><br/>
-      <ol id="list">
-      </ol>
-    </div>
-  </body>
+		<link rel="stylesheet" href="/css/main.css" />
+		<link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<div id="app-container" style="padding:100px">
+			<a href="/dashboard#scoring">&lt;&lt; Back </a><br /><br />
+			<a class="loc" id="l-oos" href="#oos">Out of state</a>
+			/ <a class="loc" id="l-california" href="#california">In California</a> /
+			<a class="loc" id="l-berkeley" href="#berkeley">Berkeley</a> <br /><br />
+			<!-- <ol id="list"></ol> -->
+			<table id="list">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Email</th>
+						<th>Score</th>
+					</tr>
+				</thead>
+				<tbody id="list-body"></tbody>
+			</table>
+		</div>
+	</body>
 
-  <script>
-    data = <%- JSON.stringify(results) %>
-    loc = "california";
+	<script>
+		data = <%- JSON.stringify(results) %>
+		loc = "california";
 
-    $('.loc').click(function() {
-      loc = $(this).attr('id').slice(2);
-      $('.loc').css('font-weight','normal');
-      $(this).css('font-weight','bold');
-      viewResults();
-    });
+		$('.loc').click(function() {
+		  loc = $(this).attr('id').slice(2);
+		  $('.loc').css('font-weight','normal');
+		  $(this).css('font-weight','bold');
+		  viewResults();
+		});
 
-    $('#l-oos').click();
+		$('#l-oos').click();
 
-    function viewResults() {
-      $('#list').html('');
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].location == loc) {
-          $('#list').append('<li>' + data[i].email + '</li>');
-        }
-      }
-    }
-  </script>
+		function viewResults() {
+		  $('#list-body').html('');
+		  for (let i = 0; i < data.length; i++) {
+		    if (data[i].location == loc) {
+		        // $('#list').append(`<li>${data[i].email}\t${data[i].normalizedScore}</li>`);
+		        $('#list-body').append(`
+		          <tr>
+		            <td>${i + 1}</td>
+		            <td>${data[i].email}</td>
+		            <td>${data[i].normalizedScore}</td>
+		          </tr>`);
+		    }
+		  }
+		}
+	</script>
 </html>
