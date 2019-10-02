@@ -324,7 +324,16 @@
 			});
 
 			$("#submit").click(function(e) {
-			  e.preventDefault();
+			     e.preventDefault();
+
+			     // fill in 0s for empties
+			     for (let cat = 1; cat <= 3; cat++) {
+			          let scoreBox = `#cat${cat}-score`
+			       if ($(scoreBox).val() === '') {
+			            $(scoreBox).val(0)
+			       }
+			     }
+
 			  $.post('/score', {
 			    director: currReader,
 			    ApplicationId: currApp.appId,
