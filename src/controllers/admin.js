@@ -287,7 +287,7 @@ export default {
 			req.query.id +
 			';'
 		sequelize.query(query).spread((results, meta) => {
-			// TODO: if (!results || results.length < 1) return res.status(400)
+			if (!results || results.length < 1) return res.json({})
 			const uid = results[0].id
 
 			const lst = results[0].resume.split('.')
