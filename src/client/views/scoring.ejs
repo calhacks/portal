@@ -288,6 +288,7 @@
 			});
 
 			function jump(query) {
+			     $("#sp").show()
 			  $.getJSON(
 			    '/findApp?location=' + locationFilter + '&query=' + query,
 			    function(data) {
@@ -296,7 +297,8 @@
 			        locationFilter = data.location;
 			        $("#transport").val(data.location);
 			        changeTransport();
-			      }
+			         }
+			         $("#sp").hide()
 			    }
 			  );
 			}

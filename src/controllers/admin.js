@@ -154,24 +154,15 @@ export default {
                     if (app) {
                         sequelize.query(
                             'select * from "Applications" ' +
-                            'where transportation="' + app.transportation + '" ' +
+                            'where transportation=\'' + app.transportation + '\' ' +
                             'order by id;'
                         ).spread((results, meta) => {
-                            for (let i = 0; i < results.length; i++) {
-                                if (results[i].id == app.id) {
-                                    res.json({
-                                        location: app.transportation,
-                                        appIndex: i
-                                    });
-                                    return;
-                                }
-                            }
-                            res.json({});
-                            return;
+                            let index = results.filter(r => r).findIndex(r => r.id == app.id)
+                            if (index >= 0) return res.json({ location: app.transportation, appIndex: index });
+                            return res.json({})
                         })
                     } else {
-                        res.json({});
-                        return;
+                        return res.json({});
                     }
                 });
             });
