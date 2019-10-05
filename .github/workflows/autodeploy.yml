@@ -29,33 +29,16 @@ jobs:
     runs-on: ubuntu-latest
     needs: build # build must succeed before deployment
     steps:
-      - name: Deploy on host 1
+      - name: Deploy
         uses: appleboy/ssh-action@master
         env:
-          HOST: ${{ secrets.HOST1 }}
+          HOST: ${{ secrets.HOSTS }}
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
         with:
           port: 22
           args: --script "'./autodeploy.sh'"
-      - name: Slack Notification - Deployment Failed Host 1
-        uses: homoluctus/slatify@master
-        if: failure()
-        with:
-          type: fail
-          job_name: 'Autodeploy'
-          channel: '#production'
-          url: ${{ secrets.SLACK_WEBHOOK }}
-      - name: Deploy on host 2
-        uses: appleboy/ssh-action@master
-        env:
-          HOST: ${{ secrets.HOST2 }}
-          USERNAME: ${{ secrets.USERNAME }}
-          PASSWORD: ${{ secrets.PASSWORD }}
-        with:
-          port: 22
-          args: --script "'./autodeploy.sh'"
-      - name: Slack Notification - Deployment Failed Host 2
+      - name: Slack Notification - Deployment Failed
         uses: homoluctus/slatify@master
         if: failure()
         with:
